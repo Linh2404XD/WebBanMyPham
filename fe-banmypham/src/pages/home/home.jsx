@@ -66,25 +66,25 @@ const HomePage = () => {
                 <nav className="humberger__menu__nav mobile-menu">
                     <ul>
                         <li className="active">
-                            <a href="./index.jsp">Home</a>
+                            <a href="./index">Home</a>
                         </li>
                         <li>
-                            <a href="shop-grid.jsp">Shop</a>
+                            <a href="shop-grid">Shop</a>
                         </li>
                         <li>
                             <a href="#">Pages</a>
                             <ul className="header__menu__dropdown">
                                 <li>
-                                    <a href="shop-details.jsp">Shop Details</a>
+                                    <a href="shop-details">Shop Details</a>
                                 </li>
                                 <li>
-                                    <a href="shoping-cart.jsp">Shoping Cart</a>
+                                    <a href="shoping-cart">Shoping Cart</a>
                                 </li>
                                 <li>
-                                    <a href="checkout.jsp">Check Out</a>
+                                    <a href="checkout">Check Out</a>
                                 </li>
                                 <li>
-                                    <a href="./blog-details.jsp">Blog Details</a>
+                                    <a href="./blog-details">Blog Details</a>
                                 </li>
                             </ul>
                         </li>
