@@ -89,10 +89,10 @@ const HomePage = () => {
                             </ul>
                         </li>
                         <li>
-                            <a href="./blog.jsp">Blog</a>
+                            <a href="./blog">Blog</a>
                         </li>
                         <li>
-                            <a href="contact.jsp">Contact</a>
+                            <a href="contact">Contact</a>
                         </li>
                     </ul>
                 </nav>
