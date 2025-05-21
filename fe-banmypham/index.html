@@ -1,38 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React</title>
 
-    <!-- CSS từ public/assets -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/assets/css/elegant-icons.css" />
-    <link rel="stylesheet" href="/assets/css/nice-select.css" />
-    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css" />
-    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="/assets/css/slicknav.min.css" />
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    <!-- Rồi mới các CSS khác -->
-    <link rel="stylesheet" href="/assets/css/style.css" />
+  <!-- CSS (CDN Versions) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-nice-select@1.1.0/css/nice-select.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slicknav/1.0.10/slicknav.min.css" />
 
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+  <!-- CSS chưa có CDN (giữ nguyên nếu không public lên CDN) -->
+  <link rel="stylesheet" href="/assets/css/elegant-icons.css" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.jsx"></script>
 
-    <!-- JS từ public/assets -->
-    <script src="/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/jquery.nice-select.min.js"></script>
-    <script src="/assets/js/jquery-ui.min.js"></script>
-    <script src="/assets/js/jquery.slicknav.js"></script>
-    <script src="/assets/js/mixitup.min.js"></script>
-    <script src="/assets/js/owl.carousel.min.js"></script>
-    <script src="/assets/js/main.js"></script>
-  </body>
+<!-- JS (CDN Versions) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-nice-select@1.1.0/js/jquery.nice-select.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.slicknav/1.0.10/jquery.slicknav.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mixitup@3.3.1/dist/mixitup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<!-- JS chưa có CDN (giữ nguyên nếu không public lên CDN) -->
+<script src="/assets/js/main.js"></script>
+</body>
 </html>
