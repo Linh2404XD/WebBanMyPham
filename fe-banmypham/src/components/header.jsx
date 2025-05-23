@@ -25,7 +25,7 @@ const Header = () => {
                                 <div className="header__top__right__language">
                                     <img src="/assets/img/language.png" alt="Language" />
                                     <div>English</div>
-                                    <span className="arrow_carrot-down"></span>
+                                    <i className="fa fa-chevron-down"></i>
                                     <ul>
                                         <li><a href="#">Spanish</a></li>
                                         <li><a href="#">English</a></li>
