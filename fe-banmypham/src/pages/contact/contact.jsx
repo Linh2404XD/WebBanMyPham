@@ -1,38 +1,41 @@
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import styles from './contact.module.css';
 import Header from '../../components/header.jsx';
 import Footer from '../../components/footer.jsx';
 
 const ContactForm = () => {
+    const { t } = useTranslation(); // Sử dụng i18n để dịch
+
     return (
         <>
             <Header />
             <div className={styles.container}>
                 <div className={styles.info}>
-                    <h2>Contact Information</h2>
-                    <p>Fill up the form and our team will get back to you within 24 hours</p>
-                    <p>📞 +233543201893</p>
-                    <p>📧 2122221110@gmail.com</p>
+                    <h2>{t("contact1.title")}</h2>
+                    <p>{t("contact1.description")}</p>
+                    <p>📞 {t("contact1.phone")}</p>
+                    <p>📧 {t("contact1.email")}</p>
                 </div>
 
                 <div className={styles.form}>
-                    <h1>Contact US</h1>
-                    <p>Any Question or remarks? Just write us a message</p>
+                    <h1>{t("contact1.formTitle")}</h1>
+                    <p>{t("contact1.formDescription")}</p>
 
                     <form>
-                        <label>Name</label>
-                        <input type="text" placeholder="Allen Jones" />
+                        <label>{t("contact1.nameLabel")}</label>
+                        <input type="text" placeholder={t("contact1.namePlaceholder")} />
 
-                        <label>Email</label>
-                        <input type="email" placeholder="aljay126@gmail.com" />
+                        <label>{t("contact1.emailLabel")}</label>
+                        <input type="email" placeholder={t("contact1.emailPlaceholder")} />
 
-                        <label>Phone</label>
-                        <input type="tel" placeholder="+233546227893" />
+                        <label>{t("contact1.phoneLabel")}</label>
+                        <input type="tel" placeholder={t("contact1.phonePlaceholder")} />
 
-                        <label>Message</label>
-                        <textarea placeholder="Write your message" rows="4"></textarea>
+                        <label>{t("contact1.messageLabel")}</label>
+                        <textarea placeholder={t("contact1.messagePlaceholder")} rows="4"></textarea>
 
-                        <button type="submit">Send Message</button>
+                        <button type="submit">{t("contact1.submitButton")}</button>
                     </form>
                 </div>
             </div>
