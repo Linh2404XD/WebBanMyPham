@@ -54,7 +54,7 @@ const Header = () => {
                                 <li><a href="/shop-grid">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul className="header__menu__dropdown">
-                                        <li><a href="/shop-details">Shop Details</a></li>
+                                        <li><a href="/intro">Shop Details</a></li>
                                         <li><a href="/shoping-cart">Shopping Cart</a></li>
                                         <li><a href="/checkout">Check Out</a></li>
                                         <li><a href="/blog-details">Blog Details</a></li>

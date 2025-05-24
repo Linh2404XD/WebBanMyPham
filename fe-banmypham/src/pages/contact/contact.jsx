@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Contact.module.css';
+import styles from './contact.module.css';
 import Header from '../../components/header.jsx';
 import Footer from '../../components/footer.jsx';
 
