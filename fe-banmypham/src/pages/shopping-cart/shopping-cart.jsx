@@ -38,18 +38,18 @@ const ShoppingCart = () => {
                 </div>
                 <nav className="humberger__menu__nav mobile-menu">
                     <ul>
-                        <li className="active"><a href="index">Home</a></li>
-                        <li><a href="shop-grid">Shop</a></li>
+                        <li className="active"><a href="/home">Home</a></li>
+                        <li><a href="/shop-grid">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul className="header__menu__dropdown">
-                                <li><a href="shop-details">Shop Details</a></li>
+                                <li><a href="/shop-details">Shop Details</a></li>
                                 <li><a href="./shoping-cart">Shoping Cart</a></li>
-                                <li><a href="checkout">Check Out</a></li>
-                                <li><a href="blog-details">Blog Details</a></li>
+                                <li><a href="/checkout">Check Out</a></li>
+                                <li><a href="#">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="blog">Blog</a></li>
-                        <li><a href="contact">Contact</a></li>
+                        <li><a href="*">Blog</a></li>
+                        <li><a href="/contact">Contact</a></li>
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
