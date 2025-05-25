@@ -33,11 +33,11 @@ const CategoriesSlider = () => {
     };
 
     const categories = [
-        { title: "Fresh Fruit", img: "/assets/img/categories/cat-1.jpg" },
-        { title: "Dried Fruit", img: "/assets/img/categories/cat-2.jpg" },
-        { title: "Vegetables", img: "/assets/img/categories/cat-3.jpg" },
-        { title: "Drink Fruits", img: "/assets/img/categories/cat-4.jpg" },
-        { title: "Drink Fruits", img: "/assets/img/categories/cat-5.jpg" },
+        { title: "Chăm Sóc Da Mặt", img: "/assets/img/categories/cat-1.jpg" },
+        { title: "Trang Điểm", img: "/assets/img/categories/cat-2.jpg" },
+        { title: "Chăm Sóc Cơ Thể", img: "/assets/img/categories/cat-3.jpg" },
+        { title: "Chăm Sóc Tóc", img: "/assets/img/categories/cat-4.jpg" },
+        { title: "Chống Nắng", img: "/assets/img/categories/cat-5.jpg" },
     ];
 
     return (
@@ -57,12 +57,12 @@ const CategoriesSlider = () => {
                                 className="categories__item"
                                 style={{
                                     backgroundImage: `url(${cat.img})`,
-                                    height: "180px",
-                                    backgroundSize: "contain",   // thu nhỏ ảnh
+                                    height: "180px",          // giữ nguyên khung cao 180px
+                                    backgroundSize: "40%",    // ảnh nhỏ lại, chỉ chiếm 40% khung
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center",
-                                    backgroundColor: "#f7f7f7",  // tô màu nền ô
-                                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // đổ bóng nhẹ
+                                    backgroundColor: "#f7f7f7",
+                                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                                     display: "flex",
                                     alignItems: "flex-end",
                                     justifyContent: "center",
@@ -73,7 +73,8 @@ const CategoriesSlider = () => {
                                     marginLeft: "10px",
                                 }}
                             >
-                                <h5 style={{ margin: 0 }}>
+
+                            <h5 style={{ margin: 0 }}>
                                     <a
                                         href="#"
                                         style={{

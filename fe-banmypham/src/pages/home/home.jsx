@@ -76,7 +76,15 @@ const HomePage = () => {
                             </div>
                             <div
                                 className="hero__item"
-                                style={{ backgroundImage: `url("/assets/img/hero/banner.jpg")` }}
+                                style={{
+                                    backgroundImage: `url("/assets/img/hero/banner.jpg")`,
+                                    backgroundSize: 'cover',          // Hoặc 'contain' tùy yêu cầu
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center',
+                                    width: '100%',                    // Đảm bảo chiếm toàn bộ chiều ngang
+                                    height: '400px',
+                                    // Điều chỉnh chiều cao theo mong muốn
+                                }}
                             >
                                 <div className="hero__text">
                                     <span>FRUIT FRESH</span>
@@ -111,10 +119,11 @@ const HomePage = () => {
                             <div className="featured__controls">
                                 <ul>
                                     <li className="active" data-filter="*">All</li>
-                                    <li data-filter=".oranges">Oranges</li>
-                                    <li data-filter=".fresh-meat">Fresh Meat</li>
-                                    <li data-filter=".vegetables">Vegetables</li>
-                                    <li data-filter=".fastfood">Fastfood</li>
+                                    <li data-filter=".oranges">Chăm Sóc Da Mặt</li>
+                                    <li data-filter=".fresh-meat">Trang Điểm</li>
+                                    <li data-filter=".vegetables">Chăm Sóc Cơ Thể</li>
+                                    <li data-filter=".fastfood">Chăm Sóc Tóc</li>
+                                    <li data-filter=".fastfood">Chống Nắng</li>
                                 </ul>
                             </div>
                         </div>
@@ -122,10 +131,8 @@ const HomePage = () => {
                     <div className="row featured__filter">
                         <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-1.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-1.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -141,10 +148,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-2.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-2.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -160,10 +165,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-3.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-3.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -179,10 +182,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-4.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-4.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -198,10 +199,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-5.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-5.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -217,10 +216,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-6.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-6.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -236,10 +233,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-7.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-7.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -255,10 +250,8 @@ const HomePage = () => {
 
                         <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
                             <div className="featured__item">
-                                <div
-                                    className="featured__item__pic"
-                                    style={{ backgroundImage: `url("/assets/img/featured/feature-8.jpg")` }}
-                                >
+                                <div className="featured__item__pic">
+                                    <img src="/assets/img/featured/feature-8.jpg" alt="Product" />
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
