@@ -80,7 +80,7 @@
 }
 
 .overlay {
-    background: linear-gradient(to right, #7fad39, #7fad10);
+    background: linear-gradient(to right, #65a67a, #7fad10);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -139,8 +139,8 @@
 
 .button {
     border-radius: 20px;
-    border: 1px solid #7fad39;
-    background-color: #7fad39;
+    border: 1px solid #65a67a;
+    background-color: #65a67a;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
