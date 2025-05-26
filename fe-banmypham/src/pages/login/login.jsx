@@ -12,105 +12,138 @@ export default function Login() {
     const [signInMessage, setSignInMessage] = useState("");
     const [signUpMessage, setSignUpMessage] = useState("");
 
-
     const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
 
-    const validateSignIn = () => {
-        let errors = {};
-        // Email
-        if (!signInData.email.trim()) {
-            errors.email = "Bạn không thể để trống dữ liệu này";
-        } else if (!signInData.email.includes("@gmail.com")) {
-            errors.email = "Email phải có đuôi @gmail.com";
-        } else if (!validateEmail(signInData.email)) {
-            errors.email = "Email không hợp lệ. Thử lại.";
+    const validateSignInField = (field, value) => {
+        const newErrors = { ...signInErrors };
+
+        switch (field) {
+            case "email":
+                if (!value.trim()) {
+                    newErrors.email = "Bạn không thể để trống dữ liệu này";
+                } else if (!validateEmail(value)) {
+                    newErrors.email = "Email không hợp lệ. Phải có @gmail.com";
+                } else {
+                    newErrors.email = "";
+                }
+                break;
+
+            case "password":
+                if (!value) {
+                    newErrors.password = "Bạn không thể để trống dữ liệu này";
+                } else if (value.length < 8) {
+                    newErrors.password = "Mật khẩu có ít nhất 8 ký tự. Thử lại.";
+                } else {
+                    newErrors.password = "";
+                }
+                break;
+
+            default:
+                break;
         }
 
-        // Password
-        if (!signInData.password) {
-            errors.password = "Bạn không thể để trống dữ liệu này";
-        } else if (signInData.password.length < 8) {
-            errors.password = "Mật khẩu có ít nhất 8 ký tự. Thử lại.";
+        setSignInErrors(newErrors);
+    };
+
+    const validateSignUpField = (field, value) => {
+        const newErrors = { ...signUpErrors };
+
+        switch (field) {
+            case "email":
+                if (!value.trim()) {
+                    newErrors.email = "Bạn không thể để trống dữ liệu này";
+                } else if (!validateEmail(value)) {
+                    newErrors.email = "Email không hợp lệ. Phải có @gmail.com";
+                } else {
+                    newErrors.email = "";
+                }
+                break;
+
+            case "phone":
+                if (!value.trim()) {
+                    newErrors.phone = "Bạn không thể để trống dữ liệu này";
+                } else if (!value.startsWith("0")) {
+                    newErrors.phone = "Số điện thoại phải bắt đầu bằng số 0";
+                } else if (value.length !== 10) {
+                    newErrors.phone = "Số điện thoại phải có đủ 10 số";
+                } else {
+                    newErrors.phone = "";
+                }
+                break;
+
+            case "password":
+                if (!value) {
+                    newErrors.password = "Bạn không thể để trống dữ liệu này";
+                } else if (value.length < 8) {
+                    newErrors.password = "Mật khẩu có ít nhất 8 ký tự. Thử lại.";
+                } else {
+                    newErrors.password = "";
+                }
+                break;
+
+            case "confirmPassword":
+                if (!value) {
+                    newErrors.confirmPassword = "Bạn không thể để trống dữ liệu này";
+                } else if (value !== signUpData.password) {
+                    newErrors.confirmPassword = "Mật khẩu không tương ứng. Thử lại.";
+                } else {
+                    newErrors.confirmPassword = "";
+                }
+                break;
+
+            default:
+                break;
         }
-        setSignInErrors(errors);
-        return Object.keys(errors).length === 0;
+        setSignUpErrors(newErrors);
     };
 
     const validateSignUp = () => {
-        let errors = {};
-
-        // Email
-        if (!signUpData.email.trim()) {
-            errors.email = "Bạn không thể để trống dữ liệu này";
-        } else if (!signUpData.email.includes("@gmail.com")) {
-            errors.email = "Email phải có đuôi @gmail.com";
-        } else if (!validateEmail(signUpData.email)) {
-            errors.email = "Email không hợp lệ. Thử lại.";
-        }
-        // Phone
-        if (!signUpData.phone.trim()) {
-            errors.phone = "Bạn không thể để trống dữ liệu này";
-        } else if (!signUpData.phone.startsWith("0")) {
-            errors.phone = "Số điện thoại phải bắt đầu bằng số 0";
-        } else if (signUpData.phone.length !== 10) {
-            errors.phone = "Số điện thoại phải có đủ 10 số";
-        }
-
-        // Password
-        if (!signUpData.password) {
-            errors.password = "Bạn không thể để trống dữ liệu này";
-        } else if (signUpData.password.length < 8) {
-            errors.password = "Mật khẩu có ít nhất 8 ký tự. Thử lại.";
-        }
-
-        // Confirm Password
-        if (!signUpData.confirmPassword) {
-            errors.confirmPassword = "Bạn không thể để trống dữ liệu này";
-        } else if (signUpData.confirmPassword !== signUpData.password) {
-            errors.confirmPassword = "Mật khẩu không tương ứng. Thử lại.";
-        }
-
-        setSignUpErrors(errors);
-        return Object.keys(errors).length === 0;
+        Object.entries(signUpData).forEach(([field, value]) => validateSignUpField(field, value));
+        return Object.values(signUpErrors).every((error) => !error);
+    };
+    const validateSignIn = () => {
+        Object.entries(signInData).forEach(([field, value]) => validateSignInField(field, value));
+        return Object.values(signUpErrors).every((error) => !error);
     };
 
     const handleOnClick = (text) => {
         if (text !== type) {
             setType(text);
-            // Xóa lỗi và thông báo cũ khi đổi form
             setSignInErrors({});
             setSignUpErrors({});
             setSignInMessage("");
             setSignUpMessage("");
-            // Xóa dữ liệu trong ô input
             setSignInData({ email: "", password: "" });
             setSignUpData({ email: "", phone: "", password: "", confirmPassword: "" });
         }
     };
+
     const containerClass = `${styles.container} ${type === "signUp" ? styles.rightPanelActive : ""}`;
 
     return (
         <div className={styles.loginApp}>
             <div className={containerClass}>
-                {/* Sign Up Form */}
                 <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
-                    <form noValidate
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            if (validateSignUp()) {
-                                setSignUpMessage("Đang đăng ký...");
-                                setTimeout(() => setSignUpMessage("Đăng ký thành công!"), 1000);
-                            }
-                        }}
-                    >
-                        <h1 style={{ fontFamily: "Arial", marginBottom: "10px" }}>Đăng ký</h1>
+                    <form noValidate onSubmit={(e) => {
+                        e.preventDefault();
+                        if (validateSignUp()) {
+                            setSignUpMessage("Đang đăng ký...");
+                            setTimeout(() => setSignUpMessage("Đăng ký thành công!"), 1000);
+                        }
+                    }}>
+                       <h1 style={{ fontFamily: "Arial", marginBottom: "10px" }}>Đăng ký</h1>
+
                         {signUpErrors.email && <p className={styles.error}>{signUpErrors.email}</p>}
                         <input
                             className={styles.inputField}
                             type="email"
                             placeholder="Email"
                             value={signUpData.email}
-                            onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSignUpData({ ...signUpData, email: value });
+                                validateSignUpField("email", value);
+                            }}
                         />
 
                         {signUpErrors.phone && <p className={styles.error}>{signUpErrors.phone}</p>}
@@ -120,10 +153,10 @@ export default function Login() {
                             placeholder="Số điện thoại"
                             value={signUpData.phone}
                             onChange={(e) => {
-                                // Chỉ cho phép nhập số
                                 const value = e.target.value;
                                 if (/^\d*$/.test(value)) {
                                     setSignUpData({ ...signUpData, phone: value });
+                                    validateSignUpField("phone", value);
                                 }
                             }}
                             inputMode="numeric"
@@ -136,7 +169,19 @@ export default function Login() {
                             type="password"
                             placeholder="Mật khẩu"
                             value={signUpData.password}
-                            onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                const updatedData = { ...signUpData, password: value };
+                                setSignUpData(updatedData);
+
+                                // Validate password riêng
+                                validateSignUpField("password", value);
+
+                                // Chỉ validate confirmPassword nếu confirmPassword đã được nhập
+                                if (signUpData.confirmPassword.trim() !== "") {
+                                    validateSignUpField("confirmPassword", signUpData.confirmPassword);
+                                }
+                            }}
                         />
 
                         {signUpErrors.confirmPassword && <p className={styles.error}>{signUpErrors.confirmPassword}</p>}
@@ -145,7 +190,11 @@ export default function Login() {
                             type="password"
                             placeholder="Nhập lại mật khẩu"
                             value={signUpData.confirmPassword}
-                            onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSignUpData({ ...signUpData, confirmPassword: value });
+                                validateSignUpField("confirmPassword", value);
+                            }}
                         />
 
                         <button className={styles.button} style={{ marginTop: "20px" }}>Đăng ký</button>
@@ -153,25 +202,27 @@ export default function Login() {
                     </form>
                 </div>
 
-                {/* Sign In Form */}
                 <div className={`${styles.formContainer} ${styles.signInContainer}`}>
-                    <form noValidate
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            if (validateSignIn()) {
-                                setSignInMessage("Đang đăng nhập...");
-                                setTimeout(() => setSignInMessage("Đăng nhập thành công!"), 1000);
-                            }
-                        }}
-                    >
+                    <form noValidate onSubmit={(e) => {
+                        e.preventDefault();
+                        if (validateSignIn()) {
+                            setSignUpMessage("Đang đăng nhập...");
+                            setTimeout(() => setSignUpMessage("Đăng nhập thành công!"), 1000);
+                        }
+                    }}>
                         <h1 style={{ fontFamily: "Arial", marginBottom: "20px" }}>Đăng nhập</h1>
+
                         {signInErrors.email && <p className={styles.error}>{signInErrors.email}</p>}
                         <input
                             className={styles.inputField}
                             type="email"
                             placeholder="Email"
                             value={signInData.email}
-                            onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSignInData({ ...signInData, email: value });
+                                validateSignInField("email", value);
+                            }}
                         />
 
                         {signInErrors.password && <p className={styles.error}>{signInErrors.password}</p>}
@@ -180,9 +231,12 @@ export default function Login() {
                             type="password"
                             placeholder="Mật khẩu"
                             value={signInData.password}
-                            onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSignInData({ ...signInData, password: value });
+                                validateSignInField("password", value);
+                            }}
                         />
-
 
                         <div style={{ width: "100%", textAlign: "center", marginTop: "10px" }}>
                             <a href="#">Quên mật khẩu?</a>
@@ -193,7 +247,6 @@ export default function Login() {
                     </form>
                 </div>
 
-                {/* Overlay */}
                 <div className={styles.overlayContainer}>
                     <div className={styles.overlay}>
                         <div className={`${styles.overlayPanel} ${styles.overlayLeft}`}>
