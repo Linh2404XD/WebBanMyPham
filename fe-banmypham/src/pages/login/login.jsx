@@ -131,7 +131,7 @@ export default function Login() {
                             setTimeout(() => setSignUpMessage("Đăng ký thành công!"), 1000);
                         }
                     }}>
-                       <h1 style={{ fontFamily: "Arial", marginBottom: "10px" }}>Đăng ký</h1>
+                        <h1 style={{ fontFamily: "Arial", marginBottom: "10px" }}>Đăng ký</h1>
 
                         {signUpErrors.email && <p className={styles.error}>{signUpErrors.email}</p>}
                         <input
