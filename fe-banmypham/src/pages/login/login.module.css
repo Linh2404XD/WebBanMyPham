@@ -30,6 +30,7 @@
 }
 
 .signInContainer {
+
     left: 0;
     z-index: 2;
 }
@@ -80,7 +81,7 @@
 }
 
 .overlay {
-    background: linear-gradient(to right, #65a67a, #7fad10);
+    background: linear-gradient(to right, #65a67a, #6db885);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -133,8 +134,9 @@
     background-color: #eee;
     border: none;
     padding: 12px 15px;
-    margin: 8px 0;
+    margin: 0 0 6px 0; /* Giảm margin dưới của input để không tạo khoảng trống lớn */
     width: 100%;
+    box-sizing: border-box;
 }
 
 .button {
@@ -162,4 +164,11 @@
 .ghost {
     background-color: transparent;
     border-color: #ffffff;
+}
+
+.error {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 2px; /* hoặc 0 nếu muốn cực gần */
+    margin-bottom: 4px; /* tạo khoảng cách nhỏ dưới lỗi để không dính sát input kế tiếp */
 }
