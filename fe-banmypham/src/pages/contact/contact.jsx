@@ -15,7 +15,7 @@ const ContactForm = () => {
                     <h2>{t("contact1.title")}</h2>
                     <p>{t("contact1.description")}</p>
                     <p>📞 {t("contact1.phone")}</p>
-                    <p>📧 {t("contact1.email")}</p>
+                    <p>📧 {t("email")}</p>
                 </div>
 
                 <div className={styles.form}>

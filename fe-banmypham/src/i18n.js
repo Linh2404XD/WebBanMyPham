@@ -60,6 +60,46 @@ const resources = {
                 messagePlaceholder: "Write your message",
                 submitButton: "Send Message",
             },
+            category: {
+                all: "All",
+                facialCare: "Facial Skincare",
+                makeup: "Makeup",
+                bodyCare: "Body Care",
+                hairCare: "Hair Care",
+                sunProtection: "Sunscreen",
+                departments: "All departments",
+                featuredProduct: "Featured Product"
+            },
+            search: {
+                allBrands: "All Brands",
+                placeholder: "What do you need?",
+                button: "SEARCH",
+                phone: "support 24/7 time"
+            },
+            footer: {
+                address: "Address: Nong Lam University",
+                phone: "Phone: +65 11.188.888",
+                email: "Email: hello@colorlib.com",
+                usefulLinks: "Useful Links",
+                aboutUs: "About Us",
+                aboutShop: "About Our Shop",
+                secureShopping: "Secure Shopping",
+                delivery: "Delivery Information",
+                privacy: "Privacy Policy",
+                sitemap: "Our Sitemap",
+                whoWeAre: "Who We Are",
+                services: "Our Services",
+                projects: "Projects",
+                contact: "Contact",
+                innovation: "Innovation",
+                testimonials: "Testimonials",
+                newsletterTitle: "Join Our Newsletter Now",
+                newsletterText: "Get E-mail updates about our latest shop and special offers.",
+                enterEmail: "Enter your mail",
+                subscribe: "Subscribe",
+                copyright: "All rights reserved | This template is made with",
+                madeBy: "by"
+            }
         },
     },
     vi: {
@@ -118,6 +158,46 @@ const resources = {
                 messageLabel: "Tin nhắn",
                 messagePlaceholder: "Nhập tin nhắn của bạn",
                 submitButton: "Gửi tin nhắn",
+            },
+            category: {
+                all: "Tất cả",
+                facialCare: "Chăm sóc da mặt",
+                makeup: "Trang điểm",
+                bodyCare: "Chăm sóc cơ thể",
+                hairCare: "Chăm sóc tóc",
+                sunProtection: "Chống nắng",
+                departments: "Tất cả danh mục",
+                featuredProduct: "Sản phẩm nổi bật"
+            },
+            search: {
+                allBrands: "Tất cả thương hiệu",
+                placeholder: "Bạn cần tìm gì?",
+                button: "TÌM KIẾM",
+                phone: "Hỗ trợ 24/7"
+            },
+            footer: {
+                address: "Địa chỉ: Trường Đại học Nông Lâm",
+                phone: "Điện thoại: +65 11.188.888",
+                email: "Email: hello@colorlib.com",
+                usefulLinks: "Liên kết hữu ích",
+                aboutUs: "Về chúng tôi",
+                aboutShop: "Về cửa hàng",
+                secureShopping: "Mua sắm an toàn",
+                delivery: "Thông tin giao hàng",
+                privacy: "Chính sách bảo mật",
+                sitemap: "Sơ đồ trang",
+                whoWeAre: "Chúng tôi là ai",
+                services: "Dịch vụ",
+                projects: "Dự án",
+                contact: "Liên hệ",
+                innovation: "Đổi mới",
+                testimonials: "Đánh giá",
+                newsletterTitle: "Tham gia bản tin của chúng tôi",
+                newsletterText: "Nhận thông tin qua email về cửa hàng và ưu đãi mới nhất.",
+                enterEmail: "Nhập email của bạn",
+                subscribe: "Đăng ký",
+                copyright: "Mọi quyền được bảo lưu | Mẫu này được thiết kế",
+                madeBy: "bởi"
             }
         },
     },
@@ -178,14 +258,54 @@ const resources = {
                 messagePlaceholder: "写下您的消息",
                 submitButton: "发送消息",
             },
+            category: {
+                all: "全部",
+                facialCare: "面部护理",
+                makeup: "化妆",
+                bodyCare: "身体护理",
+                hairCare: "头发护理",
+                sunProtection: "防晒",
+                departments: "所有类别",
+                featuredProduct: "特色产品"
+            },
+            search: {
+                allBrands: "所有品牌",
+                placeholder: "您需要什么？",
+                button: "搜索",
+                phone: "全天候 24/7 支持"
+            },
+            footer: {
+                address: "地址：农林大学",
+                phone: "电话：+65 11.188.888",
+                email: "邮箱：hello@colorlib.com",
+                usefulLinks: "实用链接",
+                aboutUs: "关于我们",
+                aboutShop: "关于商店",
+                secureShopping: "安全购物",
+                delivery: "配送信息",
+                privacy: "隐私政策",
+                sitemap: "网站地图",
+                whoWeAre: "我们是谁",
+                services: "我们的服务",
+                projects: "项目",
+                contact: "联系我们",
+                innovation: "创新",
+                testimonials: "客户评价",
+                newsletterTitle: "立即加入我们的通讯",
+                newsletterText: "获取我们最新商店和特别优惠的电子邮件更新。",
+                enterEmail: "输入您的邮箱",
+                subscribe: "订阅",
+                copyright: "版权所有 | 此模板由",
+                madeBy: "设计"
+            }
         },
     },
 };
 
 i18n.use(initReactI18next).init({
     resources,
-    lng: "en", // Ngôn ngữ mặc định
-    fallbackLng: "en",
+    lng: "vi",
+    fallbackLng: "vi",
     interpolation: {
         escapeValue: false,
     },
