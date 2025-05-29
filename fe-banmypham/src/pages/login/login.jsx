@@ -285,13 +285,17 @@ export default function Login() {
             });
 
             if (response.ok) {
-                // Hiển thị popup
-                setPopupVisible(true);
+                const data = await response.json();
+                const token = data.token; // backend trả về { token: "..." }
+                // Lưu token vào localStorage
+                localStorage.setItem("token", token);
 
-                // Chờ 1.5 giây rồi chuyển hướng
+                setPopupVisible(true);
+                setSignInMessage("Đăng đăng nhập...");
+
                 setTimeout(() => {
                     navigate("/home", {
-                        state: { showSuccessPopup: true, message: 'Đăng nhập thành công!'  } // ✅ truyền state
+                        state: { showSuccessPopup: true, message: "Đăng nhập thành công!" },
                     });
                 }, 1500);
             } else {
