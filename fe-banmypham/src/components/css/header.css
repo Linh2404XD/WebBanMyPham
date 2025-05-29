@@ -1,0 +1,46 @@
+/* Thiết kế phần chọn ngôn ngữ */
+.header__top__right__language {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.header__top__right__language img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.header__top__right__language ul {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+    list-style: none;
+    width: 120px;
+}
+
+.header__top__right__language:hover ul {
+    display: block;
+}
+
+.header__top__right__language button {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.header__top__right__language button:hover {
+    background-color: #3498db;
+    color: white;
+}
