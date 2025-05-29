@@ -4,6 +4,7 @@ import Footer from '../../components/footer.jsx';
 import ProductSlider from "../../components/productSlider.jsx";
 import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 const HomePage = () => {
@@ -11,6 +12,8 @@ const HomePage = () => {
     const navigate = useNavigate(); // dùng để reset state
     const [popupVisible, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Thiết lập background từ data-setbg
@@ -99,20 +102,14 @@ const HomePage = () => {
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
                                     <i className="fa fa-bars"></i>
-                                    <span>All departments</span>
+                                    <span>{t("departments")}</span>
                                 </div>
                                 <ul>
-                                    <li><a href="#">Fresh Meat</a></li>
-                                    <li><a href="#">Vegetables</a></li>
-                                    <li><a href="#">Fruit &amp; Nut Gifts</a></li>
-                                    <li><a href="#">Fresh Berries</a></li>
-                                    <li><a href="#">Ocean Foods</a></li>
-                                    <li><a href="#">Butter &amp; Eggs</a></li>
-                                    <li><a href="#">Fastfood</a></li>
-                                    <li><a href="#">Fresh Onion</a></li>
-                                    <li><a href="#">Papayaya &amp; Crisps</a></li>
-                                    <li><a href="#">Oatmeal</a></li>
-                                    <li><a href="#">Fresh Bananas</a></li>
+                                    <li><a href="#">{t("category.facialCare")}</a></li>
+                                    <li><a href="#">{t("category.makeup")}</a></li>
+                                    <li><a href="#">{t("category.bodyCare")}</a></li>
+                                    <li><a href="#">{t("category.hairCare")}</a></li>
+                                    <li><a href="#">{t("category.sunProtection")}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -121,12 +118,12 @@ const HomePage = () => {
                                 <div className="hero__search__form">
                                     <form action="#">
                                         <div className="hero__search__categories">
-                                            All Categories
+                                            {t("search.allBrands")}
                                             <i className="fa fa-chevron-down"></i>
                                         </div>
-                                        <input type="text" placeholder="What do you need?" />
+                                        <input type="text" placeholder={t("search.placeholder")}/>
                                         <button type="submit" className="site-btn">
-                                            SEARCH
+                                            {t("search.button")}
                                         </button>
                                     </form>
                                 </div>
@@ -136,7 +133,7 @@ const HomePage = () => {
                                     </div>
                                     <div className="hero__search__phone__text">
                                         <h5>+65 11.188.888</h5>
-                                        <span>support 24/7 time</span>
+                                        <span>{t("search.phone")}</span>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +152,7 @@ const HomePage = () => {
                                 <div className="hero__text">
                                     <span>FRUIT FRESH</span>
                                     <h2>
-                                        Vegetable <br />
+                                        Vegetable <br/>
                                         100% Organic
                                     </h2>
                                     <p>Free Pickup and Delivery Available</p>
@@ -180,16 +177,16 @@ const HomePage = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section-title">
-                                <h2>Featured Product</h2>
+                                <h2>{t('category.featuredProduct')}</h2>
                             </div>
                             <div className="featured__controls">
                                 <ul>
-                                    <li className="active" data-filter="*">All</li>
-                                    <li data-filter=".oranges">Chăm Sóc Da Mặt</li>
-                                    <li data-filter=".fresh-meat">Trang Điểm</li>
-                                    <li data-filter=".vegetables">Chăm Sóc Cơ Thể</li>
-                                    <li data-filter=".fastfood">Chăm Sóc Tóc</li>
-                                    <li data-filter=".fastfood">Chống Nắng</li>
+                                    <li className="active" data-filter="*">{t("category.all")}</li>
+                                    <li data-filter=".oranges">{t("category.facialCare")}</li>
+                                    <li data-filter=".fresh-meat">{t("category.makeup")}</li>
+                                    <li data-filter=".vegetables">{t("category.bodyCare")}</li>
+                                    <li data-filter=".fastfood">{t("category.hairCare")}</li>
+                                    <li data-filter=".fastfood">{t("category.sunProtection")}</li>
                                 </ul>
                             </div>
                         </div>
@@ -198,7 +195,7 @@ const HomePage = () => {
                         <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                             <div className="featured__item">
                                 <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-1.jpg" alt="Product" />
+                                    <img src="/assets/img/featured/feature-1.jpg" alt="Product"/>
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -357,67 +354,6 @@ const HomePage = () => {
             {/*Latest Product Section Begin*/}
            <ProductSlider/>
             {/*Lastest Product Section End*/}
-
-            {/*Blog Section Begin*/}
-            <section className="from-blog spad">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="section-title from-blog__title">
-                                <h2>From The Blog</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="blog__item">
-                                <div className="blog__item__pic">
-                                    <img src="/assets/img/blog/blog-1.jpg" alt="" />
-                                </div>
-                                <div className="blog__item__text">
-                                    <ul>
-                                        <li><i className="fa fa-calendar-o"></i> May 4,2019</li>
-                                        <li><i className="fa fa-comment-o"></i> 5</li>
-                                    </ul>
-                                    <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                                    <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="blog__item">
-                                <div className="blog__item__pic">
-                                    <img src="/assets/img/blog/blog-2.jpg" alt="" />
-                                </div>
-                                <div className="blog__item__text">
-                                    <ul>
-                                        <li><i className="fa fa-calendar-o"></i> May 4,2019</li>
-                                        <li><i className="fa fa-comment-o"></i> 5</li>
-                                    </ul>
-                                    <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                                    <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="blog__item">
-                                <div className="blog__item__pic">
-                                    <img src="/assets/img/blog/blog-3.jpg" alt="" />
-                                </div>
-                                <div className="blog__item__text">
-                                    <ul>
-                                        <li><i className="fa fa-calendar-o"></i> May 4,2019</li>
-                                        <li><i className="fa fa-comment-o"></i> 5</li>
-                                    </ul>
-                                    <h5><a href="#">Visit the clean farm in the US</a></h5>
-                                    <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {/*Blog Section End*/}
 
             {/*Footer Section Begin*/}
             <Footer/>

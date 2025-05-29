@@ -116,7 +116,7 @@ const Header = () => {
                                             )}
                                         </div>
                                     ) : (
-                                        <a href="/login"><i className="fa fa-user"></i> Login</a>
+                                        <a href="/login"><i className="fa fa-user"></i> {t("login")}</a>
                                     )}
                                 </div>
 
@@ -143,7 +143,6 @@ const Header = () => {
                                         <li><a href="/intro">{t("shopDetails")}</a></li>
                                         <li><a href="/shoping-cart">{t("shoppingCart")}</a></li>
                                         <li><a href="/checkout">{t("checkout")}</a></li>
-                                        <li><a href="/blog-details">{t("blogDetails")}</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="/blog">{t("blog")}</a></li>
