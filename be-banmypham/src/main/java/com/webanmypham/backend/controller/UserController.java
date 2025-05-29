@@ -25,7 +25,7 @@ public class UserController {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
     }
- 
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try {
