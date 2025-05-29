@@ -1,41 +1,41 @@
 package com.webanmypham.backend.service;
 
+import com.webanmypham.backend.model.Role;
 import com.webanmypham.backend.model.User;
+import com.webanmypham.backend.repository.RoleRepository;
 import com.webanmypham.backend.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
     }
 
     public User register(User user) {
-        // Kiểm tra email đã tồn tại
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email đã tồn tại");
         }
 
-        // Kiểm tra số điện thoại đã tồn tại
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
             throw new IllegalArgumentException("Số điện thoại đã tồn tại");
         }
 
-        // Có thể thêm mã hóa mật khẩu ở đây (nếu có)
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy role ROLE_USER"));
+
+        user.getRoles().add(userRole);
 
         return userRepository.save(user);
-    }
-
-    public Optional<User> login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return user;
-        }
-        return Optional.empty();
     }
 }

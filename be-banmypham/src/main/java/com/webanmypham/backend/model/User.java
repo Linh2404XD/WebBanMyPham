@@ -3,6 +3,9 @@ package com.webanmypham.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,6 +27,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-
+    @ManyToMany(fetch = FetchType.EAGER)  // lấy role luôn khi lấy user
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 }
 
