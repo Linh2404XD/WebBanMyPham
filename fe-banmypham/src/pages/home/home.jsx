@@ -1,25 +1,91 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Header from '../../components/header.jsx';
 import Footer from '../../components/footer.jsx';
 import ProductSlider from "../../components/productSlider.jsx";
 import CategoriesSlider from "../../components/categoriesSlider.jsx";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 const HomePage = () => {
+    const location = useLocation();
+    const navigate = useNavigate(); // dùng để reset state
+    const [popupVisible, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
+
     useEffect(() => {
-        // Simulate jQuery background set via data-setbg
+        // Thiết lập background từ data-setbg
         document.querySelectorAll(".set-bg").forEach((el) => {
             const bg = el.getAttribute("data-setbg");
             el.style.backgroundImage = `url(${bg})`;
         });
-    }, []);
+
+        // Ẩn preloader sau khi render
+        const loader = document.querySelector(".loader");
+        const preloader = document.getElementById("preloder");
+
+        if (loader) loader.style.display = "none";
+        if (preloader) preloader.style.display = "none";
+
+        // Hiển thị popup nếu được truyền state từ Login hoặc Register
+        if (location.state?.showSuccessPopup) {
+            setPopupMessage(location.state.message || 'Thành công!');
+            setShowPopup(true);
+
+            // Xóa state để tránh hiển thị lại khi reload
+            navigate(location.pathname, { replace: true, state: {} });
+
+            // Ẩn popup sau 2 giây
+            const timer = setTimeout(() => {
+                setShowPopup(false);
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [location, navigate]);
+
 
     return (
         <>
+            {popupVisible && (
+                <>
+                    {/* Overlay làm mờ nền, click vào thì ẩn popup */}
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            zIndex: 999,
+                        }}
+                        onClick={() => setShowPopup(false)}  // ẩn popup khi click overlay
+                    />
+
+                    {/* Popup, ngăn click nổi bọt để không ẩn popup khi click vào */}
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '30%', left: '50%',
+                            transform: 'translate(-50%, -30%)',
+                            backgroundColor: '#d4edda',
+                            padding: '40px 60px',
+                            borderRadius: '12px',
+                            boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                            color: '#155724',
+                            fontSize: '24px',
+                            fontWeight: '600',
+                            zIndex: 1000,
+                            textAlign: 'center',
+                            minWidth: '300px',
+                        }}
+                        onClick={(e) => e.stopPropagation()} // ngăn sự kiện nổi bọt
+                    >
+                        🎉 {popupMessage}
+                    </div>
+                </>
+            )}
             {/* Page Preloader */}
-            <div id="preloder">
-                <div className="loader"></div>
-            </div>
+            {/*<div id="preloder">*/}
+            {/*    <div className="loader"></div>*/}
+            {/*</div>*/}
 
             {/* Header Section Begin */}
             <Header />
