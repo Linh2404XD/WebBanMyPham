@@ -1,6 +1,35 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 const Header = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showLogout, setShowLogout] = useState(false);
+    const timeoutRef = useRef(null);
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        setShowLogout(false);
+        // Bạn có thể thêm navigate về trang login hoặc trang chủ nếu muốn
+        // navigate('/login');
+    };
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutRef.current);
+        setShowLogout(true);
+    };
+
+    const handleMouseLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setShowLogout(false);
+        }, 200); // Delay nhỏ để người dùng kịp di chuột
+    };
+
     return (
         <header className="header">
             <div className="header__top">
@@ -32,7 +61,42 @@ const Header = () => {
                                     </ul>
                                 </div>
                                 <div className="header__top__right__auth">
-                                    <a href="/login"><i className="fa fa-user"></i> Login</a>
+                                    {isLoggedIn ? (
+                                        <div
+                                            onMouseEnter={handleMouseEnter}
+                                            onMouseLeave={handleMouseLeave}
+                                            style={{ position: 'relative', display: 'inline-block' }}
+                                        >
+                                            <a href="/profile">
+                                                <img
+                                                    src="https://cdn-icons-png.flaticon.com/128/149/149071.png"
+                                                    alt="User Avatar"
+                                                    style={{ width: '24px', height: '24px', borderRadius: '50%' }}
+                                                />
+                                            </a>
+                                            {showLogout && (
+                                                <div
+                                                    onClick={handleLogout}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '30px',
+                                                        right: 0,
+                                                        background: '#fff',
+                                                        border: '1px solid #ccc',
+                                                        borderRadius: '4px',
+                                                        padding: '5px 10px',
+                                                        cursor: 'pointer',
+                                                        whiteSpace: 'nowrap',
+                                                        zIndex: 10,
+                                                    }}
+                                                >
+                                                    Logout
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <a href="/login"><i className="fa fa-user"></i> Login</a>
+                                    )}
                                 </div>
                             </div>
                         </div>

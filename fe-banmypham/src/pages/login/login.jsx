@@ -17,8 +17,6 @@ export default function Login() {
     const navigate = useNavigate();
     const [_, setPopupVisible] = useState(false);
 
-
-
     const validateSignInField = (field, value) => {
         const newErrors = { ...signInErrors };
 
