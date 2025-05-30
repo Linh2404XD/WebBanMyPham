@@ -70,6 +70,13 @@ const resources = {
                 departments: "All departments",
                 featuredProduct: "Featured Product"
             },
+            items: {
+                facialCare: ["Facial Cleanser", "Toner", "Moisturizer"],
+                makeup: ["Foundation", "Lipstick", "Blush"],
+                bodyCare: ["Body Wash", "Lotion", "Exfoliator"],
+                hairCare: ["Shampoo", "Conditioner", "Hair Treatment"],
+                sunProtection: ["Face Sunscreen", "Body Sunscreen"]
+            },
             search: {
                 allBrands: "All Brands",
                 placeholder: "What do you need?",
@@ -99,6 +106,32 @@ const resources = {
                 subscribe: "Subscribe",
                 copyright: "All rights reserved | This template is made with",
                 madeBy: "by"
+            },
+            checkOut: {
+                have_coupon: "Have a coupon?",
+                click_here: "Click here",
+                enter_code: "to enter your code",
+                billing_details: "Billing Details",
+                first_name: "First Name",
+                last_name: "Last Name",
+                country: "Country",
+                address: "Address",
+                city: "City",
+                state: "State/Province",
+                zip: "Postcode / ZIP",
+                phone: "Phone",
+                email: "Email",
+                create_account: "Create an account?",
+                account_password: "Account Password",
+                ship_diff_address: "Ship to a different address?",
+                order_notes: "Order notes",
+                your_order: "Your Order",
+                products: "Products",
+                total: "Total",
+                subtotal: "Subtotal",
+                check_payment: "Check Payment",
+                paypal: "Paypal",
+                place_order: "PLACE ORDER"
             }
         },
     },
@@ -169,6 +202,13 @@ const resources = {
                 departments: "Tất cả danh mục",
                 featuredProduct: "Sản phẩm nổi bật"
             },
+            items: {
+                facialCare: ["Sữa rửa mặt", "Toner", "Kem dưỡng"],
+                makeup: ["Kem nền", "Son môi", "Phấn má"],
+                bodyCare: ["Sữa tắm", "Lotion", "Tẩy tế bào chết"],
+                hairCare: ["Dầu gội", "Dầu xả", "Dưỡng tóc"],
+                sunProtection: ["Kem chống nắng mặt", "Kem chống nắng body"]
+            },
             search: {
                 allBrands: "Tất cả thương hiệu",
                 placeholder: "Bạn cần tìm gì?",
@@ -198,6 +238,32 @@ const resources = {
                 subscribe: "Đăng ký",
                 copyright: "Mọi quyền được bảo lưu | Mẫu này được thiết kế",
                 madeBy: "bởi"
+            },
+            checkOut: {
+                have_coupon: "Bạn có mã giảm giá?",
+                click_here: "Nhấn vào đây",
+                enter_code: "để nhập mã của bạn",
+                billing_details: "Thông tin thanh toán",
+                first_name: "Họ",
+                last_name: "Tên",
+                country: "Quốc gia",
+                address: "Địa chỉ",
+                city: "Thành phố",
+                state: "Tỉnh/Thành",
+                zip: "Mã bưu điện",
+                phone: "Số điện thoại",
+                email: "Email",
+                create_account: "Tạo tài khoản?",
+                account_password: "Mật khẩu tài khoản",
+                ship_diff_address: "Giao đến địa chỉ khác?",
+                order_notes: "Ghi chú đơn hàng",
+                your_order: "Đơn hàng của bạn",
+                products: "Sản phẩm",
+                total: "Tổng",
+                subtotal: "Tạm tính",
+                check_payment: "Thanh toán khi nhận hàng",
+                paypal: "Paypal",
+                place_order: "ĐẶT HÀNG"
             }
         },
     },
@@ -268,6 +334,13 @@ const resources = {
                 departments: "所有类别",
                 featuredProduct: "特色产品"
             },
+            items: {
+                facialCare: ["洁面乳", "爽肤水", "保湿霜"],
+                makeup: ["粉底", "口红", "腮红"],
+                bodyCare: ["沐浴露", "身体乳", "去角质"],
+                hairCare: ["洗发水", "护发素", "护发精华"],
+                sunProtection: ["面部防晒霜", "身体防晒霜"]
+            },
             search: {
                 allBrands: "所有品牌",
                 placeholder: "您需要什么？",
@@ -297,6 +370,32 @@ const resources = {
                 subscribe: "订阅",
                 copyright: "版权所有 | 此模板由",
                 madeBy: "设计"
+            },
+            checkOut: {
+                have_coupon: "有优惠券吗？",
+                click_here: "点击这里",
+                enter_code: "输入您的代码",
+                billing_details: "账单详情",
+                first_name: "名字",
+                last_name: "姓氏",
+                country: "国家",
+                address: "地址",
+                city: "城市",
+                state: "省/州",
+                zip: "邮政编码",
+                phone: "电话",
+                email: "电子邮箱",
+                create_account: "创建账户？",
+                account_password: "账户密码",
+                ship_diff_address: "运送到不同的地址？",
+                order_notes: "订单备注",
+                your_order: "您的订单",
+                products: "产品",
+                total: "总计",
+                subtotal: "小计",
+                check_payment: "货到付款",
+                paypal: "贝宝",
+                place_order: "下订单"
             }
         },
     },
