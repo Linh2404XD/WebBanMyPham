@@ -1,7 +1,10 @@
 import React from "react";
 import Header from "../../components/header.jsx";
+import {useTranslation} from "react-i18next";
 
 const ShoppingCart = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             {/* Page Preloader */}
@@ -99,11 +102,13 @@ const ShoppingCart = () => {
                                 <div className="hero__search__form">
                                     <form action="#">
                                         <div className="hero__search__categories">
-                                            All Categories
-                                            <span className="arrow_carrot-down"></span>
+                                            {t("search.allBrands")}
+                                            <i className="fa fa-chevron-down"></i>
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?" />
-                                        <button type="submit" className="site-btn">SEARCH</button>
+                                        <input type="text" placeholder={t("search.placeholder")}/>
+                                        <button type="submit" className="site-btn">
+                                            {t("search.button")}
+                                        </button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
@@ -122,7 +127,7 @@ const ShoppingCart = () => {
             </section>
 
             {/* Breadcrumb Section */}
-            <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"2000px", height: "150px" }}>
+            <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"auto", height: "150px" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
