@@ -199,7 +199,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -216,7 +216,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -233,7 +233,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -250,7 +250,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -267,7 +267,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -284,7 +284,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -301,7 +301,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -318,7 +318,7 @@ const HomePage = () => {
                                     <ul className="featured__item__pic__hover">
                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
@@ -338,12 +338,12 @@ const HomePage = () => {
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-6">
                             <div className="banner__pic">
-                                <img src="/assets/img/banner/banner-1.jpg" alt="" />
+                                <img style={{height:"240px"}} src="/assets/img/banner/banner-1.jpg" alt="" />
                             </div>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-6">
                             <div className="banner__pic">
-                                <img src="/assets/img/banner/banner-2.jpg" alt="" />
+                                <img style={{height:"240px"}} src="/assets/img/banner/banner-2.jpg" alt="" />
                             </div>
                         </div>
                     </div>
