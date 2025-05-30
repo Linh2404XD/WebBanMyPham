@@ -58,34 +58,21 @@ const CategoriesSlider = () => {
                                 style={{
                                     backgroundImage: `url(${cat.img})`,
                                     height: "180px",          // giữ nguyên khung cao 180px
-                                    backgroundSize: "40%",    // ảnh nhỏ lại, chỉ chiếm 40% khung
+                                    backgroundSize: "90%",    // ảnh nhỏ lại, chỉ chiếm 40% khung
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center",
-                                    backgroundColor: "#f7f7f7",
                                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                                     display: "flex",
                                     alignItems: "flex-end",
                                     justifyContent: "center",
                                     paddingBottom: "15px",
-                                    color: "#333",
                                     fontWeight: "600",
                                     cursor: "pointer",
                                     marginLeft: "10px",
                                 }}
                             >
 
-                            <h5 style={{ margin: 0 }}>
-                                    <a
-                                        href="#"
-                                        style={{
-                                            color: "inherit",
-                                            textDecoration: "none",
-                                            userSelect: "none",
-                                        }}
-                                    >
-                                        {cat.title}
-                                    </a>
-                                </h5>
+
                             </div>
                         </div>
                     ))}
