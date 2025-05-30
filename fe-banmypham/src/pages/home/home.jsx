@@ -15,6 +15,10 @@ const HomePage = () => {
 
     const { t } = useTranslation();
 
+    const [showAdPopup, setShowAdPopup] = useState(true); // quảng cáo sẽ tự hiển thị khi truy cập
+
+
+
     useEffect(() => {
         // Thiết lập background từ data-setbg
         document.querySelectorAll(".set-bg").forEach((el) => {
@@ -44,6 +48,16 @@ const HomePage = () => {
 
             return () => clearTimeout(timer);
         }
+
+
+        // Hiển thị popup quảng cáo trong 3 giây
+        const adTimer = setTimeout(() => {
+            setShowAdPopup(false);
+        }, 3000);
+
+        return () => clearTimeout(adTimer);
+
+
     }, [location, navigate]);
 
 
@@ -85,6 +99,49 @@ const HomePage = () => {
                     </div>
                 </>
             )}
+
+            {showAdPopup && (
+                <>
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            zIndex: 999,
+                        }}
+                        onClick={() => setShowAdPopup(false)}
+                    />
+
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '50%', left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#fff',
+                            borderRadius: '12px',
+                            boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                            zIndex: 1000,
+                            overflow: 'hidden',
+                            maxWidth: '90vw',
+                            maxHeight: '90vh',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img
+                            src="/assets/img/ad.jpg"
+                            alt="Quảng cáo"
+                            style={{
+                                display: 'block',
+                                width: '500px',
+                                height: 'auto',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    </div>
+                </>
+            )}
+
+
             {/* Page Preloader */}
             {/*<div id="preloder">*/}
             {/*    <div className="loader"></div>*/}
