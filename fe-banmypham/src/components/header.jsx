@@ -141,7 +141,7 @@ const Header = () => {
                                 <li><a href="#">{t("pages")}</a>
                                     <ul className="header__menu__dropdown">
                                         <li><a href="/intro">{t("shopDetails")}</a></li>
-                                        <li><a href="/shoping-cart">{t("shoppingCart")}</a></li>
+                                        <li><a href="/shopping-cart">{t("shoppingCart")}</a></li>
                                         <li><a href="/checkout">{t("checkout")}</a></li>
                                     </ul>
                                 </li>
@@ -154,7 +154,7 @@ const Header = () => {
                         <div className="header__cart">
                             <ul>
                                 <li><a href="#"><i className="fa fa-heart"></i> <span>1</span></a></li>
-                                <li><a href="#"><i className="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                <li><a href="/cart"><i className="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             </ul>
                             <div className="header__cart__price">item: <span>$150.00</span></div>
                         </div>
