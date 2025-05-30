@@ -1,8 +1,11 @@
 import React from "react";
 import ProductDiscountSlider from "../../components/productDiscountSlider.jsx";
 import Header from "../../components/header.jsx";
+import { useTranslation } from "react-i18next";
 
 const ShopGrid = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             {/* Page Preloader */}
@@ -101,11 +104,13 @@ const ShopGrid = () => {
                                 <div className="hero__search__form">
                                     <form action="#">
                                         <div className="hero__search__categories">
-                                            All Categories
-                                            <span className="arrow_carrot-down"></span>
+                                            {t("search.allBrands")}
+                                            <i className="fa fa-chevron-down"></i>
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?" />
-                                        <button type="submit" className="site-btn">SEARCH</button>
+                                        <input type="text" placeholder={t("search.placeholder")}/>
+                                        <button type="submit" className="site-btn">
+                                            {t("search.button")}
+                                        </button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
@@ -124,7 +129,7 @@ const ShopGrid = () => {
             </section>
 
             {/* Breadcrumb Section */}
-            <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"2000px", height: "150px" }}>
+            <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"auto", height: "150px" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -147,16 +152,11 @@ const ShopGrid = () => {
                             <div className="sidebar__item">
                                 <h4>Department</h4>
                                 <ul>
-                                    <li><a href="#">Fresh Meat</a></li>
-                                    <li><a href="#">Vegetables</a></li>
-                                    <li><a href="#">Fruit & Nut Gifts</a></li>
-                                    <li><a href="#">Fresh Berries</a></li>
-                                    <li><a href="#">Ocean Foods</a></li>
-                                    <li><a href="#">Butter & Eggs</a></li>
-                                    <li><a href="#">Fastfood</a></li>
-                                    <li><a href="#">Fresh Onion</a></li>
-                                    <li><a href="#">Papayaya & Crisps</a></li>
-                                    <li><a href="#">Oatmeal</a></li>
+                                    <li><a href="#">{t("category.facialCare")}</a></li>
+                                    <li><a href="#">{t("category.makeup")}</a></li>
+                                    <li><a href="#">{t("category.bodyCare")}</a></li>
+                                    <li><a href="#">{t("category.hairCare")}</a></li>
+                                    <li><a href="#">{t("category.sunProtection")}</a></li>
                                 </ul>
                             </div>
                             <div className="sidebar__item">

@@ -2,7 +2,7 @@ import React from 'react';
 
 const BreadCrumb = () => {
     return (
-        <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"2000px", height: "150px" }}>
+        <section className="breadcrumb-section" style={{ backgroundImage: `url("/assets/img/breadcrumb.jpg")`, width:"auto", height: "150px" }}>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 text-center">
