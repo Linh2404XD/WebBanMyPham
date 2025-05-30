@@ -1,0 +1,48 @@
+/* Các li chứa submenu cần position: relative */
+ul li {
+    position: relative;
+}
+
+/* Submenu mặc định ẩn đi, và đặt position: absolute để đè lên */
+ul li ul.submenu {
+    display: none;
+    position: absolute; /* Quan trọng để không đẩy phần khác */
+    left: 100%; /* Nếu muốn submenu hiển thị ngang bên phải */
+    top: 0;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    min-width: 250px;
+}
+
+/* Khi có class "open" thì hiện submenu */
+ul li.open > ul.submenu {
+    display: block;
+}
+
+/* Sidebar item cần position */
+.sidebar__item ul > li {
+    position: relative;
+}
+
+/* Thêm mũi tên xuống mặc định */
+.sidebar__item ul > li > a::after {
+    content: "▲";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+/* Khi mở thì mũi tên xoay lên */
+.sidebar__item ul > li.open > a::after {
+    content: "▼";
+}
+/* Ẩn mũi tên cho các submenu con */
+.sidebar__item ul ul > li > a::after {
+    content: none !important;
+}
