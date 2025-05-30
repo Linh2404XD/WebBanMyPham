@@ -203,8 +203,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu 473ml</a></h6>
+                                    <h5>327.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -220,8 +220,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Nước Hoa Hồng Klairs Không Mùi Cho Da Nhạy Cảm 180ml</a></h6>
+                                    <h5>208.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -237,8 +237,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Combo 2 Nước Tẩy Trang Bí Đao Cocoon Làm Sạch & Giảm Dầu 500ml</a></h6>
+                                    <h5>341.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -254,8 +254,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Kem Chống Nắng Skin1004 Cho Da Nhạy Cảm SPF 50+ 50ml</a></h6>
+                                    <h5>234.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -271,8 +271,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Kem Chống Nắng L'Oreal Paris X20 Thoáng Da Mỏng Nhẹ 50ml</a></h6>
+                                    <h5>220.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -288,8 +288,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Serum L'Oreal Hyaluronic Acid Cấp Ẩm Sáng Da 30ml</a></h6>
+                                    <h5>309.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -305,8 +305,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Nước Tẩy Trang L'Oreal Dưỡng Ẩm Cho Da Thường, Khô 400ml</a></h6>
+                                    <h5>113.000₫</h5>
                                 </div>
                             </div>
                         </div>
@@ -322,8 +322,8 @@ const HomePage = () => {
                                     </ul>
                                 </div>
                                 <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="#">Kem Dưỡng Olay Luminous Sáng Da Mờ Thâm Nám Ban Đêm 50g</a></h6>
+                                    <h5>140.000₫</h5>
                                 </div>
                             </div>
                         </div>
