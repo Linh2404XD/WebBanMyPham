@@ -7,6 +7,7 @@ import ShopGrid from "./pages/shop-grid/shop-grid.jsx";
 import ShoppingCart from "./pages/shopping-cart/shopping-cart.jsx";
 import Contact from './pages/contact/contact.jsx'
 import Intro from './pages/detail/intro.jsx'
+import ProductDetail from "./pages/product/product-detail.jsx";
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
                 <Route path="/cart" element={<ShoppingCart />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/intro" element={<Intro />} />
-
+                <Route path="/product-detail" element={<ProductDetail />} />
 
             </Routes>
         </Router>
