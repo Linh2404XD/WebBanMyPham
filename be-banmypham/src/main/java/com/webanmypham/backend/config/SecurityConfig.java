@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Quyền truy cập cho USER và ADMIN
                         .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/products/**").permitAll()
                         // Các request còn lại bắt buộc phải đăng nhập
                         .anyRequest().authenticated()
