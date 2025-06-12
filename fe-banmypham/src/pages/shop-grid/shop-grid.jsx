@@ -14,6 +14,7 @@ const ShopGrid = () => {
 
     const [products, setProducts] = useState([]);
 
+
     // Thêm state quản lý trang hiện tại và số sản phẩm mỗi trang
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
@@ -33,6 +34,7 @@ const ShopGrid = () => {
                 }
             });
     }, []);
+
 
     // Tính chỉ số sản phẩm đầu và cuối của trang hiện tại
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -131,7 +133,11 @@ const ShopGrid = () => {
                                                     <ul className="product__item__pic__hover">
                                                         <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                                         <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
+                                                        <li>
+                                                            <a href="/cart">
+                                                                <i className="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div className="product__item__text">
