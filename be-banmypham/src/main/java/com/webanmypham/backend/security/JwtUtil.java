@@ -15,7 +15,7 @@ public class JwtUtil {
     // Chuỗi secret đủ dài tối thiểu 64 bytes (512 bits)
     private static final String SECRET = "N1qO8KF9sZqpx1Bgw8AzcQvMu4XTCXduYDVHgW5F7mZaeiLvRT0UxQ1sD3wN7jYb";
 
-    private static final long EXPIRATION_TIME = 86400000L; // 1 ngày (ms)
+    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000L; // 1 ngày
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
