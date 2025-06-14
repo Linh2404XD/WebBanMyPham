@@ -46,3 +46,16 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 42 more
+2025-06-14 19:10:32.503139+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]selet * from products"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+selet * from products [42001-232]
+2025-06-14 19:11:09.923233+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPDATE products SET category = Chăm sóc da mặt[*]' WHERE id = 3;"; SQL statement:
+UPDATE products SET category = Chăm sóc da mặt' WHERE id = 3; [42000-232]
+2025-06-14 19:11:47.735416+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPDATE products SET category = Chăm [*]sóc da mặt' WHERE id = 3;\000d\000aUPDATE products SET category = Chăm sóc da mặt' WHERE id = 4"; SQL statement:
+UPDATE products SET category = Chăm sóc da mặt' WHERE id = 3;
+UPDATE products SET category = Chăm sóc da mặt' WHERE id = 4 [42000-232]
+2025-06-14 19:11:57.288375+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPDATE products SET category = Chăm sóc da mặt[*]' WHERE id = 3;"; SQL statement:
+UPDATE products SET category = Chăm sóc da mặt' WHERE id = 3; [42000-232]

@@ -14,6 +14,10 @@ public class Product {
     private Long id;
 
     private String name;
+
+    @Column(name = "category")
+    private String category;
+
     private String description;
     private double price;
 
