@@ -205,7 +205,7 @@ const HomePage = () => {
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
                                     <i className="fa fa-bars"></i>
-                                    <span>{t("Tất cả danh mục")}</span>
+                                    <span>{t("category.departments")}</span>
                                 </div>
                                 <ul style={{ fontSize: "20px" }}>
                                     {categories.map((cat, i) => (
@@ -218,7 +218,7 @@ const HomePage = () => {
                                                 fontWeight: filterCategory === cat ? "bold" : "normal",
                                             }}
                                         >
-                                            {cat === "*" ? t("category.all") : cat}
+                                            {cat === "*" ? t("category.all") : t(`category.${cat}`)}
                                         </li>
                                     ))}
                                 </ul>

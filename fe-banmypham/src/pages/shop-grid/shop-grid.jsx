@@ -40,10 +40,9 @@ const ShopGrid = () => {
     }, []);
 
     // Lấy danh sách category duy nhất từ products
-    const categories = [
-        "ALL",
-        ...Array.from(new Set(products.map((p) => p.category))),
-    ];
+    const categories = ["*"].concat(
+        [...new Set(products.map((p) => p.category))].sort()
+    );
 
     const handleCategoryFilter = (category) => {
         setFilterCategory(category);
@@ -76,25 +75,26 @@ const ShopGrid = () => {
                     <div className="row">
                         {/* Sidebar */}
                         <div className="col-lg-3 col-md-5">
-                            <div className="sidebar">
-                                <div className="sidebar__item">
-                                    <h4>{t("category.departments")}</h4>
-                                    <ul style={{ fontSize: "20px" }}>
-                                        {categories.map((cat, i) => (
-                                            <li
-                                                key={i}
-                                                className={filterCategory === cat ? "active" : ""}
-                                                onClick={() => handleCategoryFilter(cat)}
-                                                style={{
-                                                    cursor: "pointer",
-                                                    fontWeight: filterCategory === cat ? "bold" : "normal",
-                                                }}
-                                            >
-                                                {cat === "ALL" ? t("category.all") : cat}
-                                            </li>
-                                        ))}
-                                    </ul>
+                            <div className="hero__categories">
+                                <div className="hero__categories__all">
+                                    <i className="fa fa-bars"></i>
+                                    <span>{t("category.departments")}</span>
                                 </div>
+                                <ul style={{ fontSize: "20px" }}>
+                                    {categories.map((cat, i) => (
+                                        <li
+                                            key={i}
+                                            className={filterCategory === cat ? "active" : ""}
+                                            onClick={() => handleCategoryFilter(cat)}
+                                            style={{
+                                                cursor: "pointer",
+                                                fontWeight: filterCategory === cat ? "bold" : "normal",
+                                            }}
+                                        >
+                                            {cat === "*" ? t("category.all") : t(`category.${cat}`)}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
 
