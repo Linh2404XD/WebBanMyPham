@@ -26,6 +26,6 @@ public class Product {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "instock")
+    private String instock;
 }

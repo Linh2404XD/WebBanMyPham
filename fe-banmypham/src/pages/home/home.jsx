@@ -311,7 +311,7 @@ const HomePage = () => {
                                 <div key={product.id || index} className="col-lg-3 col-md-4 col-sm-6 mix">
                                     <div className="featured__item">
                                         <div className="featured__item__pic">
-                                            <img src={product.imageUrl} alt={product.name} />
+                                            <img src={product.imageUrl} alt={product.name} onClick={() => navigate(`/product-detail/${product.id}`)} />
                                             <ul className="featured__item__pic__hover">
                                                 <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                                 <li><a href="#"><i className="fa fa-retweet"></i></a></li>
@@ -319,7 +319,7 @@ const HomePage = () => {
                                             </ul>
                                         </div>
                                         <div className="featured__item__text">
-                                            <h6><a href="#">{product.name}</a></h6>
+                                            <h6><a href={`/product-detail/${product.id}`}>{product.name}</a></h6>
                                             <h5>{Number(product.price).toLocaleString('vi-VN')}₫</h5>
                                         </div>
                                     </div>

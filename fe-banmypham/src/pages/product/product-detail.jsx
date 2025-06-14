@@ -126,7 +126,7 @@ const ProductDetail = () => {
                                     <span className="icon_heart_alt"></span>
                                 </a>
                                 <ul>
-                                    <li><b>Tình trạng:</b> <span>{product.inStock ? "Còn hàng" : "Hết hàng"}</span></li>
+                                    <li><b>Tình trạng:</b> <span>{product.instock > 0 ? "Còn hàng" : "Hết hàng"}</span></li>
                                     <li><b>Giao hàng:</b> <span>Giao nhanh trong 24h</span></li>
                                 </ul>
                             </div>
