@@ -18,9 +18,26 @@ const HomePage = () => {
     const [showAdPopup, setShowAdPopup] = useState(true); // quảng cáo sẽ tự hiển thị khi truy cập
 
     const [products, setProducts] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8; // hoặc 6 hay 12 tuỳ bố cục trang chủ
+
+    const [filterCategory, setFilterCategory] = useState("*");
+
+    const handleCategoryFilter = (category) => {
+        setFilterCategory(category);
+        setCurrentPage(1);
+    };
+
+    const filteredProducts =
+        filterCategory === "*"
+            ? products
+            : products.filter((product) => product.category === filterCategory);
+
+
+    // Lấy các category duy nhất
+    const categories = ["*"].concat(
+        [...new Set(products.map((p) => p.category))].sort()
+    );
 
     useEffect(() => {
         fetch("http://localhost:8080/api/products")
@@ -34,14 +51,14 @@ const HomePage = () => {
             .catch((err) => console.error("Lỗi khi load sản phẩm:", err));
     }, []);
 
+
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalPages = Math.ceil(products.length / productsPerPage);
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // cho mượt
     };
     useEffect(() => {
         // Thiết lập background từ data-setbg
@@ -253,75 +270,78 @@ const HomePage = () => {
             {/*Category Section End*/}
 
             {/*Feature Section Begin*/}
-            <section className="featured spad">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="section-title">
-                                <h2>{t('category.featuredProduct')}</h2>
-                            </div>
-                            <div className="featured__controls">
-                                <ul>
-                                    <li className="active" data-filter="*">{t("category.all")}</li>
-                                    <li data-filter=".oranges">{t("category.facialCare")}</li>
-                                    <li data-filter=".fresh-meat">{t("category.makeup")}</li>
-                                    <li data-filter=".vegetables">{t("category.bodyCare")}</li>
-                                    <li data-filter=".fastfood">{t("category.hairCare")}</li>
-                                    <li data-filter=".fastfood">{t("category.sunProtection")}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row featured__filter">
-                        {currentProducts.map((product, index) => (
-                            <div key={product.id || index} className="col-lg-3 col-md-4 col-sm-6 mix">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic">
-                                        <img src={product.imageUrl} alt={product.name} />
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                            <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">{product.name}</a></h6>
-                                        <h5>{Number(product.price).toLocaleString('vi-VN')}₫</h5>
-                                    </div>
+                <section className="featured spad">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="section-title">
+                                    <h2>{t('category.featuredProduct')}</h2>
+                                </div>
+                                <div className="featured__controls">
+                                    <ul>
+                                        {categories.map((cat, i) => (
+                                            <li
+                                                key={i}
+                                                className={filterCategory === cat ? "active" : ""}
+                                                onClick={() => handleCategoryFilter(cat)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                {cat === "*" ? t("category.all") : cat}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                        <div className="row featured__filter">
+                            {currentProducts.map((product, index) => (
+                                <div key={product.id || index} className="col-lg-3 col-md-4 col-sm-6 mix">
+                                    <div className="featured__item">
+                                        <div className="featured__item__pic">
+                                            <img src={product.imageUrl} alt={product.name} />
+                                            <ul className="featured__item__pic__hover">
+                                                <li><a href="#"><i className="fa fa-heart"></i></a></li>
+                                                <li><a href="#"><i className="fa fa-retweet"></i></a></li>
+                                                <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div className="featured__item__text">
+                                            <h6><a href="#">{product.name}</a></h6>
+                                            <h5>{Number(product.price).toLocaleString('vi-VN')}₫</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {/*phân trang*/}
+                        <div className="product__pagination">
+                            {[...Array(totalPages)].map((_, i) => (
+                                <a
+                                    key={i + 1}
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        paginate(i + 1);
+                                    }}
+                                    className={currentPage === i + 1 ? 'active' : ''}
+                                >
+                                    {i + 1}
+                                </a>
+                            ))}
+                            {totalPages > 0 && (
+                                <a
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (currentPage < totalPages) paginate(currentPage + 1);
+                                    }}
+                                >
+                                    <i className="fa fa-long-arrow-right"></i>
+                                </a>
+                            )}
+                        </div>
                     </div>
-
-                    {/*phân trang*/}
-                    <div className="product__pagination">
-                        {[...Array(totalPages)].map((_, i) => (
-                            <a
-                                key={i + 1}
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    paginate(i + 1);
-                                }}
-                                className={currentPage === i + 1 ? 'active' : ''}
-                            >
-                                {i + 1}
-                            </a>
-                        ))}
-                        {totalPages > 0 && (
-                            <a
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    if (currentPage < totalPages) paginate(currentPage + 1);
-                                }}
-                            >
-                                <i className="fa fa-long-arrow-right"></i>
-                            </a>
-                        )}
-                    </div>
-                </div>
-            </section>
+                </section>
             {/*Feature Section End */}
 
             {/*Banner Begin*/}
