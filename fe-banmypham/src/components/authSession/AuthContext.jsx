@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
             clearTimeout(idleTimer);
             idleTimer = setTimeout(() => {
                 setSessionExpired(true);
-            }, 10000); // 10 giây không thao tác
+            }, 3 * 60 * 1000); // 3 phút không thao tác
         };
 
         window.addEventListener("mousemove", resetIdleTimer);

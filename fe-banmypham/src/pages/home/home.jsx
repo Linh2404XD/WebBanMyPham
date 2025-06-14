@@ -205,7 +205,7 @@ const HomePage = () => {
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
                                     <i className="fa fa-bars"></i>
-                                    <span>{t("departments")}</span>
+                                    <span>{t("Tất cả danh mục")}</span>
                                 </div>
                                 <ul style={{ fontSize: "20px" }}>
                                     {categories.map((cat, i) => (
