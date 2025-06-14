@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/products")
-@CrossOrigin(origins = "*") // Cho phép React frontend truy cập
+@CrossOrigin(origins = "http://localhost:5173")
 public class ManageProductController {
 
     @Autowired

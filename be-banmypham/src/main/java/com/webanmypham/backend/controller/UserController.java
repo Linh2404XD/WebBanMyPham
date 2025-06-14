@@ -9,7 +9,11 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -41,7 +45,17 @@ public class UserController {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
             );
-            String token = jwtUtil.generateToken(authRequest.getEmail());
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Lấy danh sách role từ authentication
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+
+            // Gọi đúng hàm có roles
+            String token = jwtUtil.generateToken(userDetails.getUsername(), roles);
+
             return ResponseEntity.ok(new AuthResponse(token));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu sai");
