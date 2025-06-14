@@ -10,6 +10,10 @@ import ProductDetail from "./pages/product/product-detail.jsx";
 
 import { AuthProvider } from "./components/authSession/AuthContext.jsx";
 import SessionExpiredAlert from "./components/authSession/SessionExpiredAlert.jsx";
+import ManageAccount from "./pages/admin/manageAccount/ManageAccount.jsx";
+import ManageOrder from "./pages/admin/manageOrder/ManageOrder.jsx";
+import ManageProduct from "./pages/admin/manageProduct/ManageProduct.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
 
 function AppRoutes() {
     return (
@@ -24,6 +28,10 @@ function AppRoutes() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/intro" element={<Intro />} />
             <Route path="/product-detail/:id" element={<ProductDetail />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/manage-account" element={<ManageAccount />} />
+            <Route path="/manage-order" element={<ManageOrder />} />
+            <Route path="/manage-product" element={<ManageProduct />} />
         </Routes>
     );
 }
