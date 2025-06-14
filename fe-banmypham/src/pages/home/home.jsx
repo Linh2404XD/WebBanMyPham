@@ -28,6 +28,11 @@ const HomePage = () => {
         setCurrentPage(1);
     };
 
+    const handleCategoryClick = (category) => {
+        // category = "*" thì có thể truyền '' hoặc "ALL" tuỳ bạn xử lý ở ShopGrid
+        navigate(`/shop-grid?category=${category === "*" ? "" : category}`);
+    };
+
     const filteredProducts =
         filterCategory === "*"
             ? products
@@ -202,12 +207,20 @@ const HomePage = () => {
                                     <i className="fa fa-bars"></i>
                                     <span>{t("departments")}</span>
                                 </div>
-                                <ul>
-                                    <li><a href="#">{t("category.facialCare")}</a></li>
-                                    <li><a href="#">{t("category.makeup")}</a></li>
-                                    <li><a href="#">{t("category.bodyCare")}</a></li>
-                                    <li><a href="#">{t("category.hairCare")}</a></li>
-                                    <li><a href="#">{t("category.sunProtection")}</a></li>
+                                <ul style={{ fontSize: "20px" }}>
+                                    {categories.map((cat, i) => (
+                                        <li
+                                            key={i}
+                                            className={filterCategory === cat ? "active" : ""}
+                                            onClick={() => handleCategoryClick(cat)}
+                                            style={{
+                                                cursor: "pointer",
+                                                fontWeight: filterCategory === cat ? "bold" : "normal",
+                                            }}
+                                        >
+                                            {cat === "*" ? t("category.all") : cat}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>

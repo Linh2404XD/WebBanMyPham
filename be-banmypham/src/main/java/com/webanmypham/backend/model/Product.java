@@ -15,12 +15,17 @@ public class Product {
 
     private String name;
 
-    @Column(name = "category")
-    private String category;
 
     private String description;
     private double price;
 
     @Column(name = "image_url")
     private String imageUrl;
+
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "quantity")
+    private int quantity;
 }

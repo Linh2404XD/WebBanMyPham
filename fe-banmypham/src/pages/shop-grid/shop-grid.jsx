@@ -4,19 +4,29 @@ import { useTranslation } from "react-i18next";
 import "./shop-grip.css";
 import axios from "axios";
 import Footer from "../../components/footer.jsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 const ShopGrid = () => {
     const { t } = useTranslation();
-    const [openIndex, setOpenIndex] = useState(null);
     const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
 
+    // lấy category ở url được gửi từ home
+    const [searchParams] = useSearchParams();
+    const categoryFromUrl = searchParams.get("category") || "";
+
+
     // Trạng thái lọc category và phân trang
-    const [filterCategory, setFilterCategory] = useState("ALL");
+    const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "ALL");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
+
+
+    useEffect(() => {
+        setFilterCategory(categoryFromUrl || "ALL");
+        setCurrentPage(1); // reset trang về 1 khi filter thay đổi
+    }, [categoryFromUrl]);
 
     useEffect(() => {
         axios
@@ -30,7 +40,7 @@ const ShopGrid = () => {
     }, []);
 
     // Lấy danh sách category duy nhất từ products
-    const uniqueCategories = [
+    const categories = [
         "ALL",
         ...Array.from(new Set(products.map((p) => p.category))),
     ];
@@ -70,7 +80,7 @@ const ShopGrid = () => {
                                 <div className="sidebar__item">
                                     <h4>{t("category.departments")}</h4>
                                     <ul style={{ fontSize: "20px" }}>
-                                        {uniqueCategories.map((cat, i) => (
+                                        {categories.map((cat, i) => (
                                             <li
                                                 key={i}
                                                 className={filterCategory === cat ? "active" : ""}
