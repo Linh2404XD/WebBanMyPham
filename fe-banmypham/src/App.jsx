@@ -8,6 +8,11 @@ import ShoppingCart from "./pages/shopping-cart/shopping-cart.jsx";
 import Contact from './pages/contact/contact.jsx'
 import Intro from './pages/detail/intro.jsx'
 import ProductDetail from "./pages/product/product-detail.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
+import ManageAccount from "./pages/admin/manageAccount/ManageAccount.jsx";
+import ManageOrder from "./pages/admin/manageOrder/ManageOrder.jsx";
+import ManageProduct from "./pages/admin/manageProduct/ManageProduct.jsx";
+
 
 
 function App() {
@@ -25,7 +30,10 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/intro" element={<Intro />} />
                 <Route path="/product-detail/:id" element={<ProductDetail />} />
-
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/manage-account" element={<ManageAccount />} />
+                <Route path="/manage-order" element={<ManageOrder />} />
+                <Route path="/manage-product" element={<ManageProduct />} />
             </Routes>
         </Router>
     );
