@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
-import ProductSlider from "../../components/productSlider.jsx";
 import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -287,17 +286,6 @@ const HomePage = () => {
                                     // Điều chỉnh chiều cao theo mong muốn
                                 }}
                             >
-                                <div className="hero__text">
-                                    <span>FRUIT FRESH</span>
-                                    <h2>
-                                        Vegetable <br/>
-                                        100% Organic
-                                    </h2>
-                                    <p>Free Pickup and Delivery Available</p>
-                                    <a href="#" className="primary-btn">
-                                        SHOP NOW
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -404,10 +392,6 @@ const HomePage = () => {
                 </div>
             </div>
             {/*Banner End*/}
-
-            {/*Latest Product Section Begin*/}
-           <ProductSlider/>
-            {/*Lastest Product Section End*/}
 
             {/*Footer Section Begin*/}
             <Footer/>

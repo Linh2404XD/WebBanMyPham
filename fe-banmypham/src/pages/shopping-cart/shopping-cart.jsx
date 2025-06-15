@@ -63,24 +63,8 @@ const ShoppingCart = () => {
                 console.error("Failed to update quantity", err);
                 alert("Failed to update quantity.");
             });
-    };  
-
-    const handleUpdateCart = async () => {
-        const token = localStorage.getItem("token");
-        try {
-            for (const item of cartItems) {
-                await axios.put(
-                    `http://localhost:8080/api/cart-items/${item.id}`,
-                    { quantity: item.quantity },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-            }
-            alert("Cart updated successfully.");
-        } catch (err) {
-            console.error("Failed to update cart:", err);
-            alert("Update failed.");
-        }
     };
+
 
     const calculateTotal = (item) => item.quantity * item.product.price;
 
@@ -157,18 +141,15 @@ const ShoppingCart = () => {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="shoping__cart__btns d-flex justify-content-between">
-                                        <Link to="/" className="primary-btn cart-btn">CONTINUE SHOPPING</Link>
-                                        <button className="primary-btn cart-btn cart-btn-right" onClick={handleUpdateCart}>
-                                            <span className="icon_loading"></span> Update Cart
-                                        </button>
-                                    </div>
+                            <div className="row mt-4 align-items-start justify-content-between">
+                                {/* Cột trái: CONTINUE SHOPPING */}
+                                <div className="col-lg-6 d-flex align-items-center">
+                                    <Link to="/" className="primary-btn cart-btn">CONTINUE SHOPPING</Link>
                                 </div>
 
+                                {/* Cột phải: Cart Total */}
                                 <div className="col-lg-6">
-                                    <div className="shoping__checkout mt-5">
+                                    <div className="shoping__checkout">
                                         <h5>Cart Total</h5>
                                         <ul>
                                             <li>Subtotal <span>{formatCurrency(calculateSubtotal())}</span></li>

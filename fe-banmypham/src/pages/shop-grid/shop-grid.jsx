@@ -95,6 +95,45 @@ const ShopGrid = () => {
     return (
         <>
             <Header />
+            {/* Thanh search + phone */}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "20px",
+                    padding: "10px 20px",
+                    backgroundColor: "#f5f5f5",
+                    marginBottom: "-50px"
+                }}
+            >
+                <div className="hero__search__form">
+                    <form action="#" style={{ display: "flex" }}>
+                        <input
+                            type="text"
+                            placeholder={t("search.placeholder")}
+                            style={{ padding: "8px", borderRadius: "4px 0 0 4px", border: "1px solid #ccc" }}
+                        />
+                        <button
+                            type="submit"
+                            className="site-btn"
+                            style={{ borderRadius: "0 4px 4px 0", padding: "8px 12px" }}
+                        >
+                            {t("search.button")}
+                        </button>
+                    </form>
+                </div>
+
+                <div className="hero__search__phone" style={{ display: "flex", alignItems: "center" }}>
+                    <div className="hero__search__phone__icon" style={{ marginRight: "8px" }}>
+                        <i className="fa fa-phone"></i>
+                    </div>
+                    <div className="hero__search__phone__text">
+                        <h5 style={{ margin: 0 }}>+65 11.188.888</h5>
+                        <span>{t("search.phone")}</span>
+                    </div>
+                </div>
+            </div>
 
             <section className="product spad">
                 <div className="container">
