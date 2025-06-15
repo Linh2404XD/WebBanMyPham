@@ -299,7 +299,7 @@ const HomePage = () => {
                                                 onClick={() => handleCategoryFilter(cat)}
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                {cat === "*" ? t("category.all") : cat}
+                                                {cat === "*" ? t("category.all") : t(`category.${cat}`)}
                                             </li>
                                         ))}
                                     </ul>
