@@ -1,6 +1,7 @@
 package com.webanmypham.backend.dto;
 
 import com.webanmypham.backend.model.Role;
+import com.webanmypham.backend.model.User;
 import lombok.Data;
 
 import java.util.Set;
@@ -12,4 +13,14 @@ public class UserDTO {
     private String username;
     private String address;
     private Set<Role> roles;
+
+    public UserDTO() {}
+
+    public UserDTO(User user) {
+        this.phoneNumber = user.getPhoneNumber();
+        this.fullName = user.getFullName();
+        this.username = user.getUsername();
+        this.address = user.getAddress();
+        this.roles = user.getRoles();
+    }
 }
