@@ -1,13 +1,24 @@
-import {jwtDecode} from "jwt-decode";  // sửa đúng import
+import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
+// Hàm kiểm tra token còn hợp lệ
+function isValidToken(token) {
+    try {
+        const decoded = jwtDecode(token);
+        return decoded.exp * 1000 > Date.now();
+    } catch {
+        return false;
+    }
+}
+
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const savedToken = localStorage.getItem("token");
+    const [token, setToken] = useState(isValidToken(savedToken) ? savedToken : null);
     const [sessionExpired, setSessionExpired] = useState(false);
 
-    // Kiểm tra token hết hạn dựa trên exp trong token
+    // Xử lý token hết hạn
     useEffect(() => {
         if (token) {
             let decoded;
@@ -17,9 +28,9 @@ export const AuthProvider = ({ children }) => {
                 setSessionExpired(true);
                 return;
             }
-            const exp = decoded.exp * 1000; // chuyển sang ms
-            const now = Date.now();
 
+            const exp = decoded.exp * 1000;
+            const now = Date.now();
             const timeout = exp - now;
 
             if (timeout <= 0) {
@@ -35,14 +46,16 @@ export const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
-    // idle timeout: tự động logout khi không hoạt động 10s
+    // Idle timeout 10s (nếu đã đăng nhập)
     useEffect(() => {
+        if (!token) return;
+
         let idleTimer;
         const resetIdleTimer = () => {
-            if (idleTimer) clearTimeout(idleTimer);
+            clearTimeout(idleTimer);
             idleTimer = setTimeout(() => {
                 setSessionExpired(true);
-            }, 10000); // 10 giây idle timeout
+            }, 3 * 60 * 1000); // 3 phút không thao tác
         };
 
         window.addEventListener("mousemove", resetIdleTimer);
@@ -59,11 +72,11 @@ export const AuthProvider = ({ children }) => {
             window.removeEventListener("scroll", resetIdleTimer);
             window.removeEventListener("click", resetIdleTimer);
         };
-    }, []);
+    }, [token]);
 
-    const login = (token) => {
-        setToken(token);
-        localStorage.setItem("token", token);
+    const login = (newToken) => {
+        setToken(newToken);
+        localStorage.setItem("token", newToken);
         setSessionExpired(false);
     };
 

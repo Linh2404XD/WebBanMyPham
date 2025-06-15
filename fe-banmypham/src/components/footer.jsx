@@ -12,7 +12,7 @@ const Footer = () => {
                     <div className="col-lg-3 col-md-6 col-sm-6">
                         <div className="footer__about">
                             <div className="footer__about__logo">
-                                <a href="/"><img src="/assets/img/logo.png" alt="Logo" /></a>
+                                <a href="/public"><img src="/assets/img/logo.png" alt="Logo" /></a>
                             </div>
                             <ul>
                                 <li>{t("footer.address")}</li>

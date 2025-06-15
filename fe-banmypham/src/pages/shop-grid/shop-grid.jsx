@@ -1,81 +1,70 @@
-import React, {useEffect, useState} from "react";
-import Header from "../../components/pages/header.jsx";
-import {useTranslation} from "react-i18next";
-import "./shop-grip.css";
+import React, { useEffect, useState } from "react";
+import Header from "../../components/header.jsx";
+import { useTranslation } from "react-i18next";
+
 import axios from "axios";
-import Footer from "../../components/pages/footer.jsx";
-import {useNavigate} from "react-router-dom";
+import Footer from "../../components/footer.jsx";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 const ShopGrid = () => {
     const { t } = useTranslation();
-    const [openIndex, setOpenIndex] = useState(null);
     const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
 
+    // lấy category ở url được gửi từ home
+    const [searchParams] = useSearchParams();
+    const categoryFromUrl = searchParams.get("category") || "";
 
-    // Thêm state quản lý trang hiện tại và số sản phẩm mỗi trang
+
+    // Trạng thái lọc category và phân trang
+    const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "*");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
 
+
     useEffect(() => {
-        axios.get('http://localhost:8080/api/products')
-            .then(response => {
+        setFilterCategory(categoryFromUrl || "*");
+        setCurrentPage(1); // reset trang về 1 khi filter thay đổi
+    }, [categoryFromUrl]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/api/products")
+            .then((response) => {
                 setProducts(response.data);
             })
-            .catch(error => {
-                if (error.response) {
-                    console.error('Response error:', error.response.status, error.response.data);
-                } else if (error.request) {
-                    console.error('No response:', error.request);
-                } else {
-                    console.error('Axios error:', error.message);
-                }
+            .catch((error) => {
+                console.error(error);
             });
     }, []);
 
+    // Lấy danh sách category duy nhất từ products
+    const categories = ["*"].concat(
+        [...new Set(products.map((p) => p.category))].sort()
+    );
 
-    // Tính chỉ số sản phẩm đầu và cuối của trang hiện tại
+    const handleCategoryFilter = (category) => {
+        setFilterCategory(category);
+        setCurrentPage(1);
+    };
+
+    // Lọc products theo category
+    const filteredProducts =
+        filterCategory === "*"
+            ? products
+            : products.filter((product) => product.category === filterCategory);
+
+    // Phân trang trên filteredProducts
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    // Lấy ra mảng sản phẩm cần hiển thị của trang hiện tại
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-    // Tính tổng số trang
-    const totalPages = Math.ceil(products.length / productsPerPage);
-
-    // Hàm chuyển trang
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // tùy chọn cuộn lên đầu trang khi đổi trang
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
-
-    const toggleSubmenu = (index) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
-
-    const categories = [
-        {
-            label: t("category.facialCare"),
-            items: t("items.facialCare", { returnObjects: true }),
-        },
-        {
-            label: t("category.makeup"),
-            items: t("items.makeup", { returnObjects: true }),
-        },
-        {
-            label: t("category.bodyCare"),
-            items: t("items.bodyCare", { returnObjects: true }),
-        },
-        {
-            label: t("category.hairCare"),
-            items: t("items.hairCare", { returnObjects: true }),
-        },
-        {
-            label: t("category.sunProtection"),
-            items: t("items.sunProtection", { returnObjects: true }),
-        },
-    ];
 
     return (
         <>
@@ -86,28 +75,26 @@ const ShopGrid = () => {
                     <div className="row">
                         {/* Sidebar */}
                         <div className="col-lg-3 col-md-5">
-                            <div className="sidebar">
-                                <div className="sidebar__item">
-                                    <h4>{t("category.departments")}</h4>
-                                    <ul>
-                                        {categories.map((cat, index) => (
-                                            <li
-                                                key={index}
-                                                className={openIndex === index ? "open" : ""}
-                                                onClick={() => toggleSubmenu(index)}
-                                                style={{cursor: "pointer"}}
-                                            >
-                                                <a>{cat.label}</a>
-                                                <ul className="submenu"
-                                                    style={{display: openIndex === index ? "block" : "none"}}>
-                                                    {cat.items.map((item, i) => (
-                                                        <li key={i}><a href="#">{item}</a></li>
-                                                    ))}
-                                                </ul>
-                                            </li>
-                                        ))}
-                                    </ul>
+                            <div className="hero__categories">
+                                <div className="hero__categories__all">
+                                    <i className="fa fa-bars"></i>
+                                    <span>{t("category.departments")}</span>
                                 </div>
+                                <ul style={{ fontSize: "20px" }}>
+                                    {categories.map((cat, i) => (
+                                        <li
+                                            key={i}
+                                            className={filterCategory === cat ? "active" : ""}
+                                            onClick={() => handleCategoryFilter(cat)}
+                                            style={{
+                                                cursor: "pointer",
+                                                fontWeight: filterCategory === cat ? "bold" : "normal",
+                                            }}
+                                        >
+                                            {cat === "*" ? t("category.all") : t(`category.${cat}`)}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
 
@@ -122,16 +109,24 @@ const ShopGrid = () => {
                                                     className="product__item__pic"
                                                     style={{
                                                         backgroundImage: `url(${product.imageUrl})`,
-                                                        backgroundSize: 'cover',
-                                                        backgroundPosition: 'center',
-                                                        height: '300px',
-                                                        cursor: 'pointer'
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                        height: "300px",
+                                                        cursor: "pointer",
                                                     }}
                                                     onClick={() => navigate(`/product-detail/${product.id}`)}
                                                 >
                                                     <ul className="product__item__pic__hover">
-                                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fa fa-retweet"></i>
+                                                            </a>
+                                                        </li>
                                                         <li>
                                                             <a href="/cart">
                                                                 <i className="fa fa-shopping-cart"></i>
@@ -151,7 +146,7 @@ const ShopGrid = () => {
                                                             {product.name}
                                                         </a>
                                                     </h6>
-                                                    <h5>{product.price.toLocaleString('vi-VN')} ₫</h5>
+                                                    <h5>{product.price.toLocaleString("vi-VN")} ₫</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +154,7 @@ const ShopGrid = () => {
                                 </div>
                             </div>
 
-                            {/* Phân trang */}
+                            {/* Pagination */}
                             <div className="product__pagination">
                                 {[...Array(totalPages)].map((_, i) => (
                                     <a
@@ -169,16 +164,19 @@ const ShopGrid = () => {
                                             e.preventDefault();
                                             paginate(i + 1);
                                         }}
-                                        className={currentPage === i + 1 ? 'active' : ''}
+                                        className={currentPage === i + 1 ? "active" : ""}
                                     >
                                         {i + 1}
                                     </a>
                                 ))}
                                 {totalPages > 0 && (
-                                    <a href="#" onClick={(e) => {
-                                        e.preventDefault();
-                                        if(currentPage < totalPages) paginate(currentPage + 1);
-                                    }}>
+                                    <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (currentPage < totalPages) paginate(currentPage + 1);
+                                        }}
+                                    >
                                         <i className="fa fa-long-arrow-right"></i>
                                     </a>
                                 )}

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Header from "../../components/pages/header.jsx";
-import Footer from "../../components/pages/footer.jsx";
-import ProductSlider from "../../components/pages/productSlider.jsx";
-import CategoriesSlider from "../../components/pages/categoriesSlider.jsx";
+import Header from "../../components/header.jsx";
+import Footer from "../../components/footer.jsx";
+import ProductSlider from "../../components/productSlider.jsx";
+import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -17,8 +17,54 @@ const HomePage = () => {
 
     const [showAdPopup, setShowAdPopup] = useState(true); // quảng cáo sẽ tự hiển thị khi truy cập
 
+    const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 8; // hoặc 6 hay 12 tuỳ bố cục trang chủ
+
+    const [filterCategory, setFilterCategory] = useState("*");
+
+    const handleCategoryFilter = (category) => {
+        setFilterCategory(category);
+        setCurrentPage(1);
+    };
+
+    const handleCategoryClick = (category) => {
+        // category = "*" thì có thể truyền '' hoặc "ALL" tuỳ bạn xử lý ở ShopGrid
+        navigate(`/shop-grid?category=${category === "*" ? "" : category}`);
+    };
+
+    const filteredProducts =
+        filterCategory === "*"
+            ? products
+            : products.filter((product) => product.category === filterCategory);
 
 
+    // Lấy các category duy nhất
+    const categories = ["*"].concat(
+        [...new Set(products.map((p) => p.category))].sort()
+    );
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/products")
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Lỗi khi gọi API");
+                }
+                return res.json();
+            })
+            .then((data) => setProducts(data))
+            .catch((err) => console.error("Lỗi khi load sản phẩm:", err));
+    }, []);
+
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
     useEffect(() => {
         // Thiết lập background từ data-setbg
         document.querySelectorAll(".set-bg").forEach((el) => {
@@ -159,14 +205,22 @@ const HomePage = () => {
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
                                     <i className="fa fa-bars"></i>
-                                    <span>{t("departments")}</span>
+                                    <span>{t("category.departments")}</span>
                                 </div>
-                                <ul>
-                                    <li><a href="#">{t("category.facialCare")}</a></li>
-                                    <li><a href="#">{t("category.makeup")}</a></li>
-                                    <li><a href="#">{t("category.bodyCare")}</a></li>
-                                    <li><a href="#">{t("category.hairCare")}</a></li>
-                                    <li><a href="#">{t("category.sunProtection")}</a></li>
+                                <ul style={{ fontSize: "20px" }}>
+                                    {categories.map((cat, i) => (
+                                        <li
+                                            key={i}
+                                            className={filterCategory === cat ? "active" : ""}
+                                            onClick={() => handleCategoryClick(cat)}
+                                            style={{
+                                                cursor: "pointer",
+                                                fontWeight: filterCategory === cat ? "bold" : "normal",
+                                            }}
+                                        >
+                                            {cat === "*" ? t("category.all") : t(`category.${cat}`)}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -229,164 +283,78 @@ const HomePage = () => {
             {/*Category Section End*/}
 
             {/*Feature Section Begin*/}
-            <section className="featured spad">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="section-title">
-                                <h2>{t('category.featuredProduct')}</h2>
+                <section className="featured spad">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="section-title">
+                                    <h2>{t('category.featuredProduct')}</h2>
+                                </div>
+                                <div className="featured__controls">
+                                    <ul>
+                                        {categories.map((cat, i) => (
+                                            <li
+                                                key={i}
+                                                className={filterCategory === cat ? "active" : ""}
+                                                onClick={() => handleCategoryFilter(cat)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                {cat === "*" ? t("category.all") : cat}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                            <div className="featured__controls">
-                                <ul>
-                                    <li className="active" data-filter="*">{t("category.all")}</li>
-                                    <li data-filter=".oranges">{t("category.facialCare")}</li>
-                                    <li data-filter=".fresh-meat">{t("category.makeup")}</li>
-                                    <li data-filter=".vegetables">{t("category.bodyCare")}</li>
-                                    <li data-filter=".fastfood">{t("category.hairCare")}</li>
-                                    <li data-filter=".fastfood">{t("category.sunProtection")}</li>
-                                </ul>
-                            </div>
+                        </div>
+                        <div className="row featured__filter">
+                            {currentProducts.map((product, index) => (
+                                <div key={product.id || index} className="col-lg-3 col-md-4 col-sm-6 mix">
+                                    <div className="featured__item">
+                                        <div className="featured__item__pic">
+                                            <img src={product.imageUrl} alt={product.name} onClick={() => navigate(`/product-detail/${product.id}`)} />
+                                            <ul className="featured__item__pic__hover">
+                                                <li><a href="#"><i className="fa fa-heart"></i></a></li>
+                                                <li><a href="#"><i className="fa fa-retweet"></i></a></li>
+                                                <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div className="featured__item__text">
+                                            <h6><a href={`/product-detail/${product.id}`}>{product.name}</a></h6>
+                                            <h5>{Number(product.price).toLocaleString('vi-VN')}₫</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {/*phân trang*/}
+                        <div className="product__pagination">
+                            {[...Array(totalPages)].map((_, i) => (
+                                <a
+                                    key={i + 1}
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        paginate(i + 1);
+                                    }}
+                                    className={currentPage === i + 1 ? 'active' : ''}
+                                >
+                                    {i + 1}
+                                </a>
+                            ))}
+                            {totalPages > 0 && (
+                                <a
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (currentPage < totalPages) paginate(currentPage + 1);
+                                    }}
+                                >
+                                    <i className="fa fa-long-arrow-right"></i>
+                                </a>
+                            )}
                         </div>
                     </div>
-                    <div className="row featured__filter">
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-1.jpg" alt="Product"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu 473ml</a></h6>
-                                    <h5>327.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-2.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Nước Hoa Hồng Klairs Không Mùi Cho Da Nhạy Cảm 180ml</a></h6>
-                                    <h5>208.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-3.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Combo 2 Nước Tẩy Trang Bí Đao Cocoon Làm Sạch & Giảm Dầu 500ml</a></h6>
-                                    <h5>341.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-4.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Kem Chống Nắng Skin1004 Cho Da Nhạy Cảm SPF 50+ 50ml</a></h6>
-                                    <h5>234.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-5.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Kem Chống Nắng L'Oreal Paris X20 Thoáng Da Mỏng Nhẹ 50ml</a></h6>
-                                    <h5>220.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-6.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Serum L'Oreal Hyaluronic Acid Cấp Ẩm Sáng Da 30ml</a></h6>
-                                    <h5>309.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-7.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Nước Tẩy Trang L'Oreal Dưỡng Ẩm Cho Da Thường, Khô 400ml</a></h6>
-                                    <h5>113.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="/assets/img/featured/feature-8.jpg" alt="Product" />
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Kem Dưỡng Olay Luminous Sáng Da Mờ Thâm Nám Ban Đêm 50g</a></h6>
-                                    <h5>140.000₫</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
             {/*Feature Section End */}
 
             {/*Banner Begin*/}

@@ -14,9 +14,18 @@ public class Product {
     private Long id;
 
     private String name;
+
+
     private String description;
     private double price;
 
     @Column(name = "image_url")
     private String imageUrl;
+
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "instock")
+    private String instock;
 }
