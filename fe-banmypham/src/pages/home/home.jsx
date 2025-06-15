@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
-import ProductSlider from "../../components/productSlider.jsx";
 import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 
 const HomePage = () => {
@@ -22,6 +22,36 @@ const HomePage = () => {
     const productsPerPage = 8; // hoặc 6 hay 12 tuỳ bố cục trang chủ
 
     const [filterCategory, setFilterCategory] = useState("*");
+
+
+
+    const handleAddToCart = async (productId) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập trước.");
+            return;
+        }
+
+        try {
+            await axios.post(
+                "http://localhost:8080/api/cart-items/add",
+                {
+                    productId: productId,
+                    quantity: 1
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            alert("Đã thêm vào giỏ hàng!");
+        } catch (err) {
+            console.error("Lỗi khi thêm giỏ hàng:", err);
+            alert("Thêm thất bại!");
+        }
+    };
+
 
     const handleCategoryFilter = (category) => {
         setFilterCategory(category);
@@ -228,10 +258,6 @@ const HomePage = () => {
                             <div className="hero__search">
                                 <div className="hero__search__form">
                                     <form action="#">
-                                        <div className="hero__search__categories">
-                                            {t("search.allBrands")}
-                                            <i className="fa fa-chevron-down"></i>
-                                        </div>
                                         <input type="text" placeholder={t("search.placeholder")}/>
                                         <button type="submit" className="site-btn">
                                             {t("search.button")}
@@ -260,17 +286,6 @@ const HomePage = () => {
                                     // Điều chỉnh chiều cao theo mong muốn
                                 }}
                             >
-                                <div className="hero__text">
-                                    <span>FRUIT FRESH</span>
-                                    <h2>
-                                        Vegetable <br/>
-                                        100% Organic
-                                    </h2>
-                                    <p>Free Pickup and Delivery Available</p>
-                                    <a href="#" className="primary-btn">
-                                        SHOP NOW
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -299,7 +314,7 @@ const HomePage = () => {
                                                 onClick={() => handleCategoryFilter(cat)}
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                {cat === "*" ? t("category.all") : cat}
+                                                {cat === "*" ? t("category.all") : t(`category.${cat}`)}
                                             </li>
                                         ))}
                                     </ul>
@@ -315,7 +330,9 @@ const HomePage = () => {
                                             <ul className="featured__item__pic__hover">
                                                 <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                                 <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                                <li><a href="/cart"><i className="fa fa-shopping-cart"></i></a></li>
+                                                <li><button onClick={() => handleAddToCart(product.id)}>
+                                                    <i className="fa fa-shopping-cart"></i>
+                                                </button></li>
                                             </ul>
                                         </div>
                                         <div className="featured__item__text">
@@ -375,10 +392,6 @@ const HomePage = () => {
                 </div>
             </div>
             {/*Banner End*/}
-
-            {/*Latest Product Section Begin*/}
-           <ProductSlider/>
-            {/*Lastest Product Section End*/}
 
             {/*Footer Section Begin*/}
             <Footer/>

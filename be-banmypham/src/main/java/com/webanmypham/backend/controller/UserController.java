@@ -2,6 +2,7 @@ package com.webanmypham.backend.controller;
 
 import com.webanmypham.backend.dto.AuthRequest;
 import com.webanmypham.backend.dto.AuthResponse;
+import com.webanmypham.backend.dto.UserDTO;
 import com.webanmypham.backend.model.User;
 import com.webanmypham.backend.security.JwtUtil;
 import com.webanmypham.backend.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,5 +62,26 @@ public class UserController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu sai");
         }
+    }
+
+
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn chưa đăng nhập");
+        }
+
+        String email = authentication.getName();
+
+        User user = userService.findByEmail(email).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
+        }
+
+        UserDTO userDTO = new UserDTO(user);
+        return ResponseEntity.ok(userDTO);
     }
 }

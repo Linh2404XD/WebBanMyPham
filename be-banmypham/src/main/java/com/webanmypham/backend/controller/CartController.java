@@ -1,28 +1,43 @@
 package com.webanmypham.backend.controller;
 
 import com.webanmypham.backend.model.Cart;
+import com.webanmypham.backend.model.User;
 import com.webanmypham.backend.service.CartService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import com.webanmypham.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/carts")
-@CrossOrigin(origins = "*") // Cho phép front-end React gọi API
+@RequestMapping("/api/cart")
+@CrossOrigin(origins = "http://localhost:5173") // Giới hạn CORS cho an toàn
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/user/{userId}")
-    public Cart getCartByUserId(@PathVariable Long userId) {
-        return cartService.getCartByUserId(userId);
+    @Autowired
+    private UserService userService;
+
+    @GetMapping
+    public ResponseEntity<Cart> getCartByLoggedInUser(Authentication authentication) {
+        String email = authentication.getName(); // lấy email từ token
+        User user = userService.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        Cart cart = cartService.getCartByUserId(user.getId());
+        return ResponseEntity.ok(cart);
     }
 
     @PostMapping
-    public Cart createOrUpdateCart(@RequestBody Cart cart) {
-        return cartService.saveCart(cart);
+    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart, Authentication authentication) {
+        String email = authentication.getName();
+        User user = userService.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        cart.setUser(user);
+        Cart savedCart = cartService.saveCart(cart);
+        return ResponseEntity.ok(savedCart);
     }
 }

@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
 import './css/header.css';
-
 
 const Header = () => {
     const { t, i18n } = useTranslation();
@@ -12,23 +12,38 @@ const Header = () => {
             .catch((error) => console.error("Failed to change language:", error));
     };
 
-
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
     const timeoutRef = useRef(null);
+
 
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
+
+        if (token) {
+            axios.get("http://localhost:8080/api/cart-items/my-cart", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => {
+                    setCartItems(res.data);
+                })
+                .catch(err => {
+                    console.error("Failed to load cart items:", err);
+                    setCartItems([]);
+                });
+        }
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         setShowLogout(false);
-        // Bạn có thể thêm navigate về trang login hoặc trang chủ nếu muốn
+        // Nếu bạn dùng react-router, có thể navigate về login
         // navigate('/login');
     };
 
@@ -40,9 +55,8 @@ const Header = () => {
     const handleMouseLeave = () => {
         timeoutRef.current = setTimeout(() => {
             setShowLogout(false);
-        }, 200); // Delay nhỏ để người dùng kịp di chuột
+        }, 200);
     };
-
 
     return (
         <header className="header">
@@ -66,19 +80,13 @@ const Header = () => {
                                     <a href="#"><i className="fa fa-pinterest-p"></i></a>
                                 </div>
                                 <div className="header__top__right__language">
-                                    <img src="/assets/img/lang_vi.png" alt="Language"/>
+                                    <img src="/assets/img/lang_vi.png" alt="Language" />
                                     <div>{t("language")}</div>
                                     <i className="fa fa-chevron-down"></i>
                                     <ul>
-                                        <li>
-                                            <button onClick={() => changeLanguage("vi")}>Tiếng Việt</button>
-                                        </li>
-                                        <li>
-                                            <button onClick={() => changeLanguage("en")}>English</button>
-                                        </li>
-                                        <li>
-                                            <button onClick={() => changeLanguage("zh")}>中文</button>
-                                        </li>
+                                        <li><button onClick={() => changeLanguage("vi")}>Tiếng Việt</button></li>
+                                        <li><button onClick={() => changeLanguage("en")}>English</button></li>
+                                        <li><button onClick={() => changeLanguage("zh")}>中文</button></li>
                                     </ul>
                                 </div>
                                 <div className="header__top__right__auth">
@@ -119,7 +127,6 @@ const Header = () => {
                                         <a href="/login"><i className="fa fa-user"></i> {t("login")}</a>
                                     )}
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -130,7 +137,7 @@ const Header = () => {
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="header__logo">
-                            <a href="/home"><img src="/assets/img/logo.png" alt="Logo"/></a>
+                            <a href="/home"><img src="/assets/img/logo.png" alt="Logo" /></a>
                         </div>
                     </div>
                     <div className="col-lg-6">
@@ -138,13 +145,6 @@ const Header = () => {
                             <ul>
                                 <li className="active"><a href="/">{t("home")}</a></li>
                                 <li><a href="/shop-grid">{t("shop")}</a></li>
-                                <li><a href="#">{t("pages")}</a>
-                                    <ul className="header__menu__dropdown">
-                                        <li><a href="/intro">{t("shopDetails")}</a></li>
-                                        <li><a href="/cart">{t("shoppingCart")}</a></li>
-                                        <li><a href="/checkout">{t("checkout")}</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="/blog">{t("blog")}</a></li>
                                 <li><a href="/contact">{t("contact")}</a></li>
                             </ul>
@@ -153,10 +153,13 @@ const Header = () => {
                     <div className="col-lg-3">
                         <div className="header__cart">
                             <ul>
-                                <li><a href="#"><i className="fa fa-heart"></i> <span>1</span></a></li>
-                                <li><a href="/cart"><i className="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                <li>
+                                    <a href="/cart">
+                                        <i className="fa fa-shopping-bag" style={{ fontSize: '25px' }}></i>
+                                        <span>{cartItems.length}</span>
+                                    </a>
+                                </li>
                             </ul>
-                            <div className="header__cart__price">item: <span>$150.00</span></div>
                         </div>
                     </div>
                 </div>
