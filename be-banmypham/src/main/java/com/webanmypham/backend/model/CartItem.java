@@ -1,15 +1,14 @@
 package com.webanmypham.backend.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "cart_items")
 @Getter
 @Setter
-@Table(name = "cart_items")
+
 public class CartItem {
 
     @Id
@@ -18,8 +17,12 @@ public class CartItem {
 
     private int quantity;
 
-    private Long cartId;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 }

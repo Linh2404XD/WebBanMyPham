@@ -138,13 +138,6 @@ const Header = () => {
                             <ul>
                                 <li className="active"><a href="/">{t("home")}</a></li>
                                 <li><a href="/shop-grid">{t("shop")}</a></li>
-                                <li><a href="#">{t("pages")}</a>
-                                    <ul className="header__menu__dropdown">
-                                        <li><a href="/intro">{t("shopDetails")}</a></li>
-                                        <li><a href="/cart">{t("shoppingCart")}</a></li>
-                                        <li><a href="/checkout">{t("checkout")}</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="/blog">{t("blog")}</a></li>
                                 <li><a href="/contact">{t("contact")}</a></li>
                             </ul>
