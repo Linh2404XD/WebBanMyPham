@@ -28,53 +28,41 @@ const ProductDetail = () => {
         }
     };
 
-    const handleAddToCart = async () => {
-        const user = JSON.parse(localStorage.getItem("user"));
+    const handleAddToCart = async (productId) => {
         const token = localStorage.getItem("token");
-
-        console.log("User:", user);
-        if (!user || !user.userId || !token) {
-            alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.");
+        if (!token) {
+            alert("Bạn cần đăng nhập trước.");
             return;
         }
 
-        if (!product) return;
-
         setLoading(true);
         try {
-            // 1. Lấy giỏ hàng của user (kèm Authorization header)
-            const cartResponse = await axios.get(`http://localhost:8080/api/carts/user/${user.userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            await axios.post(
+                "http://localhost:8080/api/cart-items/add",
+                {
+                    productId: productId,
+                    quantity: quantity
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            });
-
-            const cartId = cartResponse.data.id;
-
-            // 2. Tạo cartItem payload
-            const cartItem = {
-                cartId: cartId,
-                productId: product.id,
-                quantity: quantity
-            };
-
-            // 3. Gửi yêu cầu thêm sản phẩm vào giỏ hàng (kèm Authorization header)
-            await axios.post("http://localhost:8080/api/cart-items", cartItem, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            alert(`Đã thêm ${quantity} sản phẩm "${product.name}" vào giỏ hàng.`);
-        } catch (error) {
-            console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
-            alert("Thêm sản phẩm vào giỏ hàng thất bại.");
+            );
+            alert("Đã thêm vào giỏ hàng!");
+        } catch (err) {
+            console.error("Lỗi khi thêm giỏ hàng:", err);
+            alert("Thêm thất bại!");
         } finally {
             setLoading(false);
         }
     };
 
     if (!product) return <div className="text-center my-5">Đang tải dữ liệu sản phẩm...</div>;
+
+
+
+
 
     return (
         <>
@@ -119,7 +107,11 @@ const ProductDetail = () => {
                                         />
                                     </div>
                                 </div>
-                                <button className="primary-btn" onClick={handleAddToCart} disabled={loading}>
+                                <button
+                                    className="primary-btn"
+                                    onClick={() => handleAddToCart(product.id)}
+                                    disabled={loading}
+                                >
                                     {loading ? "Đang thêm..." : "THÊM VÀO GIỎ HÀNG"}
                                 </button>
                                 <a href="#" className="heart-icon">

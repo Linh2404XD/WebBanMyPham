@@ -259,10 +259,6 @@ const HomePage = () => {
                             <div className="hero__search">
                                 <div className="hero__search__form">
                                     <form action="#">
-                                        <div className="hero__search__categories">
-                                            {t("search.allBrands")}
-                                            <i className="fa fa-chevron-down"></i>
-                                        </div>
                                         <input type="text" placeholder={t("search.placeholder")}/>
                                         <button type="submit" className="site-btn">
                                             {t("search.button")}

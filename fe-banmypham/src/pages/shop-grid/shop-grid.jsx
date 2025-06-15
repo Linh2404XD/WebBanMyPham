@@ -20,9 +20,35 @@ const ShopGrid = () => {
     // Trạng thái lọc category và phân trang
     const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "*");
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 10;
+    const productsPerPage = 12;
 
+    // nên viết ra 1 file riêng để tái sử dụng
+    const handleAddToCart = async (productId) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập trước.");
+            return;
+        }
 
+        try {
+            await axios.post(
+                "http://localhost:8080/api/cart-items/add",
+                {
+                    productId: productId,
+                    quantity: 1
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            alert("Đã thêm vào giỏ hàng!");
+        } catch (err) {
+            console.error("Lỗi khi thêm giỏ hàng:", err);
+            alert("Thêm thất bại!");
+        }
+    };
     useEffect(() => {
         setFilterCategory(categoryFromUrl || "*");
         setCurrentPage(1); // reset trang về 1 khi filter thay đổi
@@ -109,7 +135,7 @@ const ShopGrid = () => {
                                                     className="product__item__pic"
                                                     style={{
                                                         backgroundImage: `url(${product.imageUrl})`,
-                                                        backgroundSize: "cover",
+                                                        backgroundSize: "contain",
                                                         backgroundPosition: "center",
                                                         height: "300px",
                                                         cursor: "pointer",
@@ -118,19 +144,24 @@ const ShopGrid = () => {
                                                 >
                                                     <ul className="product__item__pic__hover">
                                                         <li>
-                                                            <a href="#">
+                                                            <a href="#" onClick={(e) => e.preventDefault()}>
                                                                 <i className="fa fa-heart"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
+                                                            <a href="#" onClick={(e) => e.preventDefault()}>
                                                                 <i className="fa fa-retweet"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="/cart">
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+                                                                    handleAddToCart(product.id);
+                                                                }}
+                                                            >
                                                                 <i className="fa fa-shopping-cart"></i>
-                                                            </a>
+                                                            </button>
                                                         </li>
                                                     </ul>
                                                 </div>
