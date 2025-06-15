@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Header from '../../components/header.jsx';
-import Footer from '../../components/footer.jsx';
-import ProductSlider from "../../components/productSlider.jsx";
-import CategoriesSlider from "../../components/categoriesSlider.jsx";
+import Header from "../../components/pages/header.jsx";
+import Footer from "../../components/pages/footer.jsx";
+import ProductSlider from "../../components/pages/productSlider.jsx";
+import CategoriesSlider from "../../components/pages/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

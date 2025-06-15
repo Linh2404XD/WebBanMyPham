@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/header.jsx";
+import Header from "../../components/pages/header.jsx";
 // import { useTranslation } from "react-i18next";
 import axios from "axios";
-import Footer from "../../components/footer.jsx";
+import Footer from "../../components/pages/footer.jsx";
 
 const ShoppingCart = () => {
     // const { t } = useTranslation();
