@@ -2,7 +2,6 @@ import React from "react";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
 import BreadCrumb from '../../components/breadcrumb.jsx';
-import Hero from "../../components/hero.jsx";
 import {useTranslation} from "react-i18next";
 
 const Checkout = () => {
@@ -18,9 +17,11 @@ const Checkout = () => {
             <Header />
 
             {/*/!* Hero *!/*/}
+
             {/*<Hero/>*/}
 
-            {/*/!* Breadcrumb *!/*/}
+             {/*Breadcrumb */}
+            <BreadCrumb />
             {/*<BreadCrumb/>*/}
 
             <section className="checkout spad">
