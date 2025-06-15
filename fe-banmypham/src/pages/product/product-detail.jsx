@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Header from "../../components/pages/header.jsx";
-import Footer from "../../components/pages/footer.jsx";
+import Header from "../../components/header.jsx";
+import Footer from "../../components/footer.jsx";
 
 const ProductDetail = () => {
     const { id } = useParams(); // lấy productId từ URL

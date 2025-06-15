@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../../components/pages/header.jsx";
-import Footer from "../../components/pages/footer.jsx";
-import BreadCrumb from '../../components/pages/breadcrumb.jsx';
-import Hero from "../../components/pages/hero.jsx";
+import Header from "../../components/header.jsx";
+import Footer from "../../components/footer.jsx";
+import BreadCrumb from '../../components/breadcrumb.jsx';
+import Hero from "../../components/hero.jsx";
 import {useTranslation} from "react-i18next";
 
 const Checkout = () => {

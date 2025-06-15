@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/header.jsx";
 import { useTranslation } from "react-i18next";
-import "./shop-grip.css";
+
 import axios from "axios";
 import Footer from "../../components/footer.jsx";
 import {useNavigate, useSearchParams} from "react-router-dom";
@@ -18,13 +18,13 @@ const ShopGrid = () => {
 
 
     // Trạng thái lọc category và phân trang
-    const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "ALL");
+    const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "*");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
 
 
     useEffect(() => {
-        setFilterCategory(categoryFromUrl || "ALL");
+        setFilterCategory(categoryFromUrl || "*");
         setCurrentPage(1); // reset trang về 1 khi filter thay đổi
     }, [categoryFromUrl]);
 
@@ -51,7 +51,7 @@ const ShopGrid = () => {
 
     // Lọc products theo category
     const filteredProducts =
-        filterCategory === "ALL"
+        filterCategory === "*"
             ? products
             : products.filter((product) => product.category === filterCategory);
 

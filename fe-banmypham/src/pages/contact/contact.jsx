@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
 import styles from './contact.module.css';
-import Header from "../../components/pages/header.jsx";
-import Footer from "../../components/pages/footer.jsx";
+import Header from "../../components/header.jsx";
+import Footer from "../../components/footer.jsx";
 
 const ContactForm = () => {
     const { t } = useTranslation(); // Sử dụng i18n để dịch
