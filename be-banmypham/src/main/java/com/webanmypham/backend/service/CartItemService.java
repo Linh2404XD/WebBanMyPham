@@ -23,6 +23,7 @@ public class CartItemService {
         return cartItemRepository.findByCartId(cartId);
     }
 
+
     public CartItem save(CartItem item) {
         return cartItemRepository.save(item);
     }
@@ -36,18 +37,16 @@ public class CartItemService {
         cartItemRepository.deleteAll(items);
     }
 
-    public Optional<CartItem> getById(Long id) {
+    public Optional<CartItem> findById(Long id) {
         return cartItemRepository.findById(id);
     }
 
-    public CartItem updateCartItem(Long id, CartItem updatedItem) {
+    public CartItem updateQuantity(Long id, int quantity) {
         return cartItemRepository.findById(id).map(item -> {
-            item.setQuantity(updatedItem.getQuantity());
-            item.setProduct(updatedItem.getProduct());
+            item.setQuantity(quantity);
             return cartItemRepository.save(item);
         }).orElseThrow(() -> new RuntimeException("CartItem not found with id: " + id));
     }
-
     // Hàm thêm hoặc cập nhật sản phẩm trong giỏ hàng
     public CartItem addOrUpdateCartItem(Cart cart, Long productId, int quantity) {
         return cartItemRepository.findByCartIdAndProductId(cart.getId(), productId)

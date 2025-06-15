@@ -39,15 +39,37 @@ const ShoppingCart = () => {
             .catch(err => console.error("Failed to delete item", err));
     };
 
-    const calculateTotal = (item) => (item.quantity * item.product.price).toFixed(2);
+    const handleQuantityChange = (cartItemId, newQuantity) => {
+        const quantity = parseInt(newQuantity) || 1;
 
-    const calculateSubtotal = () => cartItems
-        .reduce((sum, item) => sum + item.quantity * item.product.price, 0)
-        .toFixed(2);
+        // Cập nhật UI ngay
+        const updatedItems = cartItems.map((item) =>
+            item.id === cartItemId
+                ? { ...item, quantity }
+                : item
+        );
+        setCartItems(updatedItems);
 
-    if (loading) return <p className="text-center mt-5">Loading...</p>;
-    if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
+        // Gửi yêu cầu cập nhật đến server
+        const token = localStorage.getItem("token");
+        axios.put(`http://localhost:8080/api/cart-items/${cartItemId}`,
+            { quantity },
+            { headers: { Authorization: `Bearer ${token}` } }
+        )
+            .then(() => {
+                console.log(`Quantity for item ${cartItemId} updated to ${quantity}`);
+            })
+            .catch((err) => {
+                console.error("Failed to update quantity", err);
+                alert("Failed to update quantity.");
+            });
+    };
 
+
+    const calculateTotal = (item) => item.quantity * item.product.price;
+
+    const calculateSubtotal = () =>
+        cartItems.reduce((sum, item) => sum + item.quantity * item.product.price, 0);
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', {
@@ -56,6 +78,8 @@ const ShoppingCart = () => {
         }).format(amount);
     };
 
+    if (loading) return <p className="text-center mt-5">Loading...</p>;
+    if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
 
     return (
         <>
@@ -90,15 +114,18 @@ const ShoppingCart = () => {
                                                         />
                                                         <h5>{item.product.name}</h5>
                                                     </td>
-                                                    <td className={"shoping__cart__price"}>{formatCurrency(item.product.price)}</td>
+                                                    <td className="shoping__cart__price">{formatCurrency(item.product.price)}</td>
                                                     <td>
                                                         <div className="quantity">
-                                                            <div className="pro-qty">
-                                                                <input type="text" value={item.quantity} readOnly />
-                                                            </div>
+                                                            <input
+                                                                type="number"
+                                                                value={item.quantity}
+                                                                min="1"
+                                                                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                                            />
                                                         </div>
                                                     </td>
-                                                    <td className={"shoping__cart__total"}>{formatCurrency(calculateTotal(item))}</td>
+                                                    <td className="shoping__cart__total">{formatCurrency(calculateTotal(item))}</td>
                                                     <td>
                                                             <span
                                                                 className="icon_close"
@@ -114,18 +141,15 @@ const ShoppingCart = () => {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="shoping__cart__btns d-flex justify-content-between">
-                                        <Link to="/" className="primary-btn cart-btn">CONTINUE SHOPPING</Link>
-                                        <button className="primary-btn cart-btn cart-btn-right">
-                                            <span className="icon_loading"></span> Update Cart
-                                        </button>
-                                    </div>
+                            <div className="row mt-4 align-items-start justify-content-between">
+                                {/* Cột trái: CONTINUE SHOPPING */}
+                                <div className="col-lg-6 d-flex align-items-center">
+                                    <Link to="/" className="primary-btn cart-btn">CONTINUE SHOPPING</Link>
                                 </div>
 
+                                {/* Cột phải: Cart Total */}
                                 <div className="col-lg-6">
-                                    <div className="shoping__checkout mt-5">
+                                    <div className="shoping__checkout">
                                         <h5>Cart Total</h5>
                                         <ul>
                                             <li>Subtotal <span>{formatCurrency(calculateSubtotal())}</span></li>
