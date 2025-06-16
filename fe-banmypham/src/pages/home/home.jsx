@@ -24,6 +24,16 @@ const HomePage = () => {
     const [filterCategory, setFilterCategory] = useState("*");
 
 
+    // tìm kiếm
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/shop-grid?keyword=${encodeURIComponent(searchTerm.trim())}`);
+        }
+    };
 
     const handleAddToCart = async (productId) => {
         const token = localStorage.getItem("token");
@@ -256,13 +266,77 @@ const HomePage = () => {
                         </div>
                         <div className="col-lg-9">
                             <div className="hero__search">
-                                <div className="hero__search__form">
-                                    <form action="#">
-                                        <input type="text" placeholder={t("search.placeholder")}/>
-                                        <button type="submit" className="site-btn">
+                                <div className="hero__search__form"  style={{marginBottom : '20px'}}>
+                                    <form onSubmit={handleSearchSubmit}>
+                                        <input
+                                            type="text"
+                                            value={searchTerm}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                setSearchTerm(value);
+                                                const filtered = products.filter((p) =>
+                                                    p.name.toLowerCase().includes(value.toLowerCase())
+                                                );
+                                                setSuggestions(value ? filtered.slice(0, 5) : []);
+                                            }}
+                                            placeholder={t("search.placeholder")}
+                                            style={{ padding: "8px", borderRadius: "4px 0 0 4px", border: "1px solid #ccc" }}
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="site-btn"
+                                            style={{ borderRadius: "0 4px 4px 0", padding: "8px 12px" }}
+                                        >
                                             {t("search.button")}
                                         </button>
                                     </form>
+                                    {suggestions.length > 0 && (
+                                        <ul style={{
+                                            position: "absolute",
+                                            backgroundColor: "#fff",
+                                            border: "1px solid #ccc",
+                                            width: "100%",
+                                            maxHeight: "200px",
+                                            overflowY: "auto",
+                                            listStyle: "none",
+                                            padding: "0",
+                                            margin: "4px 0",
+                                            zIndex: 999
+                                        }}>
+                                            {suggestions.map((item) => (
+                                                <li
+                                                    key={item.id}
+                                                    style={{
+                                                        padding: "8px",
+                                                        cursor: "pointer",
+                                                        borderBottom: "1px solid #eee",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "10px"
+                                                    }}
+                                                    onClick={() => {
+                                                        navigate(`/product-detail/${item.id}`);
+                                                    }}
+                                                >
+                                                    {/* Ảnh thumbnail */}
+                                                    <img
+                                                        src={item.imageUrl || "/assets/img/product/default.jpg"}
+                                                        alt={item.name}
+                                                        style={{ width: "40px", height: "40px", objectFit: "cover", borderRadius: "4px" }}
+                                                    />
+
+                                                    {/* Thông tin tên và giá */}
+                                                    <div>
+                                                        <div style={{ fontWeight: "500" }}>{item.name}</div>
+                                                        <div style={{ fontSize: "14px", color: "#000000" }}>
+                                                            {item.price?.toLocaleString("vi-VN")} ₫
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+
                                 </div>
                                 <div className="hero__search__phone">
                                     <div className="hero__search__phone__icon">

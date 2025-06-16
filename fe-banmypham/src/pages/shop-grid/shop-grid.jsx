@@ -15,12 +15,24 @@ const ShopGrid = () => {
     // lấy category ở url được gửi từ home
     const [searchParams] = useSearchParams();
     const categoryFromUrl = searchParams.get("category") || "";
+    const keyword = searchParams.get("keyword")?.toLowerCase() || "";
 
 
     // Trạng thái lọc category và phân trang
     const [filterCategory, setFilterCategory] = useState(categoryFromUrl || "*");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
+
+    // tìm kiếm
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/shop-grid?keyword=${encodeURIComponent(searchTerm.trim())}`);
+        }
+    };
 
     // nên viết ra 1 file riêng để tái sử dụng
     const handleAddToCart = async (productId) => {
@@ -73,24 +85,43 @@ const ShopGrid = () => {
     const handleCategoryFilter = (category) => {
         setFilterCategory(category);
         setCurrentPage(1);
+        navigate(`/shop-grid?category=${encodeURIComponent(category)}`);
     };
 
     // Lọc products theo category
-    const filteredProducts =
-        filterCategory === "*"
-            ? products
-            : products.filter((product) => product.category === filterCategory);
+    const filteredProducts = products.filter((product) => {
+        const matchKeyword = product.name.toLowerCase().includes(keyword);
+        const matchCategory = filterCategory === "*" || product.category === filterCategory;
+        return matchKeyword && matchCategory;
+    });
+
+
+
+    // Xác định danh sách sản phẩm hiển thị theo keyword hoặc category
+    let displayedProducts = products;
+
+    if (keyword) {
+        displayedProducts = products.filter((product) =>
+            product.name.toLowerCase().includes(keyword)
+        );
+    } else if (filterCategory !== "*") {
+        displayedProducts = products.filter((product) =>
+            product.category === filterCategory
+        );
+    }
+
 
     // Phân trang trên filteredProducts
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = displayedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
+
 
     return (
         <>
@@ -108,9 +139,21 @@ const ShopGrid = () => {
                 }}
             >
                 <div className="hero__search__form">
-                    <form action="#" style={{ display: "flex" }}>
+                    <form onSubmit={handleSearchSubmit} style={{ display: "flex" }}>
                         <input
+                            onBlur={() => {
+                            setTimeout(() => setSuggestions([]), 150); // Delay nhẹ để tránh xung đột với click suggestion
+                        }}
                             type="text"
+                            value={searchTerm}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSearchTerm(value);
+                                const filtered = products.filter((p) =>
+                                    p.name.toLowerCase().includes(value.toLowerCase())
+                                );
+                                setSuggestions(value ? filtered.slice(0, 5) : []);
+                            }}
                             placeholder={t("search.placeholder")}
                             style={{ padding: "8px", borderRadius: "4px 0 0 4px", border: "1px solid #ccc" }}
                         />
@@ -122,6 +165,53 @@ const ShopGrid = () => {
                             {t("search.button")}
                         </button>
                     </form>
+                    {suggestions.length > 0 && (
+                        <ul style={{
+                            position: "absolute",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ccc",
+                            width: "100%",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            listStyle: "none",
+                            padding: "0",
+                            margin: "4px 0",
+                            zIndex: 999
+                        }}>
+                            {suggestions.map((item) => (
+                                <li
+                                    key={item.id}
+                                    style={{
+                                        padding: "8px",
+                                        cursor: "pointer",
+                                        borderBottom: "1px solid #eee",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px"
+                                    }}
+                                    onClick={() => {
+                                        navigate(`/product-detail/${item.id}`);
+                                    }}
+                                >
+                                    {/* Ảnh thumbnail */}
+                                    <img
+                                        src={item.imageUrl || "/assets/img/product/default.jpg"}
+                                        alt={item.name}
+                                        style={{ width: "40px", height: "40px", objectFit: "cover", borderRadius: "4px" }}
+                                    />
+
+                                    {/* Thông tin tên và giá */}
+                                    <div>
+                                        <div style={{ fontWeight: "500" }}>{item.name}</div>
+                                        <div style={{ fontSize: "14px", color: "#000000" }}>
+                                            {item.price?.toLocaleString("vi-VN")} ₫
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
                 </div>
 
                 <div className="hero__search__phone" style={{ display: "flex", alignItems: "center" }}>
