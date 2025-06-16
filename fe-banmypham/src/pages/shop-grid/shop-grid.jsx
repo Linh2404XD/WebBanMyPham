@@ -141,6 +141,9 @@ const ShopGrid = () => {
                 <div className="hero__search__form">
                     <form onSubmit={handleSearchSubmit} style={{ display: "flex" }}>
                         <input
+                            onBlur={() => {
+                            setTimeout(() => setSuggestions([]), 150); // Delay nhẹ để tránh xung đột với click suggestion
+                        }}
                             type="text"
                             value={searchTerm}
                             onChange={(e) => {
