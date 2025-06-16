@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const AddOrder = () => {
+    const navigate = useNavigate();
     const [orderData, setOrderData] = useState({
         userEmail: '',
         paymentMethod: 'COD',
@@ -94,6 +96,7 @@ const AddOrder = () => {
                 status: 'PENDING',
                 orderDetails: []
             });
+            navigate("/manage-order");
         } catch (error) {
             console.error("Lỗi thêm đơn hàng:", error);
             alert("Không thể thêm đơn hàng.");
