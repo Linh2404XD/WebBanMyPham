@@ -2946,7 +2946,9 @@ ol {
 		width: 240px;
 	}
 }
-
+.hero__search, .col-lg-9, section {
+	overflow: visible !important;
+}
 /* Tablet Device = 768px */
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {

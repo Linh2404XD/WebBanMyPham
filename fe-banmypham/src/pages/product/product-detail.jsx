@@ -78,6 +78,11 @@ const ProductDetail = () => {
                                         className="product__details__pic__item--large"
                                         src={product.imageUrl || "/assets/img/product/default.jpg"}
                                         alt={product.name}
+                                        style={{
+                                            maxWidth: "100%",    // ảnh không vượt quá container cha
+                                            height: "500px",      // giữ tỉ lệ ảnh
+                                            objectFit: "contain" // ảnh sẽ co giãn vừa trong vùng chứa mà không bị cắt
+                                        }}
                                     />
                                 </div>
                                 <div className="product__details__pic__slider owl-carousel">
