@@ -3,12 +3,39 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
+import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 
 const ProductDetail = () => {
     const { id } = useParams(); // lấy productId từ URL
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        // Lấy danh sách sản phẩm dùng cho search suggestions
+        axios.get("http://localhost:8080/api/products")
+            .then(res => setProducts(res.data))
+            .catch(err => console.error("Lỗi khi lấy danh sách sản phẩm:", err));
+    }, []);
+
+    // tìm kiếm
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/shop-grid?keyword=${encodeURIComponent(searchTerm.trim())}`);
+        }
+    };
+
 
     useEffect(() => {
         // Lấy chi tiết sản phẩm
@@ -67,6 +94,103 @@ const ProductDetail = () => {
     return (
         <>
             <Header />
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "20px",
+                    padding: "10px 20px",
+                    backgroundColor: "#f5f5f5",
+                    marginBottom: "-50px"
+                }}
+            >
+                <div className="hero__search__form">
+                    <form onSubmit={handleSearchSubmit} style={{ display: "flex" }}>
+                        <input
+                            onBlur={() => {
+                                setTimeout(() => setSuggestions([]), 150); // Delay nhẹ để tránh xung đột với click suggestion
+                            }}
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSearchTerm(value);
+                                const filtered = products.filter((p) =>
+                                    p.name.toLowerCase().includes(value.toLowerCase())
+                                );
+                                setSuggestions(value ? filtered.slice(0, 5) : []);
+                            }}
+                            placeholder={t("search.placeholder")}
+                            style={{ padding: "8px", borderRadius: "4px 0 0 4px", border: "1px solid #ccc" }}
+                        />
+                        <button
+                            type="submit"
+                            className="site-btn"
+                            style={{ borderRadius: "0 4px 4px 0", padding: "8px 12px" }}
+                        >
+                            {t("search.button")}
+                        </button>
+                    </form>
+                    {suggestions.length > 0 && (
+                        <ul style={{
+                            position: "absolute",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ccc",
+                            width: "100%",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            listStyle: "none",
+                            padding: "0",
+                            margin: "4px 0",
+                            zIndex: 999
+                        }}>
+                            {suggestions.map((item) => (
+                                <li
+                                    key={item.id}
+                                    style={{
+                                        padding: "8px",
+                                        cursor: "pointer",
+                                        borderBottom: "1px solid #eee",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px"
+                                    }}
+                                    onClick={() => {
+                                        navigate(`/product-detail/${item.id}`);
+                                    }}
+                                >
+                                    {/* Ảnh thumbnail */}
+                                    <img
+                                        src={item.imageUrl || "/assets/img/product/default.jpg"}
+                                        alt={item.name}
+                                        style={{ width: "40px", height: "40px", objectFit: "cover", borderRadius: "4px" }}
+                                    />
+
+                                    {/* Thông tin tên và giá */}
+                                    <div>
+                                        <div style={{ fontWeight: "500" }}>{item.name}</div>
+                                        <div style={{ fontSize: "14px", color: "#000000" }}>
+                                            {item.price?.toLocaleString("vi-VN")} ₫
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+                </div>
+
+                <div className="hero__search__phone" style={{ display: "flex", alignItems: "center" }}>
+                    <div className="hero__search__phone__icon" style={{ marginRight: "8px" }}>
+                        <i className="fa fa-phone"></i>
+                    </div>
+                    <div className="hero__search__phone__text">
+                        <h5 style={{ margin: 0 }}>+65 11.188.888</h5>
+                        <span>{t("search.phone")}</span>
+                    </div>
+                </div>
+            </div>
             <section className="product-details spad">
                 <div className="container">
                     <div className="row">
