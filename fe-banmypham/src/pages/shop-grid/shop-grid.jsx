@@ -273,25 +273,28 @@ const ShopGrid = () => {
                                                 >
                                                     <ul className="product__item__pic__hover">
                                                         <li>
-                                                            <a href="#" onClick={(e) => e.preventDefault()}>
-                                                                <i className="fa fa-heart"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" onClick={(e) => e.preventDefault()}>
-                                                                <i className="fa fa-retweet"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
                                                             <button
+                                                                style={{
+                                                                    background: "none",
+                                                                    border: 'none',
+                                                                    width: "40px",
+                                                                    height: "40px",
+                                                                    display: "flex",
+                                                                    justifyContent: "center",
+                                                                    alignItems: "center",
+                                                                    fontSize: "30px", // vừa đủ lớn
+                                                                    cursor: "pointer",
+                                                                    transition: "all 0.3s",
+                                                                }}
                                                                 onClick={(e) => {
-                                                                    e.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+                                                                    e.stopPropagation();
                                                                     handleAddToCart(product.id);
                                                                 }}
                                                             >
-                                                                <i className="fa fa-shopping-cart"></i>
+                                                                <i className="fa fa-shopping-cart" style={{ color: "#1c1c1c" }}></i>
                                                             </button>
                                                         </li>
+
                                                     </ul>
                                                 </div>
                                                 <div className="product__item__text">
