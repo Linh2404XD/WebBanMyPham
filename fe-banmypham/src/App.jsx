@@ -18,6 +18,7 @@ import EditAccount from "./pages/admin/manageAccount/EditAccount.jsx";
 import Profile from "./pages/user/profile.jsx";
 import AddOrder from "./pages/admin/manageOrder/AddOrder.jsx";
 import EditOrder from "./pages/admin/manageOrder/EditOrder.jsx";
+import VerificationForm from "./pages/verify/verificationForm.jsx";
 
 function AppRoutes() {
     return (
@@ -44,6 +45,7 @@ function AppRoutes() {
                 <Route path="edit-order/:id" element={<EditOrder />} />
                 <Route path="add-order" element={<AddOrder />} />
             </Route>
+            <Route path="/verify-form" element={<VerificationForm />} />
         </Routes>
     );
 }

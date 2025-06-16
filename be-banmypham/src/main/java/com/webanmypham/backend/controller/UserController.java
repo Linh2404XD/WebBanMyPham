@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -32,12 +32,33 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
+    // DTO để nhận dữ liệu đăng ký
+    public static class RegisterRequest {
+        public String email;
+        public String phoneNumber;
+        public String password;
+    }
+
+    // DTO nhận token verify
+    public static class VerifyRequest {
+        public String token;
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
         try {
-            return ResponseEntity.ok(userService.register(user));
+            User user = new User();
+            user.setEmail(request.email.trim().toLowerCase()); // chuẩn hóa email
+            user.setPhoneNumber(request.phoneNumber);
+            user.setPassword(request.password);
+
+            userService.register(user);
+
+            return ResponseEntity.ok().body(Map.of("message", "Đăng ký thành công, vui lòng kiểm tra email để xác thực"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Lỗi hệ thống"));
         }
     }
 
@@ -49,22 +70,27 @@ public class UserController {
             );
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
 
-            // Lấy danh sách role từ authentication
+            if (!user.isEnable()) {
+                // Trả về thông báo chưa kích hoạt
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("message", "Tài khoản chưa kích hoạt", "enable", false));
+            }
+
             List<String> roles = userDetails.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toList();
 
-            // Gọi đúng hàm có roles
-            String token = jwtUtil.generateToken(userDetails.getUsername(), roles);
+            String token = jwtUtil.generateToken(user.getEmail(), roles);
 
-            return ResponseEntity.ok(new AuthResponse(token));
+            return ResponseEntity.ok(Map.of("token", token, "enable", true));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu sai");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Email hoặc mật khẩu sai"));
         }
     }
-
-
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile() {
@@ -84,4 +110,31 @@ public class UserController {
         UserDTO userDTO = new UserDTO(user);
         return ResponseEntity.ok(userDTO);
     }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyUser(@RequestBody VerifyRequest request) {
+        boolean verified = userService.verifyToken(request.token);
+        if (verified) {
+            return ResponseEntity.ok(Map.of("message", "Xác thực thành công"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Mã xác thực không đúng hoặc đã hết hạn"));
+        }
+    }
+
+
+    @PostMapping("/resend")
+    public ResponseEntity<?> resendVerification(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        boolean result = userService.resendVerificationEmail(email);
+
+        if (result) {
+            return ResponseEntity.ok(Map.of("message", "Mã xác thực đã được gửi lại email"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Không thể gửi lại mã. Tài khoản đã xác thực hoặc không tồn tại"));
+        }
+    }
+
+
 }

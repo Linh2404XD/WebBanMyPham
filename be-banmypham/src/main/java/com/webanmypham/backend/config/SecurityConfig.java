@@ -3,7 +3,8 @@ package com.webanmypham.backend.config;
 import com.webanmypham.backend.filter.JwtAuthenticationFilter;
 import com.webanmypham.backend.security.JwtUtil;
 import com.webanmypham.backend.security.UserDetailsServiceImpl;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -47,7 +48,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "http://localhost:3001",
+                "http://localhost:8080"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -65,17 +71,29 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login", "/h2-console/**", "/api/roles/**", "/api/users/profile", "/api/cart/**").permitAll()
+                        // Cho phép public các endpoint sau
+                        .requestMatchers(
+                                "/api/users/register",
+                                "/api/users/login",
+                                "/api/users/verify",
+                                "/api/users/resend",
+                                "/api/products/**",
+                                "/h2-console/**"
+                        ).permitAll()
+
+                        // Yêu cầu vai trò tương ứng cho các endpoint riêng
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/products/**").permitAll()
+
+                        // Tất cả các request khác cần xác thực
                         .anyRequest().authenticated()
                 )
+                // Cho phép iframe để chạy h2-console
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+                // Thêm filter JWT trước filter mặc định
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 }
-
