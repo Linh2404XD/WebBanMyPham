@@ -139,7 +139,7 @@ const Header = () => {
                                                         zIndex: 10,
                                                     }}
                                                 >
-                                                    Logout
+                                                    {t("auth.logout")}
                                                 </div>
                                             )}
                                         </div>

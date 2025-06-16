@@ -3,8 +3,10 @@ import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ShoppingCart = () => {
+    const { t } = useTranslation();
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const ShoppingCart = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
-            setError("You must be logged in to view your cart.");
+            setError(t("cart.needLogin"));
             setLoading(false);
             return;
         }
@@ -22,7 +24,7 @@ const ShoppingCart = () => {
         })
             .then((res) => setCartItems(res.data))
             .catch((err) => {
-                setError("Failed to load cart.");
+                setError(t("cart.loadFail"));
                 console.error(err);
             })
             .finally(() => setLoading(false));
@@ -42,7 +44,6 @@ const ShoppingCart = () => {
     const handleQuantityChange = (cartItemId, newQuantity) => {
         const quantity = parseInt(newQuantity) || 1;
 
-        // Cập nhật UI ngay
         const updatedItems = cartItems.map((item) =>
             item.id === cartItemId
                 ? { ...item, quantity }
@@ -50,7 +51,6 @@ const ShoppingCart = () => {
         );
         setCartItems(updatedItems);
 
-        // Gửi yêu cầu cập nhật đến server
         const token = localStorage.getItem("token");
         axios.put(`http://localhost:8080/api/cart-items/${cartItemId}`,
             { quantity },
@@ -61,10 +61,9 @@ const ShoppingCart = () => {
             })
             .catch((err) => {
                 console.error("Failed to update quantity", err);
-                alert("Failed to update quantity.");
+                alert(t("cart.updateQuantityFail"));
             });
     };
-
 
     const calculateTotal = (item) => item.quantity * item.product.price;
 
@@ -78,7 +77,7 @@ const ShoppingCart = () => {
         }).format(amount);
     };
 
-    if (loading) return <p className="text-center mt-5">Loading...</p>;
+    if (loading) return <p className="text-center mt-5">{t("cart.loading")}</p>;
     if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
 
     return (
@@ -87,7 +86,7 @@ const ShoppingCart = () => {
             <section className="shoping-cart spad">
                 <div className="container">
                     {cartItems.length === 0 ? (
-                        <h3 className="text-center mt-5">Your cart is empty.</h3>
+                        <h3 className="text-center mt-5">{t("cart.empty")}</h3>
                     ) : (
                         <>
                             <div className="row">
@@ -96,10 +95,10 @@ const ShoppingCart = () => {
                                         <table className="table">
                                             <thead>
                                             <tr>
-                                                <th className="shoping__product">Products</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
+                                                <th className="shoping__product">{t("cart.products")}</th>
+                                                <th>{t("cart.price")}</th>
+                                                <th>{t("cart.quantity")}</th>
+                                                <th>{t("cart.total")}</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -127,11 +126,11 @@ const ShoppingCart = () => {
                                                     </td>
                                                     <td className="shoping__cart__total">{formatCurrency(calculateTotal(item))}</td>
                                                     <td>
-                                                            <span
-                                                                className="icon_close"
-                                                                style={{ cursor: "pointer" }}
-                                                                onClick={() => handleDelete(item.id)}
-                                                            ></span>
+                                                        <span
+                                                            className="icon_close"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => handleDelete(item.id)}
+                                                        ></span>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -142,20 +141,18 @@ const ShoppingCart = () => {
                             </div>
 
                             <div className="row mt-4 align-items-start justify-content-between">
-                                {/* Cột trái: CONTINUE SHOPPING */}
                                 <div className="col-lg-6 d-flex align-items-center">
-                                    <Link to="/" className="primary-btn cart-btn">CONTINUE SHOPPING</Link>
+                                    <Link to="/" className="primary-btn cart-btn">{t("cart.continueShopping")}</Link>
                                 </div>
 
-                                {/* Cột phải: Cart Total */}
                                 <div className="col-lg-6">
                                     <div className="shoping__checkout">
-                                        <h5>Cart Total</h5>
+                                        <h5>{t("cart.cartTotal")}</h5>
                                         <ul>
-                                            <li>Subtotal <span>{formatCurrency(calculateSubtotal())}</span></li>
-                                            <li>Total <span>{formatCurrency(calculateSubtotal())}</span></li>
+                                            <li>{t("cart.subtotal")} <span>{formatCurrency(calculateSubtotal())}</span></li>
+                                            <li>{t("cart.totalLabel")} <span>{formatCurrency(calculateSubtotal())}</span></li>
                                         </ul>
-                                        <Link to="/checkout" className="primary-btn">PROCEED TO CHECKOUT</Link>
+                                        <Link to="/checkout" className="primary-btn">{t("cart.checkout")}</Link>
                                     </div>
                                 </div>
                             </div>
