@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import './css/header.css';
 
 const Header = () => {
@@ -15,36 +16,55 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
     const [cartItems, setCartItems] = useState([]);
+    const [userRoles, setUserRoles] = useState([]);
     const timeoutRef = useRef(null);
-
-
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
 
         if (token) {
-            axios.get("http://localhost:8080/api/cart-items/my-cart", {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            try {
+                const decoded = jwtDecode(token);
+                console.log("Decoded token:", decoded); // Kiểm tra payload
+
+                let roles = decoded.roles || decoded.authorities;
+
+                // Nếu là chuỗi đơn thì chuyển thành mảng
+                if (roles && !Array.isArray(roles)) {
+                    roles = [roles];
                 }
-            })
-                .then(res => {
-                    setCartItems(res.data);
+
+                setUserRoles(roles || []);
+
+                // Lấy dữ liệu giỏ hàng
+                axios.get("http://localhost:8080/api/cart-items/my-cart", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
-                .catch(err => {
-                    console.error("Failed to load cart items:", err);
-                    setCartItems([]);
-                });
+                    .then(res => {
+                        setCartItems(res.data);
+                    })
+                    .catch(err => {
+                        console.error("Failed to load cart items:", err);
+                        setCartItems([]);
+                    });
+
+            } catch (e) {
+                console.error("Invalid token", e);
+                setUserRoles([]);
+            }
+        } else {
+            setUserRoles([]);
         }
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
+        setUserRoles([]);
         setShowLogout(false);
-        // Nếu bạn dùng react-router, có thể navigate về login
-        // navigate('/login');
     };
 
     const handleMouseEnter = () => {
@@ -147,6 +167,11 @@ const Header = () => {
                                 <li><a href="/shop-grid">{t("shop")}</a></li>
                                 <li><a href="/blog">{t("blog")}</a></li>
                                 <li><a href="/contact">{t("contact")}</a></li>
+
+                                {/* 👉 Hiện "Quản lý" nếu có ROLE_ADMIN */}
+                                {userRoles.includes('ROLE_ADMIN') && (
+                                    <li><a href="/dashboard">{t("manage") || "Quản lý"}</a></li>
+                                )}
                             </ul>
                         </nav>
                     </div>

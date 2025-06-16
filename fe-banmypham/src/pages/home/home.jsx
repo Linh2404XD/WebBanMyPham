@@ -402,11 +402,26 @@ const HomePage = () => {
                                         <div className="featured__item__pic">
                                             <img src={product.imageUrl} alt={product.name} onClick={() => navigate(`/product-detail/${product.id}`)} />
                                             <ul className="featured__item__pic__hover">
-                                                <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                                <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                                <li><button onClick={() => handleAddToCart(product.id)}>
-                                                    <i className="fa fa-shopping-cart"></i>
-                                                </button></li>
+                                                <li>
+                                                    <button
+                                                        onClick={() => handleAddToCart(product.id)}
+                                                        style={{
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            padding: 0,
+                                                            margin: 0,
+                                                            cursor: 'pointer',
+                                                            color: 'black',
+                                                            position: 'absolute',
+                                                            top: '50%',
+                                                            left: '50%',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            fontSize: '30px',
+                                                        }}
+                                                    >
+                                                        <i className="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div className="featured__item__text">

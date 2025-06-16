@@ -13,7 +13,7 @@ export default function Login() {
     const [signInMessage, setSignInMessage] = useState("");
     const [signUpMessage, setSignUpMessage] = useState("");
 
-    const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const navigate = useNavigate();
     const [_, setPopupVisible] = useState(false);
 
@@ -25,7 +25,7 @@ export default function Login() {
                 if (!value.trim()) {
                     newErrors.email = "Bạn không thể để trống dữ liệu này";
                 } else if (!validateEmail(value)) {
-                    newErrors.email = "Email không hợp lệ. Phải có @gmail.com";
+                    newErrors.email = "Email không hợp lệ!";
                 } else {
                     newErrors.email = "";
                 }
@@ -56,7 +56,7 @@ export default function Login() {
                 if (!value.trim()) {
                     newErrors.email = "Bạn không thể để trống dữ liệu này";
                 } else if (!validateEmail(value)) {
-                    newErrors.email = "Email không hợp lệ. Phải có @gmail.com";
+                    newErrors.email = "Email không hợp lệ!";
                 } else {
                     newErrors.email = "";
                 }
@@ -111,7 +111,7 @@ export default function Login() {
                         newErrors.email = "Bạn không thể để trống dữ liệu này";
                         valid = false;
                     } else if (!validateEmail(value)) {
-                        newErrors.email = "Email không hợp lệ. Phải có @gmail.com";
+                        newErrors.email = "Email không hợp lệ!";
                         valid = false;
                     } else {
                         newErrors.email = "";
@@ -219,16 +219,93 @@ export default function Login() {
 
     const containerClass = `${styles.container} ${type === "signUp" ? styles.rightPanelActive : ""}`;
 
-    // gọi api để xử lý đăng kí
+// Hàm chung để parse JSON hoặc trả về text khi không phải JSON
+    async function parseResponse(response) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return await response.json();
+        } else {
+            return await response.text();
+        }
+    }
+
+    const handleSignInSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!validateSignIn()) return;
+
+        setSignInMessage("Đang đăng nhập...");
+
+        try {
+            const response = await fetch("http://localhost:8080/api/users/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: signInData.email,
+                    password: signInData.password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Đăng nhập thành công, tài khoản đã kích hoạt
+                const token = data.token;
+                localStorage.setItem("token", token);
+                setPopupVisible(true);
+                setSignInMessage("Đăng nhập thành công!");
+
+                setTimeout(() => {
+                    navigate("/home", {
+                        state: { showSuccessPopup: true, message: "Đăng nhập thành công!" },
+                    });
+                }, 1500);
+
+            } else if (response.status === 403 && data.enable === false) {
+                // Tài khoản chưa kích hoạt -> gửi lại mã xác thực
+                setSignInMessage("Tài khoản chưa được kích hoạt. Đang gửi lại mã xác thực...");
+
+                try {
+                    const resendResponse = await fetch("http://localhost:8080/api/users/resend", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: signInData.email }),
+                    });
+
+                    if (resendResponse.ok) {
+                        setSignInMessage("Mã xác thực đã được gửi lại vào email của bạn.");
+                    } else {
+                        setSignInMessage("Gửi lại mã xác thực thất bại. Vui lòng thử lại sau.");
+                    }
+                } catch (err) {
+                    setSignInMessage("Lỗi khi gửi lại mã xác thực: " + err.message);
+                }
+
+                // Chuyển sang trang verify sau 1.5s
+                setTimeout(() => {
+                    navigate("/verify-form", { state: { email: signInData.email } });
+                }, 1500);
+
+            } else {
+                // Các lỗi khác
+                setSignInMessage(data.message || "Đăng nhập thất bại");
+            }
+        } catch (error) {
+            setSignInMessage("Lỗi kết nối: " + error.message);
+        }
+    };
+
+
+
+// handleSignUpSubmit
     const handleSignUpSubmit = async (e) => {
         setSignUpMessage("");
         e.preventDefault();
 
         if (!validateSignUp()) return;
 
-
         setSignUpMessage("Đang đăng ký...");
-        console.log("Gửi request đến backend"); // Thêm
+        console.log("Gửi request đến backend");
 
         try {
             const response = await fetch("http://localhost:8080/api/users/register", {
@@ -241,67 +318,25 @@ export default function Login() {
                 }),
             });
 
-            const data = await response.json();
+            const data = await parseResponse(response);
 
             if (response.ok) {
-                // Hiển thị popup
                 setPopupVisible(true);
-
-                // Chờ 1.5 giây rồi chuyển hướng
                 setTimeout(() => {
-                    navigate("/home", {
-                        state: { showSuccessPopup: true, message: 'Đăng ký thành công!'  } // ✅ truyền state
+                    navigate("/verify-form", {
+                        state: {
+                            email: signUpData.email, // truyền email sang verify form
+                            showSuccessPopup: true,
+                            message: "Đăng ký thành công! Vui lòng kiểm tra email để lấy mã xác thực."
+                        },
                     });
                 }, 1500);
             } else {
-                setSignUpMessage(data.message || "Đăng ký thất bại");
+                setSignUpMessage(data.message || data || "Đăng ký thất bại");
             }
         } catch (error) {
-            console.error("Lỗi fetch:", error); // Thêm
+            console.error("Lỗi fetch:", error);
             setSignUpMessage("Lỗi kết nối: " + error.message);
-        }
-    };
-
-    // gọi api xử lý đng nhập
-    const handleSignInSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!validateSignIn()) return;
-
-        setSignInMessage("Đang đăng nhập...");
-
-        try {
-            const response = await fetch("http://localhost:8080/api/users/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: signInData.email,
-                    password: signInData.password,
-                }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token; // backend trả về { token: "..." }
-                // Lưu token vào localStorage
-                localStorage.setItem("token", token);
-
-                setPopupVisible(true);
-                setSignInMessage("Đăng đăng nhập...");
-
-                setTimeout(() => {
-                    navigate("/home", {
-                        state: { showSuccessPopup: true, message: "Đăng nhập thành công!" },
-                    });
-                }, 1500);
-            } else {
-                const errorData = await response.json();
-                setSignInMessage("Lỗi: " + (errorData.message || "Đăng nhập thất bại"));
-            }
-        } catch (error) {
-            setSignInMessage("Lỗi kết nối: " + error.message);
         }
     };
 
