@@ -1005,3 +1005,12 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 16 more
+2025-06-17 15:10:43.132243+07:00 jdbc[48]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Gel R\\1eeda M\\1eb7t SVR Kh\\00f4ng Ch\\1ee9a X\\00e0 Ph\\00f2ng Cho Da D\\1ea7u l\\... (551)"; SQL statement:
+insert into products (category,description,image_url,instock,name,price,id) values (?,?,?,?,?,?,default) [22001-232]
+2025-06-17 15:16:07.961799+07:00 jdbc[50]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Gel R\\1eeda M\\1eb7t SVR Kh\\00f4ng Ch\\1ee9a X\\00e0 Ph\\00f2ng Cho Da D\\1ea7u l\\... (551)"; SQL statement:
+insert into products (category,description,image_url,instock,name,price,id) values (?,?,?,?,?,?,default) [22001-232]
+2025-06-17 18:04:19.801300+07:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'N\\01b0\\1edbc T\\1ea9y Trang La Roche-Posay D\\00e0nh Cho Da Nh\\1ea1y C\\1ea3m \\0... (405)"; SQL statement:
+insert into products (category,description,image_url,instock,name,price,id) values (?,?,?,?,?,?,default) [22001-232]
