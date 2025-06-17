@@ -66,7 +66,6 @@ const ProductDetail = () => {
 
     return (
         <>
-            <Header />
             <section className="product-details spad">
                 <div className="container">
                     <div className="row">
@@ -131,7 +130,6 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
         </>
     );
 };

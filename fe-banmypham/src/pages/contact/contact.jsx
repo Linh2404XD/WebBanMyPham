@@ -9,7 +9,6 @@ const ContactForm = () => {
 
     return (
         <>
-            <Header />
             <div className={styles.container}>
                 <div className={styles.info}>
                     <h2>{t("contact1.title")}</h2>
@@ -39,7 +38,6 @@ const ContactForm = () => {
                     </form>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

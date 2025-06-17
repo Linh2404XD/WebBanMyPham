@@ -112,8 +112,7 @@ const resources = {
                 click_here: "Click here",
                 enter_code: "to enter your code",
                 billing_details: "Billing Details",
-                first_name: "First Name",
-                last_name: "Last Name",
+                fullName: "Full Name",
                 country: "Country",
                 address: "Address",
                 city: "City",
@@ -130,7 +129,7 @@ const resources = {
                 total: "Total",
                 subtotal: "Subtotal",
                 check_payment: "Check Payment",
-                paypal: "Paypal",
+                paypal: "Banking",
                 place_order: "PLACE ORDER"
             }
         },
@@ -244,8 +243,7 @@ const resources = {
                 click_here: "Nhấn vào đây",
                 enter_code: "để nhập mã của bạn",
                 billing_details: "Thông tin thanh toán",
-                first_name: "Họ",
-                last_name: "Tên",
+                fullName: "Họ và tên",
                 country: "Quốc gia",
                 address: "Địa chỉ",
                 city: "Thành phố",
@@ -262,7 +260,7 @@ const resources = {
                 total: "Tổng",
                 subtotal: "Tạm tính",
                 check_payment: "Thanh toán khi nhận hàng",
-                paypal: "Paypal",
+                paypal: "Chuyển khoản",
                 place_order: "ĐẶT HÀNG"
             }
         },
@@ -376,8 +374,7 @@ const resources = {
                 click_here: "点击这里",
                 enter_code: "输入您的代码",
                 billing_details: "账单详情",
-                first_name: "名字",
-                last_name: "姓氏",
+                fullName: "全名",
                 country: "国家",
                 address: "地址",
                 city: "城市",

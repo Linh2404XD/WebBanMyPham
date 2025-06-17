@@ -4,7 +4,7 @@ const Sidebar = () => {
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
-                <a href="/dashboard" className="app-brand-link">
+                <a href="/" className="app-brand-link">
                     <span className="app-brand-text demo menu-text fw-bold ms-2">Ogani</span>
                 </a>
                 <a href="/dashboard" className="layout-menu-toggle menu-link text-large ms-auto">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -83,11 +83,10 @@ const ShoppingCart = () => {
 
     return (
         <>
-            <Header />
             <section className="shoping-cart spad">
                 <div className="container">
                     {cartItems.length === 0 ? (
-                        <h3 className="text-center mt-5">Your cart is empty.</h3>
+                        <h3 className="text-center mt-5">Giỏ hàng trống.</h3>
                     ) : (
                         <>
                             <div className="row">
@@ -163,7 +162,6 @@ const ShoppingCart = () => {
                     )}
                 </div>
             </section>
-            <Footer />
         </>
     );
 };
