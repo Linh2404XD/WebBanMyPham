@@ -22,6 +22,7 @@ import VerificationForm from "./pages/verify/verificationForm.jsx";
 import MainLayout from "./layout/MainLayout.jsx";
 import EditProduct from "./pages/admin/manageProduct/EditProduct.jsx";
 import AddProduct from "./pages/admin/manageProduct/AddProduct.jsx";
+import PaymentResult from "./pages/checkout/PaymentResult.jsx";
 
 function AppRoutes() {
     return (
@@ -39,6 +40,8 @@ function AppRoutes() {
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/intro" element={<Intro/>}/>
                 <Route path="/product-detail/:id" element={<ProductDetail/>}/>
+                <Route path="/verify-form" element={<VerificationForm />} />
+                <Route path="/payment-result" element={<PaymentResult />} />
             </Route>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/manage-account" element={<ManageAccount />}>
@@ -51,7 +54,7 @@ function AppRoutes() {
                 <Route path="edit-order/:id" element={<EditOrder />} />
                 <Route path="add-order" element={<AddOrder />} />
             </Route>
-            <Route path="/verify-form" element={<VerificationForm />} />
+
         </Routes>
     );
 }

@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Header from "../../components/header.jsx";
-import Footer from "../../components/footer.jsx";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
@@ -113,10 +111,27 @@ const Checkout = () => {
                 alert("Đặt hàng thất bại.");
             }
         } else if (paymentMethod === "VNPAY") {
-            // Gọi API backend POST để lấy URL thanh toán VNPay
+            const orderData = {
+                userEmail: user.email,
+                paymentMethod: "VNPAY",
+                totalAmount: calculateSubtotal(),
+                status: "PENDING",
+                notes: orderNotes,
+                orderDetails: orderDetails
+            };
+
             try {
+                // Ghi đơn hàng vào DB trước (giống COD)
+                await axios.post("http://localhost:8080/api/user/orders/add", orderData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                // Sau đó mới gọi tạo URL thanh toán (chỉ để chuyển hướng giao diện)
                 const amountInVND = calculateSubtotal();
-                const language = "vn"; // hoặc "en"
+                const language = "vn";
 
                 const response = await axios.post("http://localhost:8080/api/payment/create_payment_url",
                     {
@@ -131,14 +146,12 @@ const Checkout = () => {
                     }
                 );
 
-                // Backend trả về { message, status, data: paymentUrl }
                 const paymentUrl = response.data.data;
-
-                // Chuyển hướng sang URL thanh toán VNPay
                 window.location.href = paymentUrl;
+
             } catch (err) {
-                console.error("Lỗi khi tạo URL thanh toán VNPay:", err);
-                alert("Không thể tạo URL thanh toán VNPay.");
+                console.error("Lỗi khi đặt hàng hoặc tạo URL thanh toán VNPay:", err);
+                alert("Không thể tạo đơn hàng hoặc URL thanh toán.");
             }
         }
     };
@@ -258,7 +271,7 @@ const Checkout = () => {
                                                 checked={paymentMethod === "VNPAY"}
                                                 onChange={(e) => setPaymentMethod(e.target.value)}
                                             />
-                                            <label htmlFor="vnpay">{t("checkOut.paypal")}</label>
+                                            <label htmlFor="vnpay">{t("checkOut.paypal")} VNPAY</label>
                                         </div>
 
                                         <button type="submit" className="site-btn w-100" onClick={handlePlaceOrder}>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
@@ -93,7 +92,6 @@ const ProductDetail = () => {
 
     return (
         <>
-            <Header />
             <div
                 style={{
                     display: "flex",

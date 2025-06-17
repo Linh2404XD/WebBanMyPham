@@ -1,26 +1,39 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CheckCircle, XCircle } from "lucide-react"; // Cần cài: lucide-react
 
-function PaymentReturn() {
+function PaymentResult() {
     const location = useLocation();
+    const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
 
-    // Lấy các params VNPAY gửi về
     const vnp_ResponseCode = query.get("vnp_ResponseCode");
-    const vnp_TxnRef = query.get("vnp_TxnRef");
-    const vnp_SecureHash = query.get("vnp_SecureHash");
-    // ... các params khác
 
-    // Hiển thị kết quả thanh toán
+    const isSuccess = vnp_ResponseCode === "00";
+
     return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center" style={{width: "1280px"}}>
+                <div className="flex justify-center mb-4">
+                    {isSuccess ? (
+                        <CheckCircle className="text-green-500 w-20 h-20" />
+                    ) : (
+                        <XCircle className="text-red-500 w-20 h-20" />
+                    )}
+                </div>
 
-        <div>
-            <h1>Kết quả thanh toán</h1>
-            <p>Mã đơn hàng: {vnp_TxnRef}</p>
-            <p>Mã phản hồi: {vnp_ResponseCode}</p>
-            <p>Chữ ký: {vnp_SecureHash}</p>
-            {/* Bạn có thể gọi API backend verify chữ ký rồi hiển thị thông báo chính xác */}
+                <h1 className="text-2xl font-bold mb-4">
+                    {isSuccess ? "Thanh toán thành công!" : "Thanh toán thất bại!"}
+                </h1>
+
+                <button
+                    onClick={() => navigate("/home")}
+                    className="mt-6 px-6 py-2 bg-green-500 text-black-50 rounded-xl hover:bg-green-600 transition"
+                >
+                    Quay về trang chủ
+                </button>
+            </div>
         </div>
     );
 }
 
-export default PaymentReturn;
+export default PaymentResult;
