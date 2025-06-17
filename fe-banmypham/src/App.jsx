@@ -20,6 +20,8 @@ import AddOrder from "./pages/admin/manageOrder/AddOrder.jsx";
 import EditOrder from "./pages/admin/manageOrder/EditOrder.jsx";
 import VerificationForm from "./pages/verify/verificationForm.jsx";
 import MainLayout from "./layout/MainLayout.jsx";
+import EditProduct from "./pages/admin/manageProduct/EditProduct.jsx";
+import AddProduct from "./pages/admin/manageProduct/AddProduct.jsx";
 
 function AppRoutes() {
     return (
@@ -42,9 +44,9 @@ function AppRoutes() {
             <Route path="/manage-account" element={<ManageAccount />}>
                 <Route path="edit-account/:id" element={<EditAccount />} />
             </Route>
-            <Route path="/manage-order" element={<ManageOrder/>}/>
             <Route path="/manage-product" element={<ManageProduct/>}/>
-            <Route path="/edit-account" element={<ManageProduct/>}/>
+            <Route path="/manage-product/edit-product/:id" element={<EditProduct />} />
+            <Route path="/manage-product/add-product" element={<AddProduct />} />
             <Route path="/manage-order" element={<ManageOrder/>}>
                 <Route path="edit-order/:id" element={<EditOrder />} />
                 <Route path="add-order" element={<AddOrder />} />
