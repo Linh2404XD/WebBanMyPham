@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/products")
@@ -29,6 +30,17 @@ public class ManageProductController {
         Product savedProduct = productRepository.save(product);
         return ResponseEntity.ok(savedProduct);
     }
+
+    @PutMapping("/{id}/add-stock")
+    public ResponseEntity<?> addStock(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
+        int quantity = body.get("quantity");
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
+        product.setInstock(product.getInstock() + quantity);
+        productRepository.save(product);
+        return ResponseEntity.ok().build();
+    }
+
 
     // Sửa sản phẩm
     @PutMapping("/{id}")
