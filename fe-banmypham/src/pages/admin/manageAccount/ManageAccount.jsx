@@ -44,30 +44,6 @@ const ManageAccount = () => {
     return (
         <div className="layout-container d-flex">
             <Sidebar/>
-            <div className="position-absolute top-0 end-0 p-3" style={{zIndex: 1050}}>
-                <ul className="navbar-nav flex-row align-items-center">
-                    <li className="nav-item dropdown-user dropdown">
-                        <button className="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <div className="avatar avatar-online">
-                                <img
-                                    src="../assets/img/avatars/1.png"
-                                    alt="avatar"
-                                    className="w-px-40 h-auto rounded-circle"
-                                />
-                            </div>
-                        </button>
-                        <ul className="dropdown-menu dropdown-menu-end">
-                            <li><a className="dropdown-item" href="#"><i className="bx bx-user me-2"></i>My Profile</a>
-                            </li>
-                            <li>
-                                <hr className="dropdown-divider"/>
-                            </li>
-                            <li><a className="dropdown-item" href="#"><i className="bx bx-power-off me-2"></i>Log
-                                Out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
             <div className="flex-grow-1 p-4">
                 <div className="card">
                     <h5 className="card-header">QUẢN LÝ TÀI KHOẢN</h5>

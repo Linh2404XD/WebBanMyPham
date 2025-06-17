@@ -163,9 +163,74 @@ const ManageProduct = () => {
                 )}
 
                 {activeTab === "stock" && (
-                    <div className="card p-3">
-                        <p>Đây là nơi bạn có thể cập nhật số lượng tồn kho hoặc theo dõi tình trạng nhập hàng.</p>
-                        {/* Bạn có thể fetch dữ liệu kho và render bảng tương tự như bảng sản phẩm tại đây */}
+                    <div className="card">
+                        <div className="table-responsive text-nowrap p-3">
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Tồn kho</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {currentProducts.map((p) => (
+                                    <tr key={p.id}>
+                                        <td>{p.id}</td>
+                                        <td>
+                                            <img
+                                                src={p.imageUrl}
+                                                alt={p.name}
+                                                style={{
+                                                    width: "60px",
+                                                    height: "60px",
+                                                    objectFit: "cover",
+                                                    borderRadius: "6px"
+                                                }}
+                                            />
+                                        </td>
+                                        <td style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordBreak: "break-word",
+                                            maxWidth: "250px"
+                                        }}>{p.name}</td>
+                                        <td>{p.instock ?? 0}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-sm btn-success"
+                                                onClick={() => {
+                                                    const quantity = prompt("Nhập số lượng cần thêm:", "0");
+                                                    const added = parseInt(quantity);
+                                                    if (!isNaN(added) && added > 0) {
+                                                        const token = localStorage.getItem("token");
+                                                        axios.put(`http://localhost:8080/api/admin/products/${p.id}/add-stock`, {
+                                                            quantity: added
+                                                        }, {
+                                                            headers: { Authorization: `Bearer ${token}` }
+                                                        }).then(() => {
+                                                            alert("Cập nhật thành công");
+                                                            fetchProducts(); // Reload lại
+                                                        }).catch(err => {
+                                                            alert("Lỗi khi cập nhật tồn kho");
+                                                            console.error(err);
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                <i className="fas fa-plus me-1"></i> Thêm
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            {products.length === 0 && (
+                                <p className="text-muted text-center mt-3">Không có dữ liệu sản phẩm.</p>
+                            )}
+                            {renderPagination()}
+                        </div>
                     </div>
                 )}
             </div>
