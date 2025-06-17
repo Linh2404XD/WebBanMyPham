@@ -2,7 +2,7 @@ package com.webanmypham.backend.config;
 
 import com.webanmypham.backend.filter.JwtAuthenticationFilter;
 import com.webanmypham.backend.security.JwtUtil;
-import com.webanmypham.backend.security.UserDetailsServiceImpl;
+import com.webanmypham.backend.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

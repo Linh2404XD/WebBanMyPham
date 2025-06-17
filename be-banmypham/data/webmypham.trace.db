@@ -1014,3 +1014,6 @@ insert into products (category,description,image_url,instock,name,price,id) valu
 2025-06-17 18:04:19.801300+07:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'N\\01b0\\1edbc T\\1ea9y Trang La Roche-Posay D\\00e0nh Cho Da Nh\\1ea1y C\\1ea3m \\0... (405)"; SQL statement:
 insert into products (category,description,image_url,instock,name,price,id) values (?,?,?,?,?,?,default) [22001-232]
+2025-06-17 21:44:40.229654+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ORDERS_DETAILS" not found; SQL statement:
+select * from orders_details [42102-232]

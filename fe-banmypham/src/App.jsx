@@ -23,6 +23,7 @@ import MainLayout from "./layout/MainLayout.jsx";
 import EditProduct from "./pages/admin/manageProduct/EditProduct.jsx";
 import AddProduct from "./pages/admin/manageProduct/AddProduct.jsx";
 import PaymentResult from "./pages/checkout/PaymentResult.jsx";
+import MyOrders from "./pages/user/MyOrders.jsx";
 
 function AppRoutes() {
     return (
@@ -54,7 +55,7 @@ function AppRoutes() {
                 <Route path="edit-order/:id" element={<EditOrder />} />
                 <Route path="add-order" element={<AddOrder />} />
             </Route>
-
+            <Route path="/orders" element={<MyOrders />} />
         </Routes>
     );
 }

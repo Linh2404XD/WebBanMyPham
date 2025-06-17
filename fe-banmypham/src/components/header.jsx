@@ -141,7 +141,6 @@ const Header = () => {
                                             </a>
                                             {showLogout && (
                                                 <div
-                                                    onClick={handleLogout}
                                                     style={{
                                                         position: 'absolute',
                                                         top: '30px',
@@ -149,13 +148,37 @@ const Header = () => {
                                                         background: '#fff',
                                                         border: '1px solid #ccc',
                                                         borderRadius: '4px',
-                                                        padding: '5px 10px',
-                                                        cursor: 'pointer',
-                                                        whiteSpace: 'nowrap',
+                                                        padding: '5px 0',
                                                         zIndex: 10,
+                                                        whiteSpace: 'nowrap',
+                                                        minWidth: '150px',
+                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                                                     }}
+                                                    onMouseEnter={handleMouseEnter}
+                                                    onMouseLeave={handleMouseLeave}
                                                 >
-                                                    {t("auth.logout")}
+                                                    <a
+                                                        href="/orders"
+                                                        style={{
+                                                            display: 'block',
+                                                            padding: '8px 16px',
+                                                            color: '#333',
+                                                            textDecoration: 'none'
+                                                        }}
+                                                    >
+                                                        🧾 {t("auth.myOrders") || "Đơn hàng đã đặt"}
+                                                    </a>
+                                                    <div
+                                                        onClick={handleLogout}
+                                                        style={{
+                                                            padding: '8px 16px',
+                                                            color: '#d00',
+                                                            cursor: 'pointer',
+                                                            borderTop: '1px solid #eee'
+                                                        }}
+                                                    >
+                                                        🔓 {t("auth.logout")}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>

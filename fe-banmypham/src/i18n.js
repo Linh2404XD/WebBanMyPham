@@ -125,7 +125,8 @@ const resources = {
                 checkout: "PROCEED TO CHECKOUT"
             },
             auth: {
-                logout: "Logout"
+                logout: "Logout",
+                myOrders: "Your orders"
             },
             checkOut: {
                 have_coupon: "Have a coupon?",
@@ -276,7 +277,9 @@ const resources = {
                 madeBy: "bởi"
             },
             auth: {
-                logout: "Đăng xuất"
+                logout: "Đăng xuất",
+                myOrders: "Đơn hàng đã đặt"
+
             },
             checkOut: {
                 have_coupon: "Bạn có mã giảm giá?",

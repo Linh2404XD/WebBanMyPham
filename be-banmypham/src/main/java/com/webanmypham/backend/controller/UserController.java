@@ -3,8 +3,10 @@ package com.webanmypham.backend.controller;
 import com.webanmypham.backend.dto.AuthRequest;
 import com.webanmypham.backend.dto.AuthResponse;
 import com.webanmypham.backend.dto.UserDTO;
+import com.webanmypham.backend.model.Order;
 import com.webanmypham.backend.model.User;
 import com.webanmypham.backend.security.JwtUtil;
+import com.webanmypham.backend.service.UserOrderService;
 import com.webanmypham.backend.service.UserService;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
@@ -25,11 +27,16 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
+    private final UserOrderService userOrderService;
 
-    public UserController(UserService userService, AuthenticationManager authManager, JwtUtil jwtUtil) {
+    public UserController(UserService userService,
+                          AuthenticationManager authManager,
+                          JwtUtil jwtUtil,
+                          UserOrderService userOrderService) {
         this.userService = userService;
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
+        this.userOrderService = userOrderService;
     }
 
     // DTO để nhận dữ liệu đăng ký
@@ -110,6 +117,30 @@ public class UserController {
         UserDTO userDTO = new UserDTO(user);
         return ResponseEntity.ok(userDTO);
     }
+
+
+    // API lấy danh sách đơn hàng của user đang đăng nhập
+    @GetMapping("/orders")
+    public ResponseEntity<?> getUserOrders() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Bạn chưa đăng nhập"));
+        }
+
+        String email = authentication.getName();
+
+        User user = userService.findByEmail(email).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Không tìm thấy người dùng"));
+        }
+
+        // Gọi service lấy đơn hàng
+        List<Order> orders = userOrderService.getOrdersByUser(user);
+
+        return ResponseEntity.ok(orders);
+    }
+
 
     @PostMapping("/verify")
     public ResponseEntity<?> verifyUser(@RequestBody VerifyRequest request) {
