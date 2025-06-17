@@ -87,31 +87,63 @@ const Checkout = () => {
             return;
         }
 
-        const orderData = {
-            userEmail: user.email,
-            paymentMethod: "COD",
-            totalAmount: calculateSubtotal(),
-            status: "PENDING",
-            notes: orderNotes,
-            orderDetails: orderDetails
-        };
+        if (paymentMethod === "COD") {
+            // Đặt hàng bình thường
+            const orderData = {
+                userEmail: user.email,
+                paymentMethod: "COD",
+                totalAmount: calculateSubtotal(),
+                status: "PENDING",
+                notes: orderNotes,
+                orderDetails: orderDetails
+            };
 
-        try {
-            await axios.post("http://localhost:8080/api/user/orders/add", orderData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
+            try {
+                await axios.post("http://localhost:8080/api/user/orders/add", orderData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                setCartItems([]);
+                alert("Đặt hàng thành công!");
+                navigate("/cart");
+            } catch (err) {
+                console.error("Lỗi khi đặt hàng:", err);
+                alert("Đặt hàng thất bại.");
+            }
+        } else if (paymentMethod === "VNPAY") {
+            // Gọi API backend POST để lấy URL thanh toán VNPay
+            try {
+                const amountInVND = calculateSubtotal();
+                const language = "vn"; // hoặc "en"
 
-            setCartItems([]);
-            alert("Đặt hàng thành công!");
-            navigate("/cart");
-        } catch (err) {
-            console.error("Lỗi khi đặt hàng:", err);
-            alert("Đặt hàng thất bại.");
+                const response = await axios.post("http://localhost:8080/api/payment/create_payment_url",
+                    {
+                        amount: amountInVND,
+                        language: language
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                // Backend trả về { message, status, data: paymentUrl }
+                const paymentUrl = response.data.data;
+
+                // Chuyển hướng sang URL thanh toán VNPay
+                window.location.href = paymentUrl;
+            } catch (err) {
+                console.error("Lỗi khi tạo URL thanh toán VNPay:", err);
+                alert("Không thể tạo URL thanh toán VNPay.");
+            }
         }
     };
+
+
 
 
     return (
@@ -131,6 +163,7 @@ const Checkout = () => {
                                     <div className="checkout__input mb-3">
                                         <p>{t("checkOut.fullName")}<span>*</span></p>
                                         <input type="text"
+                                               style={{width:'525px'}}
                                                placeholder="Nguyen Van A"
                                                className="checkout__input__add"
                                                value={user.fullName}
@@ -219,14 +252,15 @@ const Checkout = () => {
                                         <div className="checkout__input__checkbox mb-3">
                                             <input
                                                 type="radio"
-                                                id="paypal"
+                                                id="vnpay"
                                                 name="paymentMethod"
-                                                value="PAYPAL"
-                                                checked={paymentMethod === "PAYPAL"}
+                                                value="VNPAY"
+                                                checked={paymentMethod === "VNPAY"}
                                                 onChange={(e) => setPaymentMethod(e.target.value)}
                                             />
-                                            <label htmlFor="paypal">{t("checkOut.paypal")}</label>
+                                            <label htmlFor="vnpay">{t("checkOut.paypal")}</label>
                                         </div>
+
                                         <button type="submit" className="site-btn w-100" onClick={handlePlaceOrder}>
                                             {t("checkOut.place_order")}
                                         </button>

@@ -78,15 +78,13 @@ public class SecurityConfig {
                                 "/api/users/verify",
                                 "/api/users/resend",
                                 "/api/products/**",
+                                "/api/payment/**",
                                 "/h2-console/**"
                         ).permitAll()
-
-                        // Yêu cầu vai trò tương ứng cho các endpoint riêng
+                        // Các rule khác giữ nguyên
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
-
-                        // Tất cả các request khác cần xác thực
                         .anyRequest().authenticated()
                 )
                 // Cho phép iframe để chạy h2-console
