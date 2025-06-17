@@ -2,6 +2,7 @@ package com.webanmypham.backend.controller;
 
 import com.webanmypham.backend.model.Product;
 import com.webanmypham.backend.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,11 @@ public class ManageProductController {
         return productRepository.findAll();
     }
 
-    // Thêm sản phẩm mới
-    @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    @PostMapping("/add")
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        product.setId(null);
+        Product savedProduct = productRepository.save(product);
+        return ResponseEntity.ok(savedProduct);
     }
 
     // Sửa sản phẩm

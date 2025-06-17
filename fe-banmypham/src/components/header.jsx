@@ -7,10 +7,10 @@ import './css/header.css';
 const Header = () => {
     const { t, i18n } = useTranslation();
 
-    const changeLanguage = (lang) => {
-        i18n.changeLanguage(lang)
-            .then(() => console.log(`Language changed to ${lang}`))
-            .catch((error) => console.error("Failed to change language:", error));
+    const langImages = {
+        vi: "/assets/img/lang_vi.png",
+        en: "/assets/img/lang_en.png",
+        zh: "/assets/img/lang_zh.png",
     };
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +18,14 @@ const Header = () => {
     const [cartItems, setCartItems] = useState([]);
     const [userRoles, setUserRoles] = useState([]);
     const timeoutRef = useRef(null);
+    const [currentLang, setCurrentLang] = useState("vi");
+
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang)
+            .then(() => console.log(`Language changed to ${lang}`))
+            .catch((error) => console.error("Failed to change language:", error));
+        setCurrentLang(lang);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -78,6 +86,8 @@ const Header = () => {
         }, 200);
     };
 
+
+
     return (
         <header className="header">
             <div className="header__top">
@@ -100,13 +110,19 @@ const Header = () => {
                                     <a href="#"><i className="fa fa-pinterest-p"></i></a>
                                 </div>
                                 <div className="header__top__right__language">
-                                    <img src="/assets/img/lang_vi.png" alt="Language" />
+                                    <img src={langImages[currentLang]} alt="Language"/>
                                     <div>{t("language")}</div>
                                     <i className="fa fa-chevron-down"></i>
                                     <ul>
-                                        <li><button onClick={() => changeLanguage("vi")}>Tiếng Việt</button></li>
-                                        <li><button onClick={() => changeLanguage("en")}>English</button></li>
-                                        <li><button onClick={() => changeLanguage("zh")}>中文</button></li>
+                                        <li>
+                                            <button onClick={() => changeLanguage("vi")}>Tiếng Việt</button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => changeLanguage("en")}>English</button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => changeLanguage("zh")}>中文</button>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div className="header__top__right__auth">
