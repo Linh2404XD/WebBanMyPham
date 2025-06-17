@@ -131,24 +131,24 @@ const Checkout = () => {
                                     <div className="checkout__input mb-3">
                                         <p>{t("checkOut.fullName")}<span>*</span></p>
                                         <input type="text"
-                                               placeholder="Nguyen Van A"
                                                className="checkout__input__add"
                                                value={user.fullName}
-                                               readOnly/>
+                                               onChange={(e) => setUser({...user, fullName: e.target.value})}/>
                                     </div>
                                     <div className="checkout__input mb-3">
                                         <p>{t("checkOut.address")}<span>*</span></p>
                                         <input type="text"
-                                               placeholder="ĐẠI HỌC NÔNG LÂM"
                                                className="checkout__input__add"
-                                               value={user.address}/>
+                                               value={user.address}
+                                               onChange={(e) => setUser({...user, address: e.target.value})}/>
                                     </div>
                                     <div className="row mb-3">
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
                                                 <p>{t("checkOut.phone")}<span>*</span></p>
                                                 <input type="text"
-                                                       value={user.phoneNumber}/>
+                                                       value={user.phoneNumber}
+                                                       onChange={(e) => setUser({...user, phoneNumber: e.target.value})}/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">

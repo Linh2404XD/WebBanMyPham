@@ -82,7 +82,6 @@ const ShoppingCart = () => {
 
     return (
         <>
-            <Header />
             <section className="shoping-cart spad">
                 <div className="container">
                     {cartItems.length === 0 ? (
@@ -160,7 +159,7 @@ const ShoppingCart = () => {
                     )}
                 </div>
             </section>
-            <Footer />
+
         </>
     );
 };
