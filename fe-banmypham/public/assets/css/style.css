@@ -868,6 +868,7 @@ ol {
 	object-fit: contain;
 	display: block;
 	transition: transform 0.3s ease; /* hiệu ứng mượt */
+
 }
 
 .featured__item__pic:hover img {
@@ -876,7 +877,7 @@ ol {
 .featured__item__pic__hover {
 	position: absolute;
 	left: 0;
-	bottom: -50px;
+	bottom: -80px;
 	width: 100%;
 	text-align: center;
 	-webkit-transition: all, 0.5s;
@@ -1320,6 +1321,7 @@ ol {
 	-ms-transition: all, 0.5s;
 	-o-transition: all, 0.5s;
 	transition: all, 0.5s;
+
 }
 
 .product__item__pic__hover li {
@@ -3510,4 +3512,6 @@ ol {
 		from {opacity: 0; transform: translate(-50%, -40%);}
 		to {opacity: 1; transform: translate(-50%, -30%);}
 	}
+
+
 }

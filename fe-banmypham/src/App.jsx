@@ -16,36 +16,36 @@ import ManageProduct from "./pages/admin/manageProduct/ManageProduct.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import EditAccount from "./pages/admin/manageAccount/EditAccount.jsx";
 import Profile from "./pages/user/profile.jsx";
-import EditOrder from "./pages/admin/manageOrder/EditOrder.jsx";
 import AddOrder from "./pages/admin/manageOrder/AddOrder.jsx";
-import MainLayout from "./layout/MainLayout.jsx";
+import EditOrder from "./pages/admin/manageOrder/EditOrder.jsx";
+import VerificationForm from "./pages/verify/verificationForm.jsx";
 
 function AppRoutes() {
     return (
         <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/index" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route element={<MainLayout />}>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/home" element={<Home/>}/>
-                <Route path="/index" element={<Home/>}/>
-                <Route path="/shop-grid" element={<ShopGrid/>}/>
-                <Route path="/cart" element={<ShoppingCart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/contact" element={<Contact />}/>
-                <Route path="/contact" element={<Contact/>}/>
-                <Route path="/profile" element={<Profile/>}/>
-                <Route path="/intro" element={<Intro/>}/>
-                <Route path="/product-detail/:id" element={<ProductDetail/>}/>
-            </Route>
+            <Route path="/checkout" element={<Checkout/>}/>
+            <Route path="/shop-grid" element={<ShopGrid/>}/>
+            <Route path="/cart" element={<ShoppingCart/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/intro" element={<Intro/>}/>
+            <Route path="/product-detail/:id" element={<ProductDetail/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/manage-account" element={<ManageAccount />}>
                 <Route path="edit-account/:id" element={<EditAccount />} />
             </Route>
+            <Route path="/manage-order" element={<ManageOrder/>}/>
+            <Route path="/manage-product" element={<ManageProduct/>}/>
+            <Route path="/edit-account" element={<ManageProduct/>}/>
             <Route path="/manage-order" element={<ManageOrder/>}>
                 <Route path="edit-order/:id" element={<EditOrder />} />
                 <Route path="add-order" element={<AddOrder />} />
             </Route>
-            <Route path="/manage-product" element={<ManageProduct/>}/>
+            <Route path="/verify-form" element={<VerificationForm />} />
         </Routes>
     );
 }

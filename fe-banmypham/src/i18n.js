@@ -12,6 +12,7 @@ const resources = {
             pages: "Pages",
             blog: "Blog",
             contact: "Contact",
+            manage: "Admin",
             shopDetails: "Shop Details",
             shoppingCart: "Shopping Cart",
             checkout: "Check Out",
@@ -107,6 +108,25 @@ const resources = {
                 copyright: "All rights reserved | This template is made with",
                 madeBy: "by"
             },
+            cart: {
+                needLogin: "You must be logged in to view your cart.",
+                loadFail: "Failed to load cart.",
+                updateQuantityFail: "Failed to update quantity.",
+                loading: "Loading...",
+                empty: "Your cart is empty.",
+                products: "Products",
+                price: "Price",
+                quantity: "Quantity",
+                total: "Total",
+                continueShopping: "CONTINUE SHOPPING",
+                cartTotal: "Cart Total",
+                subtotal: "Subtotal",
+                totalLabel: "Total",
+                checkout: "PROCEED TO CHECKOUT"
+            },
+            auth: {
+                logout: "Logout"
+            },
             checkOut: {
                 have_coupon: "Have a coupon?",
                 click_here: "Click here",
@@ -144,6 +164,7 @@ const resources = {
             pages: "Trang",
             blog: "Blog",
             contact: "Liên hệ",
+            manage: "Quản trị viên",
             shopDetails: "Chi tiết cửa hàng",
             shoppingCart: "Giỏ hàng",
             checkout: "Thanh toán",
@@ -214,6 +235,22 @@ const resources = {
                 button: "TÌM KIẾM",
                 phone: "Hỗ trợ 24/7"
             },
+            cart : {
+                needLogin: "Bạn cần đăng nhập để xem giỏ hàng.",
+                loadFail: "Không thể tải giỏ hàng.",
+                updateQuantityFail: "Không thể cập nhật số lượng.",
+                loading: "Đang tải...",
+                empty: "Giỏ hàng của bạn đang trống.",
+                products: "Sản phẩm",
+                price: "Giá",
+                quantity: "Số lượng",
+                total: "Tổng",
+                continueShopping: "TIẾP TỤC MUA SẮM",
+                cartTotal: "Tổng giỏ hàng",
+                subtotal: "Tạm tính",
+                totalLabel: "Tổng cộng",
+                checkout: "TIẾN HÀNH THANH TOÁN"
+            },
             footer: {
                 address: "Địa chỉ: Trường Đại học Nông Lâm",
                 phone: "Điện thoại: +65 11.188.888",
@@ -237,6 +274,9 @@ const resources = {
                 subscribe: "Đăng ký",
                 copyright: "Mọi quyền được bảo lưu | Mẫu này được thiết kế",
                 madeBy: "bởi"
+            },
+            auth: {
+                logout: "Đăng xuất"
             },
             checkOut: {
                 have_coupon: "Bạn có mã giảm giá?",
@@ -275,6 +315,7 @@ const resources = {
             pages: "页面",
             blog: "博客",
             contact: "联系",
+            manage: "管理员",
             shopDetails: "商店详情",
             shoppingCart: "购物车",
             checkout: "结账",
@@ -368,6 +409,25 @@ const resources = {
                 subscribe: "订阅",
                 copyright: "版权所有 | 此模板由",
                 madeBy: "设计"
+            },
+            cart: {
+                needLogin: "您必须登录才能查看购物车。",
+                loadFail: "加载购物车失败。",
+                updateQuantityFail: "更新数量失败。",
+                loading: "加载中...",
+                empty: "您的购物车是空的。",
+                products: "产品",
+                price: "价格",
+                quantity: "数量",
+                total: "总计",
+                continueShopping: "继续购物",
+                cartTotal: "购物车总计",
+                subtotal: "小计",
+                totalLabel: "总金额",
+                checkout: "前往结账"
+            },
+            auth: {
+                logout: "Logout"
             },
             checkOut: {
                 have_coupon: "有优惠券吗？",
