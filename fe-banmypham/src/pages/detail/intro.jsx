@@ -9,7 +9,6 @@ const Intro = () => {
 
     return (
         <>
-            <Header/>
             <div className={styles.aboutContainer}>
                 <h1>{t("welcome")}</h1>
                 <p>{t("introText")}</p>
@@ -51,7 +50,6 @@ const Intro = () => {
 
                 <p>{t("commitment")}</p>
             </div>
-            <Footer/>
         </>
     );
 };

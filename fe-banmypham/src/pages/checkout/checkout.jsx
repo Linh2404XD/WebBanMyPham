@@ -1,155 +1,235 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/header.jsx";
 import Footer from "../../components/footer.jsx";
-import BreadCrumb from '../../components/breadcrumb.jsx';
 import {useTranslation} from "react-i18next";
+import {useNavigate} from 'react-router-dom';
+import axios from "axios";
 
 const Checkout = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+    const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [orderNotes, setOrderNotes] = useState("");
+
+    const [user, setUser] = useState({
+        fullName: "",
+        address: "",
+        phoneNumber: "",
+        email: ""
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setError("You must be logged in to view your cart.");
+            setLoading(false);
+            return;
+        }
+
+        axios.get("http://localhost:8080/api/users/profile", {
+            headers: {Authorization: `Bearer ${token}`},
+        })
+            .then((res) => {
+                setUser({
+                    fullName: res.data.fullName || "",
+                    address: res.data.address || "",
+                    phoneNumber: res.data.phoneNumber || "",
+                    email: res.data.email || ""
+                });
+            })
+            .catch((err) => {
+                console.error("Failed to load user info", err);
+            });
+
+        axios.get("http://localhost:8080/api/cart-items/my-cart", {
+            headers: {Authorization: `Bearer ${token}`},
+        })
+            .then((res) => setCartItems(res.data))
+            .catch((err) => {
+                setError("Failed to load cart.");
+                console.error(err);
+            })
+            .finally(() => setLoading(false));
+    }, []);
+
+    const formatCurrency = (amount) => {
+        return amount?.toLocaleString('vi-VN') + ' đ';
+    };
+
+    const calculateSubtotal = () =>
+        cartItems.reduce((sum, item) => sum + item.quantity * item.product.price, 0);
+
+    if (loading) return <p className="text-center mt-5">Loading...</p>;
+    if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
+
+    const handlePlaceOrder = async (e) => {
+        e.preventDefault();
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để đặt hàng.");
+            return;
+        }
+
+        // Tạo orderDetails từ cartItems
+        const orderDetails = cartItems.map(item => ({
+            productId: item.product.id,
+            productName: item.product.name,
+            quantity: item.quantity,
+            unitPrice: item.product.price
+        }));
+
+        if (!paymentMethod) {
+            alert("Vui lòng chọn phương thức thanh toán.");
+            return;
+        }
+
+        const orderData = {
+            userEmail: user.email,
+            paymentMethod: "COD",
+            totalAmount: calculateSubtotal(),
+            status: "PENDING",
+            notes: orderNotes,
+            orderDetails: orderDetails
+        };
+
+        try {
+            await axios.post("http://localhost:8080/api/user/orders/add", orderData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            setCartItems([]);
+            alert("Đặt hàng thành công!");
+            navigate("/cart");
+        } catch (err) {
+            console.error("Lỗi khi đặt hàng:", err);
+            alert("Đặt hàng thất bại.");
+        }
+    };
+
 
     return (
         <>
-            {/* Preloader */}
-            <div id="preloder">
-                <div className="loader"></div>
-            </div>
-
-            <Header />
-
-            {/*/!* Hero *!/*/}
-
-            {/*<Hero/>*/}
-
-             {/*Breadcrumb */}
-            <BreadCrumb />
-            {/*<BreadCrumb/>*/}
-
-            <section className="checkout spad">
+            <section className="checkout spad" style={{
+                backgroundColor: "#f6f6f6",
+                paddingTop: "30px",
+                paddingBottom: "0px",
+                minHeight: "100vh",
+            }}>
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <h6>
-                                <span className="icon_tag_alt"></span> {t("checkOut.have_coupon")}{" "}
-                                <a href="#">{t("checkOut.click_here")}</a> {t("checkOut.enter_code")}
-                            </h6>
-                        </div>
-                    </div>
                     <div className="checkout__form">
-                        <h4>{t("checkOut.billing_details")}</h4>
+                        <h4 className="mb-4">{t("checkOut.billing_details")}</h4>
                         <form action="#">
                             <div className="row">
-                                <div className="col-lg-8 col-md-6">
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <div className="checkout__input">
-                                                <p>{t("checkOut.first_name")}<span>*</span></p>
-                                                <input type="text" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="checkout__input">
-                                                <p>{t("checkOut.last_name")}<span>*</span></p>
-                                                <input type="text" />
-                                            </div>
-                                        </div>
+                                <div className="col-xl-5 col-lg-6 mb-4">
+                                    <div className="checkout__input mb-3">
+                                        <p>{t("checkOut.fullName")}<span>*</span></p>
+                                        <input type="text"
+                                               placeholder="Nguyen Van A"
+                                               className="checkout__input__add"
+                                               value={user.fullName}
+                                               readOnly/>
                                     </div>
-                                    <div className="checkout__input">
-                                        <p>{t("checkOut.country")}<span>*</span></p>
-                                        <input type="text" />
-                                    </div>
-                                    <div className="checkout__input">
+                                    <div className="checkout__input mb-3">
                                         <p>{t("checkOut.address")}<span>*</span></p>
-                                        <input type="text" placeholder="Street Address" className="checkout__input__add" />
-                                        <input type="text" placeholder="Apartment, suite, unit etc. (optional)" />
+                                        <input type="text"
+                                               placeholder="ĐẠI HỌC NÔNG LÂM"
+                                               className="checkout__input__add"
+                                               value={user.address}/>
                                     </div>
-                                    <div className="checkout__input">
-                                        <p>{t("checkOut.city")}<span>*</span></p>
-                                        <input type="text" />
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>{t("checkOut.state")}<span>*</span></p>
-                                        <input type="text" />
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>{t("checkOut.zip")}<span>*</span></p>
-                                        <input type="text" />
-                                    </div>
-                                    <div className="row">
+                                    <div className="row mb-3">
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
                                                 <p>{t("checkOut.phone")}<span>*</span></p>
-                                                <input type="text" />
+                                                <input type="text"
+                                                       value={user.phoneNumber}/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
                                                 <p>{t("checkOut.email")}<span>*</span></p>
-                                                <input type="text" />
+                                                <input type="text"
+                                                       value={user.email}
+                                                       readOnly/>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="checkout__input__checkbox">
-                                        <label htmlFor="acc">
-                                            {t("checkOut.create_account")}
-                                            <input type="checkbox" id="acc" />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <p>
-                                        {t("checkOut.create_account_note", "Create an account by entering the information below. If you are a returning customer please login at the top of the page")}
-                                    </p>
                                     <div className="checkout__input">
-                                        <p>{t("checkOut.account_password")}<span>*</span></p>
-                                        <input type="text" />
-                                    </div>
-                                    <div className="checkout__input__checkbox">
-                                        <label htmlFor="diff-acc">
-                                            {t("checkOut.ship_diff_address")}
-                                            <input type="checkbox" id="diff-acc" />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>{t("checkOut.order_notes")}<span>*</span></p>
-                                        <input type="text" placeholder={t("checkOut.order_notes_placeholder", "Notes about your order, e.g. special notes for delivery.")} />
+                                        <p>{t("checkOut.order_notes")}</p>
+                                        <input
+                                            type="text"
+                                            placeholder={t()}
+                                            value={orderNotes}
+                                            onChange={(e) => setOrderNotes(e.target.value)}
+                                        />
                                     </div>
                                 </div>
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="checkout__order">
-                                        <h4>{t("checkOut.your_order")}</h4>
-                                        <div className="checkout__order__products">
-                                            {t("checkOut.products")} <span>{t("checkOut.total")}</span>
+
+                                <div className="col-xl-7 col-lg-6 mb-4">
+                                    <div
+                                        className="checkout__order p-4"
+                                        style={{
+                                            backgroundColor: "#f9f9f9",
+                                            border: "1px solid #ddd",
+                                            borderRadius: "8px",
+                                            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                                        }}
+                                    >
+                                        <h4 className="mb-3">{t("checkOut.your_order")}</h4>
+                                        <div
+                                            className="checkout__order__products mb-2 d-flex justify-content-between fw-bold">
+                                            <span>{t("checkOut.products")}</span>
+                                            <span>{t("checkOut.total")}</span>
                                         </div>
-                                        <ul>
-                                            <li>Vegetable’s Package <span>$75.99</span></li>
-                                            <li>Fresh Vegetable <span>$151.99</span></li>
-                                            <li>Organic Bananas <span>$53.99</span></li>
+                                        <ul style={{maxHeight: "350px", overflowY: "auto", paddingLeft: "0"}}>
+                                            {cartItems.map((item) => (
+                                                <li key={item.id} className="d-flex justify-content-between mb-2">
+                                                    <span>{item.product.name} x {item.quantity}</span>
+                                                    <span>{formatCurrency(item.quantity * item.product.price)}</span>
+                                                </li>
+                                            ))}
                                         </ul>
-                                        <div className="checkout__order__subtotal">{t("checkOut.subtotal")} <span>$750.99</span></div>
-                                        <div className="checkout__order__total">{t("checkOut.total")} <span>$750.99</span></div>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="acc-or">
-                                                {t("checkOut.create_account")}
-                                                <input type="checkbox" id="acc-or" />
-                                                <span className="checkmark"></span>
-                                            </label>
+                                        <hr/>
+                                        <div className="checkout__order__subtotal d-flex justify-content-between">
+                                            <span>{t("checkOut.subtotal")}</span>
+                                            <span>{formatCurrency(calculateSubtotal())}</span>
                                         </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adip elit...</p>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="payment">
-                                                {t("checkOut.check_payment")}
-                                                <input type="checkbox" id="payment" />
-                                                <span className="checkmark"></span>
-                                            </label>
+                                        <div
+                                            className="checkout__order__total d-flex justify-content-between fw-bold my-2">
+                                            <span>{t("checkOut.total")}</span>
+                                            <span>{formatCurrency(calculateSubtotal())}</span>
                                         </div>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="paypal">
-                                                {t("checkOut.paypal")}
-                                                <input type="checkbox" id="paypal" />
-                                                <span className="checkmark"></span>
-                                            </label>
+                                        <div className="checkout__input__checkbox my-2">
+                                            <input
+                                                type="radio"
+                                                id="cod"
+                                                name="paymentMethod"
+                                                value="COD"
+                                                checked={paymentMethod === "COD"}
+                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                            />
+                                            <label htmlFor="payment">{t("checkOut.check_payment")}</label>
                                         </div>
-                                        <button type="submit" className="site-btn">{t("checkOut.place_order")}</button>
+                                        <div className="checkout__input__checkbox mb-3">
+                                            <input
+                                                type="radio"
+                                                id="paypal"
+                                                name="paymentMethod"
+                                                value="PAYPAL"
+                                                checked={paymentMethod === "PAYPAL"}
+                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                            />
+                                            <label htmlFor="paypal">{t("checkOut.paypal")}</label>
+                                        </div>
+                                        <button type="submit" className="site-btn w-100" onClick={handlePlaceOrder}>
+                                            {t("checkOut.place_order")}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -157,8 +237,6 @@ const Checkout = () => {
                     </div>
                 </div>
             </section>
-
-            <Footer />
         </>
     );
 };

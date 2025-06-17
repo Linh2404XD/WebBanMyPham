@@ -228,15 +228,6 @@ const HomePage = () => {
             )}
 
 
-            {/* Page Preloader */}
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader"></div>*/}
-            {/*</div>*/}
-
-            {/* Header Section Begin */}
-            <Header />
-            {/* Header Section End */}
-
             {/* Hero Section Begin */}
             <section className="hero">
                 <div className="container">
@@ -481,10 +472,6 @@ const HomePage = () => {
                 </div>
             </div>
             {/*Banner End*/}
-
-            {/*Footer Section Begin*/}
-            <Footer/>
-            {/*Footer Section End*/}
         </>
     );
 };

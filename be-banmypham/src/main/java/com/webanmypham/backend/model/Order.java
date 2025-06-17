@@ -37,6 +37,8 @@ public class Order {
     @JsonManagedReference
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
+    private String notes;
+
     @Override
     public String toString() {
         return "Order{" +
@@ -47,6 +49,7 @@ public class Order {
                 ", status=" + status +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", orderDetailsCount=" + (orderDetails != null ? orderDetails.size() : 0) +
+                ", status=" + notes +
                 '}';
     }
 }

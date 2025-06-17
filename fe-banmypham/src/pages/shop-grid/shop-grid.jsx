@@ -125,7 +125,6 @@ const ShopGrid = () => {
 
     return (
         <>
-            <Header />
             {/* Thanh search + phone */}
             <div
                 style={{
@@ -348,7 +347,6 @@ const ShopGrid = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
         </>
     );
 };
