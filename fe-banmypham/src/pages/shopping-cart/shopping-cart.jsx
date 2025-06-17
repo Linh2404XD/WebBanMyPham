@@ -159,7 +159,7 @@ const ShoppingCart = () => {
                     )}
                 </div>
             </section>
-            <Footer />
+
         </>
     );
 };
