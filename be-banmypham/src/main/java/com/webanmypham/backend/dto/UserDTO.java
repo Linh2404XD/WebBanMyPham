@@ -11,6 +11,7 @@ public class UserDTO {
     private String phoneNumber;
     private String fullName;
     private String username;
+    private String email;
     private String address;
     private Set<Role> roles;
 
@@ -20,6 +21,7 @@ public class UserDTO {
         this.phoneNumber = user.getPhoneNumber();
         this.fullName = user.getFullName();
         this.username = user.getUsername();
+        this.email = user.getEmail();
         this.address = user.getAddress();
         this.roles = user.getRoles();
     }
