@@ -83,7 +83,7 @@ const ShoppingCart = () => {
     return (
         <>
             <section className="shoping-cart spad">
-                <div className="container">
+                <div className="container" style={{width:'1280px'}}>
                     {cartItems.length === 0 ? (
                         <h3 className="text-center mt-5">{t("cart.empty")}</h3>
                     ) : (
