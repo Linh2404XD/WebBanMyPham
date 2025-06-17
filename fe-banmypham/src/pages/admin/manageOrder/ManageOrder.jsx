@@ -49,37 +49,6 @@ const ManageOrder = () => {
     return (
         <div className="layout-container d-flex">
             <Sidebar />
-            <div className="position-absolute top-0 end-0 p-3" style={{ zIndex: 1050 }}>
-                {/* Avatar Dropdown */}
-                <ul className="navbar-nav flex-row align-items-center">
-                    <li className="nav-item dropdown-user dropdown">
-                        <button className="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <div className="avatar avatar-online">
-                                <img
-                                    src="../assets/img/avatars/1.png"
-                                    alt="avatar"
-                                    className="w-px-40 h-auto rounded-circle"
-                                />
-                            </div>
-                        </button>
-                        <ul className="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                    <i className="bx bx-user me-2"></i>
-                                    <span className="align-middle">My Profile</span>
-                                </a>
-                            </li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                    <i className="bx bx-power-off me-2"></i>
-                                    <span className="align-middle">Log Out</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
 
             <div className="flex-grow-1">
                 <div className="card">
@@ -146,69 +115,3 @@ const ManageOrder = () => {
 };
 
 export default ManageOrder;
-
-{/*<h6>Chi Tiết Đơn Hàng</h6>*/}
-{/*<table className="table table-bordered">*/}
-{/*    <thead>*/}
-{/*    <tr>*/}
-{/*        <th>Mã sản phẩm</th>*/}
-{/*        <th>Tên sản phẩm</th>*/}
-{/*        <th>Số lượng</th>*/}
-{/*        <th>Đơn giá</th>*/}
-{/*    </tr>*/}
-{/*    </thead>*/}
-{/*    <tbody>*/}
-{/*    {orderDetails.length === 0 ? (*/}
-{/*        <tr>*/}
-{/*            <td colSpan="4">Không có dữ liệu</td>*/}
-{/*        </tr>*/}
-{/*    ) : (*/}
-{/*        orderDetails.map((detail, index) => (*/}
-{/*            <tr key={index}>*/}
-{/*                <td>{detail.productId}</td>*/}
-{/*                <td>{detail.productName || "N/A"}</td>*/}
-{/*                <td>*/}
-{/*                    <input*/}
-{/*                        type="number"*/}
-{/*                        className="form-control"*/}
-{/*                        value={detail.quantity}*/}
-{/*                        min="1"*/}
-{/*                        onChange={(e) => {*/}
-{/*                            const newDetails = [...orderDetails];*/}
-{/*                            newDetails[index].quantity = parseInt(e.target.value);*/}
-{/*                            setOrderDetails(newDetails);*/}
-{/*                        }}*/}
-{/*                    />*/}
-{/*                </td>*/}
-{/*                <td>*/}
-{/*                    <input*/}
-{/*                        type="number"*/}
-{/*                        className="form-control"*/}
-{/*                        value={detail.unitPrice}*/}
-{/*                        min="0"*/}
-{/*                        onChange={(e) => {*/}
-{/*                            const newDetails = [...orderDetails];*/}
-{/*                            newDetails[index].unitPrice = parseFloat(e.target.value);*/}
-{/*                            setOrderDetails(newDetails);*/}
-{/*                        }}*/}
-{/*                    />*/}
-{/*                </td>*/}
-{/*            </tr>*/}
-{/*        ))*/}
-{/*    )}*/}
-{/*    </tbody>*/}
-{/*</table>*/}
-
-// const addDetail = () => {
-//     if (editingDetails) {
-//         setOrderDetails(prev => [
-//             ...prev,
-//             {
-//                 productId: '',
-//                 productName: '',
-//                 quantity: 1,
-//                 unitPrice: 0
-//             }
-//         ]);
-//     }
-// };
