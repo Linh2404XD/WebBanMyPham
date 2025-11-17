@@ -1,0 +1,61 @@
+🧾 1. Người dùng chọn phương thức thanh toán VNPay
+Trên trang thanh toán (frontend), người dùng chọn VNPay và bấm "Thanh toán".
+
+React hoặc frontend gọi API đến server Spring Boot để tạo thông tin giao dịch.
+
+🧩 2. Backend tạo URL thanh toán
+Phía Spring Boot:
+Gọi PaymentService.createVnpayPayment(...)
+
+Backend sẽ:
+
+Tạo vnp_TxnRef (mã giao dịch duy nhất)
+
+Gán các thông tin bắt buộc:
+
+vnp_Amount
+
+vnp_OrderInfo
+
+vnp_ReturnUrl (URL web sẽ nhận kết quả)
+
+vnp_IpAddr, vnp_CreateDate, ...
+
+Ký hash toàn bộ bằng vnp_HashSecret để tạo chữ ký vnp_SecureHash
+
+Tạo URL thanh toán và trả lại cho frontend
+
+🌐 3. Người dùng được chuyển đến trang thanh toán VNPay (sandbox.vnpayment.vn)
+Trình duyệt sẽ chuyển hướng đến VNPay Sandbox với toàn bộ tham số (URL có dạng https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?...)
+
+Người dùng chọn ngân hàng giả lập (hoặc ngân hàng thật nếu ở môi trường thực), thực hiện thanh toán giả lập.
+
+🔁 4. VNPay gọi vnp_ReturnUrl sau khi người dùng thanh toán xong
+Dù thanh toán thành công hay thất bại, VNPay sẽ:
+
+Redirect trình duyệt của người dùng đến vnp_ReturnUrl đã đăng ký trước.
+
+Gửi các tham số như:
+
+vnp_ResponseCode (00: thành công, khác 00 là lỗi)
+
+vnp_TxnRef, vnp_Amount, vnp_BankCode, vnp_PayDate, ...
+
+vnp_SecureHash để xác minh
+
+🛡 5. Backend xác minh chữ ký và cập nhật trạng thái đơn hàng
+Tại vnp_ReturnUrl (do bạn cấu hình), backend thực hiện:
+
+Tạo lại chữ ký SHA256 từ dữ liệu nhận được và so sánh với vnp_SecureHash
+
+Nếu hợp lệ và vnp_ResponseCode == "00":
+
+✅ Đánh dấu đơn hàng là "Đã thanh toán"
+
+Nếu không:
+
+❌ Hiển thị lỗi/thông báo giao dịch thất bại
+
+✅ 6. Giao diện hiện kết quả thanh toán cho người dùng
+Sau khi được redirect về frontend (VD: /payment-result?status=success), giao diện hiện thông báo thành công/thất bại.
+

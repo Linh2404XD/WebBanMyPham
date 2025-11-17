@@ -1,0 +1,22 @@
+[React UI]
+   |
+   |--- Người dùng thay đổi số lượng
+   ↓
+[onChange handler]
+   |
+   |--- Gọi axios PUT /api/cart-items/5
+   ↓
+[Spring Boot Controller]
+   |
+   |--- Xác thực JWT
+   |--- Kiểm tra quyền sở hữu CartItem
+   ↓
+[CartItemService]
+   |
+   |--- Tìm CartItem từ DB
+   |--- Gán quantity mới
+   |--- Lưu lại bằng repository
+   ↓
+[Database]
+   |
+   |--- quantity mới được ghi đè

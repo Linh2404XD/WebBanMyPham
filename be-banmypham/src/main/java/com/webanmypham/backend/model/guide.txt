@@ -1,0 +1,6 @@
+🧩 1. Model – Đại diện cho dữ liệu
+Nhiệm vụ: Là nơi định nghĩa các lớp tương ứng với các bảng trong CSDL.
+
+Ví dụ: Product, User, Order...
+
+Chứa: các thuộc tính (fields), annotation như @Entity, @Table, @Id, v.v.

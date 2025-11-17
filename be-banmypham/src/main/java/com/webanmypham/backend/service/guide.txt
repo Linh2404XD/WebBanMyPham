@@ -1,0 +1,4 @@
+⚙️ 3. Service – Tầng xử lý logic nghiệp vụ (Business Logic Layer)
+Nhiệm vụ: Xử lý các nghiệp vụ, tính toán, điều phối dữ liệu từ Repository để trả về cho Controller.
+
+Có thể gọi nhiều Repository khác nhau hoặc thực hiện kiểm tra logic.

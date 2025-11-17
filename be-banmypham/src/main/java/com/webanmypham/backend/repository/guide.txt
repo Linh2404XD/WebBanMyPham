@@ -1,0 +1,6 @@
+💾 2. Repository – Tầng truy cập dữ liệu (Data Access Layer)
+Nhiệm vụ: Làm việc trực tiếp với cơ sở dữ liệu, thông qua Spring Data JPA.
+
+Thường mở rộng JpaRepository hoặc CrudRepository
+
+Không chứa logic xử lý, chỉ truy vấn và lưu dữ liệu

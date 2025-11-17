@@ -1,0 +1,4 @@
+🌐 4. Controller – Tầng giao tiếp (Presentation Layer)
+Nhiệm vụ: Nhận request từ client (Postman, React, Angular...), gọi Service để xử lý, rồi trả response về.
+
+Thường dùng các annotation như @RestController, @RequestMapping, @GetMapping, @PostMapping...

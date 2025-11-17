@@ -1,0 +1,20 @@
+Tóm tắt luồng gửi mail
+Tạo mã token mới, lưu DB, set thời gian hết hạn.
+
+Soạn nội dung mail (mã).
+
+Gọi hàm gửi mail trong EmailService.
+
+Người dùng nhận mail, dùng mã hoặc link xác thực tài khoản.
+
+Tổng kết
+Công nghệ	                Mục đích
+Spring Boot	                Xây dựng backend REST API và dịch vụ
+Spring Data JPA	            Quản lý dữ liệu trong DB
+Spring Security	            Bảo mật, xác thực tài khoản
+JavaMailSender	            Gửi email qua SMTP
+Jakarta Mail API	        Xử lý email MIME, tạo nội dung mail
+UUID	                    Tạo mã xác thực ngẫu nhiên
+ReactJS	                    Xây dựng giao diện web, giao tiếp API
+SMTP Server	                Gửi mail thực tế (Gmail SMTP, hoặc mail server)
+Database	                Lưu dữ liệu user, token xác thực
