@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Header from "../../components/header.jsx";
-import Footer from "../../components/footer.jsx";
 import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";

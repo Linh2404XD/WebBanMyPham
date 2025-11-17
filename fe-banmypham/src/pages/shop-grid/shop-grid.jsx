@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/header.jsx";
 import { useTranslation } from "react-i18next";
-
 import axios from "axios";
 import Footer from "../../components/footer.jsx";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const ShopGrid = () => {
     const { t } = useTranslation();
@@ -38,7 +38,7 @@ const ShopGrid = () => {
     const handleAddToCart = async (productId) => {
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Bạn cần đăng nhập trước.");
+            toast.warning("Bạn cần đăng nhập trước.");
             return;
         }
 
@@ -55,10 +55,10 @@ const ShopGrid = () => {
                     }
                 }
             );
-            alert("Đã thêm vào giỏ hàng!");
+            toast.success("Đã thêm vào giỏ hàng!");
         } catch (err) {
             console.error("Lỗi khi thêm giỏ hàng:", err);
-            alert("Thêm thất bại!");
+            toast.error("Thêm thất bại!");
         }
     };
     useEffect(() => {

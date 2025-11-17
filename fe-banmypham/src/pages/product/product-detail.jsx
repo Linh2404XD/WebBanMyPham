@@ -4,7 +4,7 @@ import axios from "axios";
 import Footer from "../../components/footer.jsx";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
     const { id } = useParams(); // lấy productId từ URL
@@ -57,7 +57,7 @@ const ProductDetail = () => {
     const handleAddToCart = async (productId) => {
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Bạn cần đăng nhập trước.");
+            toast.warning("Bạn cần đăng nhập trước.");
             return;
         }
 
@@ -75,10 +75,10 @@ const ProductDetail = () => {
                     }
                 }
             );
-            alert("Đã thêm vào giỏ hàng!");
+            toast.success("Đã thêm vào giỏ hàng!");
         } catch (err) {
             console.error("Lỗi khi thêm giỏ hàng:", err);
-            alert("Thêm thất bại!");
+            toast.error("Thêm thất bại!");
         } finally {
             setLoading(false);
         }
@@ -253,7 +253,6 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
         </>
     );
 };
