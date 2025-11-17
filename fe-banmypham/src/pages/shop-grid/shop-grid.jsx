@@ -225,7 +225,8 @@ const ShopGrid = () => {
             </div>
 
             <section className="product spad">
-                <div className="container">
+                <div className="container" style={{width: '1280px'}}>
+
                     <div className="row">
                         {/* Sidebar */}
                         <div className="col-lg-3 col-md-5">

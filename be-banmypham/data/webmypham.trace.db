@@ -1017,3 +1017,9 @@ insert into products (category,description,image_url,instock,name,price,id) valu
 2025-06-17 21:44:40.229654+07:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ORDERS_DETAILS" not found; SQL statement:
 select * from orders_details [42102-232]
+2025-06-18 08:07:45.654968+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS_ROLE" not found; SQL statement:
+select * from users_role [42102-232]
+2025-06-18 08:11:13.610302+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VERIFICATION_TOKE" not found; SQL statement:
+select * from VERIFICATION_TOKE [42102-232]
