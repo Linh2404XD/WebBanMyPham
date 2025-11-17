@@ -30,7 +30,15 @@ const Profile = () => {
     if (!user) return <div>Đang tải...</div>;
 
     return (
-        <div>
+        <div
+            style={{
+                width: "90%",        // chiếm 90% chiều ngang màn hình
+                maxWidth: "1200px",  // giới hạn trên màn hình lớn
+                margin: "0 auto",    // canh giữa
+                padding: "20px",
+                boxSizing: "border-box",
+            }}
+        >
             <h2>Thông tin cá nhân</h2>
             <p>Full name: {user.fullName}</p>
             <p>Username: {user.username}</p>
