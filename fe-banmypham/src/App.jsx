@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/login/login.jsx";
 import Checkout from "./pages/checkout/checkout.jsx";
@@ -34,9 +34,10 @@ function AppRoutes() {
             <Route path="/login" element={<Login />} />
 
             <Route element={<MainLayout />}>
+                {/* Chỉ định Home cho nhiều path */}
                 <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/index" element={<Home />} />
+                <Route path="/home" element={<Navigate to="/" replace />} />
+                <Route path="/index" element={<Navigate to="/" replace />} />
 
                 <Route path="/shop-grid" element={<ShopGrid />} />
                 <Route path="/cart" element={<ShoppingCart />} />

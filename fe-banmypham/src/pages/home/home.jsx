@@ -5,7 +5,7 @@ import CategoriesSlider from "../../components/categoriesSlider.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 
 const HomePage = () => {
     const location = useLocation();
@@ -38,7 +38,7 @@ const HomePage = () => {
     const handleAddToCart = async (productId) => {
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Bạn cần đăng nhập trước.");
+            toast.warning("Bạn cần đăng nhập trước!");
             return;
         }
 
@@ -55,12 +55,20 @@ const HomePage = () => {
                     }
                 }
             );
-            alert("Đã thêm vào giỏ hàng!");
+
+            toast.success("Đã thêm vào giỏ hàng!", {
+                autoClose: 1000
+            });
+
         } catch (err) {
             console.error("Lỗi khi thêm giỏ hàng:", err);
-            alert("Thêm thất bại!");
+
+            toast.error("Thêm vào giỏ hàng thất bại!", {
+                autoClose: 1200
+            });
         }
     };
+
 
 
     const handleCategoryFilter = (category) => {
